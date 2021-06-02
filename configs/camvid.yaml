@@ -1,0 +1,36 @@
+MODEL:                                    
+  NAME: bisenetv1                         # name of the model you are using
+  PRETRAINED: 'checkpoints/resnet18.pth'  # backbone model's weight file path if the segmentation model use separate backbone like ResNet                    
+
+DATASET:
+  NAME: camvid                            # dataset name to be trained with (camvid, cityscapes, ade20k)
+  ROOT: '../datasets/CamVid'              # dataset root path
+  NUM_CLASSES: 12                         # number of classes used in the dataset
+  IGNORE_LABEL: 255                       # label pixel value to be ignored
+
+TRAIN:
+  DEVICE: cuda                            # device used for training and evaluation (cpu, cuda, cuda0, cuda1, ...)
+  IMG_SIZE: [480, 640]                    # training image size in (h, w)
+  EPOCHS: 500                             # number of epochs to train
+  BATCH_SIZE: 8                           # batch size used to train
+  WORKERS: 8                              # number of workers used in training dataloader
+  LR: 0.01                                # initial learning rate used in optimizer
+  DECAY: 0.0005                           # decay rate used in optimizer
+  WARMUP: 10                              # warmup epochs used in scheduler
+  OUTPUT: 'output'                        # output folder name used for saving the model and logs
+  SEED: 123                               # random seed number
+
+EVAL:
+  IMG_SIZE: [480, 640]                    # evaluation image size in (h, w)
+  BATCH_SIZE: 8                           # batch size used in evaluation
+  WORKERS: 4                              # number of workers used in evaluation dataloader
+  INTERVAL: 10                            # evaluation interval during training
+
+TEST:
+  MODE: image                             # inference mode (image, video, webcam)
+  FILE: 'test_imgs'                       # filename (image mode), folder name (video mode), 0 (webcam mode)
+  IMG_SIZE: [480, 640]                    # inference image size in (h, w)
+  DEVICE: cuda                            # device used during inference 
+  PRECISION: fp32                         # precision used (fp16, fp32)
+  TRAINED_MODEL: 'output/best.pth'        # trained model file path
+  OUTPUT: 'results'                       # output results folder path
