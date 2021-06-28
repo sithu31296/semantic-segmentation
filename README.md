@@ -1,7 +1,8 @@
-# FastSeg
+# Semantic Segmentation Pipeline
 
 * [Introduction](##Introduction)
 * [Datasets, Models, Features](##Features)
+* [Models Comparison](##Models-Comparison)
 * [Configuration](##Configuration)
 * [Training](##Training)
 * [Evaluation](##Evaluation)
@@ -18,45 +19,59 @@ If you want to use a custom model, custom dataset and other training configurati
 ## Features
 
 Datasets
+* [ADE20K](https://groups.csail.mit.edu/vision/datasets/ADE20K/) 
 * [CamVid](http://mi.eng.cam.ac.uk/research/projects/VideoRec/CamVid/)
-* [CityScapes](https://www.cityscapes-dataset.com/) (Coming Soon)
-* [ADE20K](https://groups.csail.mit.edu/vision/datasets/ADE20K/) (Coming Soon)
+* [CityScapes](https://www.cityscapes-dataset.com/) 
+* [COCO-Stuff](https://github.com/nightrome/cocostuff) (Coming Soon)
+* [MHP](https://lv-mhp.github.io/) (Coming Soon)
+* [Pascal Context](https://cs.stanford.edu/~roozbeh/pascal-context/) (Coming Soon)
 
 Models
-* CNN
-    * [BiSeNetv1](https://arxiv.org/abs/1808.00897)
-    * [BiSeNetv2](https://arxiv.org/pdf/2004.02147.pdf)
-    * [HRNet](https://arxiv.org/abs/1908.07919) (Coming Soon)
-    * [Lite-HRNet](https://arxiv.org/abs/2104.06403) (Coming Soon)
-* Transformer
-    * [Swin Transformer](https://arxiv.org/pdf/2103.14030v1.pdf) (Coming Soon)
-    * [Segmenter](https://arxiv.org/pdf/2105.05633v1.pdf) (Coming Soon)
-    * [Segmentation Transformer (Updated OCRNet)](https://arxiv.org/pdf/1909.11065.pdf) (Coming Soon)
-
-Features coming soon:
-* [Native DDP](https://pytorch.org/docs/stable/notes/ddp.html)
+* [SegFormer](https://arxiv.org/abs/2105.15203v2)
+* [VOLO](https://arxiv.org/abs/2106.13112v1) (Coming Soon)
+    
+PyTorch Features:
+* [Native TorchVision I/O](https://pytorch.org/vision/stable/io.html)
 * [Native AMP](https://pytorch.org/docs/stable/notes/amp_examples.html)
+* [Native DDP](https://pytorch.org/docs/stable/notes/ddp.html) (Coming Soon)
 
+
+## Models Comparison
+
+Model | CityScapes-val (mIoU) | ADE20K val (mIoU) | Params (M) | Weights
+--- | --- | --- | --- | ---
+SegFormer-B0 | 78.1 | 38.0 | 3.8 | [pretrained](https://drive.google.com/drive/folders/1UUMCAA51zkBBGAGh9zAX79q0YzHaa0p8?usp=sharing) / [backbone](https://drive.google.com/drive/folders/1WApNd_0T5heB5H5zhvwu6HiI1amvA8Hv?usp=sharing)
+SegFormer-B1 | 80.0 | 43.1 | 13.7 | [pretrained](https://drive.google.com/drive/folders/1UUMCAA51zkBBGAGh9zAX79q0YzHaa0p8?usp=sharing) / [backbone](https://drive.google.com/drive/folders/1WApNd_0T5heB5H5zhvwu6HiI1amvA8Hv?usp=sharing)
+SegFormer-B2 | 82.2 | 47.5 | 27.5 | [pretrained](https://drive.google.com/drive/folders/1UUMCAA51zkBBGAGh9zAX79q0YzHaa0p8?usp=sharing) / [backbone](https://drive.google.com/drive/folders/1WApNd_0T5heB5H5zhvwu6HiI1amvA8Hv?usp=sharing)
+SegFormer-B3 | 83.3 | 50.0 | 47.3 | [pretrained](https://drive.google.com/drive/folders/1UUMCAA51zkBBGAGh9zAX79q0YzHaa0p8?usp=sharing) / [backbone](https://drive.google.com/drive/folders/1WApNd_0T5heB5H5zhvwu6HiI1amvA8Hv?usp=sharing)
+SegFormer-B4 | 83.9 | 51.1 | 64.1 | [pretrained](https://drive.google.com/drive/folders/1UUMCAA51zkBBGAGh9zAX79q0YzHaa0p8?usp=sharing) / [backbone](https://drive.google.com/drive/folders/1WApNd_0T5heB5H5zhvwu6HiI1amvA8Hv?usp=sharing)
+SegFormer-B5 | 84.0 | 51.8 | 84.7 | [pretrained](https://drive.google.com/drive/folders/1UUMCAA51zkBBGAGh9zAX79q0YzHaa0p8?usp=sharing) / [backbone](https://drive.google.com/drive/folders/1WApNd_0T5heB5H5zhvwu6HiI1amvA8Hv?usp=sharing)
+VOLO-D1 | 83.1 | 50.5 | - | N/A
+VOLO-D3 | - | 52.9 | - | N/A
+VOLO-D4 | 84.3 | - | - | N/A
+VOLO-D5 | - | 54.3 | - | N/A
+
+> Notes: All models' results are from papers with multi-scale inference. Pretrained models are converted from official implementations.
 
 ## Configuration 
 
-Create a configuration file in `configs`. Sample configuration for CamVid dataset can be found [here](configs/camvid.yaml). Then edit the fields you think if it is needed. This configuration file is needed for all of training, evaluation and prediction scripts.
+Create a configuration file in `configs`. Sample configuration for CamVid dataset can be found [here](configs/camvid.yaml). Then edit the fields you think if it is needed. This configuration file is needed for all of training, evaluation and inference scripts.
 
 ## Training
 
 ```bash
-$ python train.py --cfg configs/CONFIG_FILE_NAME.yaml
+$ python tools/train.py --cfg configs/CONFIG_FILE_NAME.yaml
 ```
 
 ## Evaluation
 
 ```bash
-$ python eval.py --cfg configs/CONFIG_FILE_NAME.yaml
+$ python tools/eval.py --cfg configs/CONFIG_FILE_NAME.yaml
 ```
 
 ## Inference
 
 ```bash
-$ python predict.py --cfg configs/CONFIG_FILE_NAME.yaml
+$ python tools/infer.py --cfg configs/CONFIG_FILE_NAME.yaml
 ```
 

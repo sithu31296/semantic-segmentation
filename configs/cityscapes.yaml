@@ -8,8 +8,8 @@ MODEL:
   PRETRAINED: 'checkpoints/backbone/mit/mit_b3.pth'  # backbone model's weight file path if the segmentation model use separate backbone like ResNet                    
 
 DATASET:
-  NAME: camvid                            # dataset name to be trained with (camvid, cityscapes, ade20k)
-  ROOT: 'C:\\Users\\sithu\\Documents\\Datasets\\CamVid'              # dataset root path
+  NAME: cityscapes                            # dataset name to be trained with (camvid, cityscapes, ade20k)
+  ROOT: 'C:\\Users\\sithu\\Documents\\Datasets\\CityScapes'              # dataset root path
 
 TRAIN:
   IMG_SIZE: [480, 640]                    # training image size in (h, w)

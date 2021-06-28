@@ -1,4 +1,3 @@
-from numpy.core.fromnumeric import mean
 import torchvision.transforms.functional as TF 
 import random
 import torch

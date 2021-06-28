@@ -1,7 +1,11 @@
-from .bisenet_v1 import BiSeNetv1
-from .bisenet_v2 import BiSeNetv2
+from .segformer import SegFormer
+from .volo import VOLO
 
-choose_models = {
-    'bisenetv1': BiSeNetv1,
-    'bisenetv2': BiSeNetv2
+__all__ = {
+    'segformer': SegFormer,
+    'volo': VOLO
 }
+
+def choose_models(model_name: str, variant: str, num_classes: int, image_size: int):
+    assert model_name in __all__.keys(), f"Only {list(__all__.keys())} models are supported."
+    return __all__[model_name](variant, num_classes, image_size)
