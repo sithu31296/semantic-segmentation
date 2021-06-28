@@ -12,7 +12,7 @@
 
 There are a lot of great repositories for semantic segmentation models but most of them are quite complicated if you want to modify or only need necessary parts. 
 
-In this repository, a complete training, evalaution and inference pipeline is written for the purpose of easy to understand and modify. 
+In this repository, a complete training, evalutaion and inference pipeline is written for the purpose of easy to understand and modify. 
 
 If you want to use a custom model, custom dataset and other training configurations like optimizers, schedulers, etc., you can modify easily after taking a quick look at the codes.
 
