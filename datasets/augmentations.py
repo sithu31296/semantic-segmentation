@@ -1,19 +1,16 @@
 import torchvision.transforms.functional as TF 
 import random
+import math
 import torch
-from PIL import Image
+from torch import Tensor
 from typing import Tuple, List, Union, Tuple, Optional
 
 
 class Compose:
     def __init__(self, transforms: list) -> None:
-        """
-        Args:
-            transforms: torchvision functional transforms in list
-        """
         self.transforms = transforms
 
-    def __call__(self, img: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+    def __call__(self, img: Tensor, mask: Tensor) -> Tuple[Tensor, Tensor]:
         assert img.shape == mask.shape
 
         for transform in self.transforms:
@@ -22,35 +19,26 @@ class Compose:
         return img, mask
 
 
-class adjustBrightness:
-    def __init__(self, brightness_factor: float) -> None:
-        """
-        Args:
-            brightness_factor: Can be non-negative number. 
-                                0 gives a black image, 1 gives the original image
-                                while 2 increases the brightness by a factor of 2.
-        """
-        self.brightness_factor = brightness_factor
+class ColorJitter:
+    def __init__(self, brightness=0, contrast=0, saturation=0, hue=0) -> None:
+        self.brightness = brightness
+        self.contrast = contrast
+        self.saturation = saturation
+        self.hue = hue
 
-    def __call__(self, img: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-        return TF.adjust_brightness(img, self.brightness_factor), mask
-
-
-class adjustContrast:
-    def __init__(self, contrast_factor: float) -> None:
-        """
-        Args:
-            contrast_factor: Can be non-negative number. 
-                                0 gives a solid gray image, 1 gives the original image
-                                while 2 increases the contrast by a factor of 2.
-        """
-        self.contrast_factor = contrast_factor
-
-    def __call__(self, img: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-        return TF.adjust_contrast(img, self.contrast_factor), mask
+    def __call__(self, img: Tensor, mask: Tensor) -> Tuple[Tensor, Tensor]:
+        if self.brightness > 0:
+            img = TF.adjust_brightness(img, self.brightness)
+        if self.contrast > 0:
+            img = TF.adjust_contrast(img, self.contrast)
+        if self.saturation > 0:
+            img = TF.adjust_saturation(img, self.saturation)
+        if self.hue > 0:
+            img = TF.adjust_hue(img, self.hue)
+        return img, mask
 
 
-class adjustGamma:
+class AdjustGamma:
     def __init__(self, gamma: float, gain: float = 1) -> None:
         """
         Args:
@@ -60,130 +48,105 @@ class adjustGamma:
         self.gamma = gamma
         self.gain = gain
 
-    def __call__(self, img: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+    def __call__(self, img: Tensor, mask: Tensor) -> Tuple[Tensor, Tensor]:
         return TF.adjust_gamma(img, self.gamma, self.gain), mask
 
 
-class adjustHue:
-    def __init__(self, hue_factor: float) -> None:
-        """
-        The image hue is adjusted by converting the image to HSV and cyclically shifting the intensities in the hue channel(H).
-        The image is then converted back to original image mode.
+class RandomAdjustSharpness:
+    def __init__(self, sharpness_factor: float, p: float = 0.5) -> None:
+        self.sharpness = sharpness_factor
+        self.p = p
 
-        Args:
-            hue_factor: Should be in [-0.5, 0.5]. 0.5 and -0.5 give complete reversal hue channel in HSV space 
-                        in positive and negative direction respectively. 0 means no shift. Therefore, 
-                        both -0.5 and 0.5 will give an image with complementary colors while 0 gives the original image.
-        """
-        self.hue_factor = hue_factor
-
-    def __call__(self, img: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-        return TF.adjust_hue(img, self.hue_factor), mask
+    def __call__(self, img: Tensor, mask: Tensor) -> Tuple[Tensor, Tensor]:
+        if random.random() < self.p:
+            return TF.adjust_sharpness(img, self.sharpness), mask
+        return img, mask
 
 
-class adjustSaturation:
-    def __init__(self, saturation_factor: float) -> None:
-        """
-        Args:
-            saturation_factor: 0 gives a black and whie image, 1 gives the original image and 2 will enhance the saturation by a factor of 2.
-        """
-        self.saturation_factor = saturation_factor
+class RandomAutoContrast:
+    def __init__(self, p: float = 0.5) -> None:
+        self.p = p
 
-    def __call__(self, img: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-        return TF.adjust_saturation(img, self.saturation_factor), mask
+    def __call__(self, img: Tensor, mask: Tensor) -> Tuple[Tensor, Tensor]:
+        if random.random() < self.p:
+            return TF.autocontrast(img), mask
+        return img, mask
 
 
-class centerCrop:
-    def __init__(self, output_size: Union[int, List[int], Tuple[int]]) -> None:
+class CenterCrop:
+    def __init__(self, size: Union[int, List[int], Tuple[int]]) -> None:
         """Crops the image at the center
 
         Args:
             output_size: height and width of the crop box. If int, this size is used for both directions.
         """
-        self.output_size = (output_size, output_size) if isinstance(output_size, int) else output_size
+        self.size = (size, size) if isinstance(size, int) else size
 
-    def __call__(self, img: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-        return TF.center_crop(img, self.output_size), TF.center_crop(mask, self.output_size)
-
-
-class crop:
-    def __init__(self, top: int, left: int, height: int, width: int) -> None:
-        """Crops the given image at specified location and output size.
-
-        Args:
-            top: Vertical component of the top left corner of the crop box.
-            left: Horizontal component of the top left corner of the crop box.
-            height: Height of the crop box.
-            width: Width of the crop box.
-        """
-        self.top = top
-        self.left = left
-        self.height = height
-        self.width = width
-
-    def __call__(self, img: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-        return TF.crop(img, self.top, self.left, self.height, self.width), TF.crop(mask, self.top, self.left, self.height, self.width)
+    def __call__(self, img: Tensor, mask: Tensor) -> Tuple[Tensor, Tensor]:
+        return TF.center_crop(img, self.size), TF.center_crop(mask, self.size)
 
 
-class randomCrop:
-    def __init__(self, output_size: Union[int, List[int], Tuple[int]], p: float = 0.2) -> None:
-        """Crops the image.
+class GaussianBlur:
+    def __init__(self, kernel_size: List[int], sigma: Optional[List[float]] = None) -> None:
+        self.kernel_size = kernel_size
+        self.sigma = sigma
+
+    def __call__(self, img: Tensor, mask: Tensor) -> Tuple[Tensor, Tensor]:
+        return TF.gaussian_blur(img, self.kernel_size, self.sigma), mask
+
+
+class RandomCrop:
+    def __init__(self, size: Union[int, List[int], Tuple[int]], p: float = 0.2) -> None:
+        """Randomly Crops the image.
 
         Args:
             output_size: height and width of the crop box. If int, this size is used for both directions.
         """
-        self.output_size = (output_size, output_size) if isinstance(output_size, int) else output_size
+        self.size = (size, size) if isinstance(size, int) else size
         self.p = p
 
-    def __call__(self, img: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-        assert img.shape == mask.shape, "Image size and Label mask size should be equal"
+    def __call__(self, img: Tensor, mask: Tensor) -> Tuple[Tensor, Tensor]:
         _, height, width = img.shape
-        target_height, target_width = self.output_size
+        target_height, target_width = self.size
 
-        if height < target_height or width < target_width:
-            return img, mask
-        else:
+        if height > target_height or width > target_width:
             if random.random() < self.p:
                 new_top = random.randint(0, height - target_height)
                 new_left = random.randint(0, width - target_width)
                 return TF.crop(img, new_top, new_left, target_height, target_width), TF.crop(mask, new_top, new_left, target_height, target_width)
-            else:
-                return img, mask
+        return img, mask
 
 
-class horizontalFlip:
-    def __init__(self) -> None:
-        pass
-
-    def __call__(self, img: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-        return TF.hflip(img), TF.hflip(mask)
-
-
-class randomHorizontalFlip:
-    def __init__(self, p: float = 0.2) -> None:
+class RandomHorizontalFlip:
+    def __init__(self, p: float = 0.5) -> None:
         self.p = p
 
-    def __call__(self, img: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-        return (TF.hflip(img), TF.hflip(mask)) if random.random() < self.p else (img, mask)
+    def __call__(self, img: Tensor, mask: Tensor) -> Tuple[Tensor, Tensor]:
+        if random.random() < self.p:
+            return TF.hflip(img), TF.hflip(mask)
+        return img, mask
 
 
-class verticalFlip:
-    def __init__(self) -> None:
-        pass
-
-    def __call__(self, img: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-        return TF.vflip(img), TF.vflip(mask)
-
-
-class randomVerticalFlip:
-    def __init__(self, p: float = 0.2) -> None:
+class RandomVerticalFlip:
+    def __init__(self, p: float = 0.5) -> None:
         self.p = p
 
-    def __call__(self, img: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-        return (TF.vflip(img), TF.vflip(mask)) if random.random() < self.p else (img, mask)
+    def __call__(self, img: Tensor, mask: Tensor) -> Tuple[Tensor, Tensor]:
+        if random.random() < self.p:
+            return TF.vflip(img), TF.vflip(mask)
+        return img, mask
 
 
-class pad:
+class Normalize:
+    def __init__(self, mean: List[float], std: List[float]) -> None:
+        self.mean = mean
+        self.std = std
+
+    def __call__(self, img: Tensor, mask: Tensor) -> Tuple[Tensor, Tensor]:
+        return TF.normalize(img, self.mean, self.std), mask
+
+
+class Pad:
     def __init__(self, padding: Union[List[int], Tuple[int], int], fill: int = 0, padding_mode: str = 'constant') -> None:
         """Pad the given image on all sides with the given "pad" value.
         Args:
@@ -201,11 +164,11 @@ class pad:
         self.fill = fill
         self.padding_mode = padding_mode
 
-    def __call__(self, img: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+    def __call__(self, img: Tensor, mask: Tensor) -> Tuple[Tensor, Tensor]:
         return TF.pad(img, self.padding, self.fill, self.padding_mode), TF.pad(mask, self.padding, self.fill, self.padding_mode)
 
 
-class resize:
+class Resize:
     def __init__(self, size: Union[int, Tuple[int], List[int]]) -> None:
         """Resize the input image to the given size.
         Args:
@@ -215,53 +178,68 @@ class resize:
         """
         self.size = size
 
-    def __call__(self, img: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-        return TF.resize(img, self.size, Image.BILINEAR), TF.resize(mask, self.size, Image.NEAREST)
+    def __call__(self, img: Tensor, mask: Tensor) -> Tuple[Tensor, Tensor]:
+        return TF.resize(img, self.size, TF.InterpolationMode.BILINEAR), TF.resize(mask, self.size, TF.InterpolationMode.NEAREST)
 
 
-class resizedCrop:
-    def __init__(self, top: int, left: int, height: int, width: int, size: Union[int, Tuple[int], List[int]]) -> None:
-        """Crop the given image and resize it to desired size.
-
-        Args:
-            top: Vertical component of the top left corner of the crop box.
-            left: Horizontal component of the top left corner of the crop box.
-            height: Height of the crop box.
-            width: Width of the crop box.
-            size: Desired output size. Same semantics as resize.
-        """
-        self.top = top
-        self.left = left
-        self.height = height
-        self.width = width
+class RandomResizedCrop:
+    def __init__(self, size, scale=(0.08, 1.0), ratio=(3./4., 4./3.)) -> None:
         self.size = size
+        self.scale = scale
+        self.ratio = ratio
 
-    def __call__(self, img: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-        return TF.resized_crop(img, self.top, self.left, self.height, self.width, self.size, Image.BILINEAR), TF.resized_crop(mask, self.top, self.left, self.height, self.width, self.size, Image.NEAREST)
+    @staticmethod
+    def get_params(img: Tensor, scale: List[float], ratio: List[float]) -> Tuple[int, int, int, int]:
+        width, height = F._get_image_size(img)
+        area = height * width
+
+        log_ratio = torch.log(torch.tensor(ratio))
+        for _ in range(10):
+            target_area = area * torch.empty(1).uniform_(scale[0], scale[1]).item()
+            aspect_ratio = torch.exp(
+                torch.empty(1).uniform_(log_ratio[0], log_ratio[1])
+            ).item()
+
+            w = int(round(math.sqrt(target_area * aspect_ratio)))
+            h = int(round(math.sqrt(target_area / aspect_ratio)))
+
+            if 0 < w <= width and 0 < h <= height:
+                i = torch.randint(0, height - h + 1, size=(1,)).item()
+                j = torch.randint(0, width - w + 1, size=(1,)).item()
+                return i, j, h, w
+
+        # Fallback to central crop
+        in_ratio = float(width) / float(height)
+        if in_ratio < min(ratio):
+            w = width
+            h = int(round(w / min(ratio)))
+        elif in_ratio > max(ratio):
+            h = height
+            w = int(round(h * max(ratio)))
+        else:  # whole image
+            w = width
+            h = height
+        i = (height - h) // 2
+        j = (width - w) // 2
+        return i, j, h, w
+
+    def __call__(self, img: Tensor, mask: Tensor) -> Tuple[Tensor, Tensor]:
+        i, j, h, w = self.get_params(img, self.scale, self.ratio)
+        return TF.resized_crop(img, i, j, h, w, self.size, TF.InterpolationMode.BILINEAR), TF.resized_crop(mask, i, j, h, w, self.size, TF.InterpolationMode.NEAREST)
 
 
-class rotate:
-    def __init__(self, angle: float, expand: bool = False, center: Optional[List[int]] = None) -> None:
-        """Rotate the image by angle.
+class RandomGrayscale:
+    def __init__(self, p: float = 0.5) -> None:
+        self.p = p
 
-        Args:
-            angle: rotation angle value in degrees, counter-clockwise.
-            expand: Optional expansion flag. 
-                    If true, expands the output image to make it large enough to hold the entire rotated image.
-                    If false or omitted, make the output image the same size as the input image. 
-                    Note that the expand falg assumes rotation around the center and no translation.
-            center: Optional center of rotation. Origin is the upper left corner. Default is the center of the image.
-        """
-        self.angle = angle
-        self.expand = expand
-        self.center = center
-
-    def __call__(self, img: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-        return TF.rotate(img, self.angle, Image.BILINEAR, self.expand, self.center), TF.rotate(mask, self.angle, Image.NEAREST, self.expand, self.center)
+    def __call__(self, img: Tensor, mask: Tensor) -> Tuple[Tensor, Tensor]:
+        if random.random() < self.p:
+            return TF.rgb_to_grayscale(img), mask
+        return img, mask
 
 
-class randomRotate:
-    def __init__(self, angle: float = 10, p: float = 0.2, expand: bool = False) -> None:
+class RandomRotation:
+    def __init__(self, degrees: float = 10.0, p: float = 0.2, expand: bool = False) -> None:
         """Rotate the image by a random angle between -angle and angle with probability p
 
         Args:
@@ -273,10 +251,10 @@ class randomRotate:
                     Note that the expand flag assumes rotation around the center and no translation.
         """
         self.p = p
-        self.angle = angle
+        self.angle = degrees
         self.expand = expand
 
-    def __call__(self, img: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+    def __call__(self, img: Tensor, mask: Tensor) -> Tuple[Tensor, Tensor]:
         random_angle = random.random() * 2 * self.angle - self.angle
-        return (TF.rotate(img, random_angle, Image.BILINEAR, self.expand), TF.rotate(mask, random_angle, Image.NEAREST, self.expand)) if random.random() < self.p else (img, mask)
+        return (TF.rotate(img, random_angle, TF.InterpolationMode.BILINEAR, self.expand), TF.rotate(mask, random_angle, TF.InterpolationMode.NEAREST, self.expand)) if random.random() < self.p else (img, mask)
 
