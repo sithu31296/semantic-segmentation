@@ -22,15 +22,17 @@ Method | Backbone | mIoU <br><sup>(%) | Params <br><sup>(M) | GFLOPs<br><sup>(51
 | | [MiT-B2][mit] | 47.5 | 28 | 62 | [download][segformerw]
 | | [MiT-B3][mit] | 50.0 | 47 | 79 | [download][segformerw]
 | | [MiT-B4][mit] | 51.1 | 64 | 96 | [download][segformerw]
-| | [MiT-B5][mit] | 51.8 | 85 | 183 | [download][segformerw]
+| | [MiT-B5][mit]* | 51.8 | 85 | 183 | [download][segformerw]
 ||
 [VOLO][volo] | VOLO-D1 | 50.5 | - | - | N/A
 | | VOLO-D3 | 52.9 | - | - | N/A
-| | VOLO-D5 | 64.3 | - | - | N/A
+| | VOLO-D5 | 54.3 | - | - | N/A
 ||
 [MaskFormer][maskformer] | Swin-T | 48.8 | 42 | 55 | N/A
 | | Swin-S | 51.0 | 63 | 79 | N/A
-| | Swin-B | 53.9 | 102 | 195 | N/A
+
+
+> Note: `*` models use 640x640 image size. Only backbones pretrained on ImageNet1k are reported.
 
 </details>
 
@@ -52,13 +54,13 @@ Method | Backbone | mIoU <br><sup>(%) | Params <br><sup>(M) | GFLOPs<br><sup>(10
 </details>
 
 <details>
-  <summary>Panoptic Segmentation on COCO-val (click to expand)</summary>
+  <summary>Panoptic Segmentation on COCO panoptic-val (click to expand)</summary>
 
-Method | Backbone | PQ | Params <br><sup>(M) | GFLOPs | Pretrained
---- | --- | --- | --- | --- | --- 
-[MaskFormer][maskformer] | Swin-T | 47.7 | 42 | 179 | N/A
-| | Swin-S | 49.7 | 63 | 259 | N/A
-| | Swin-B | 51.8 | 102 | 411 | N/A
+Method | Backbone | PQ | PQ<sup>Th | PQ<sup>St | SQ | RQ | Params <br><sup>(M) | GFLOPs | Pretrained
+--- | --- | --- | --- | --- | --- | --- | --- | --- | ---
+[MaskFormer][maskformer] | Swin-T | 47.7 | 51.7 | 41.7 | 80.4 | 58.3 | 42 | 179 | N/A
+| | Swin-S | 49.7 | 54.4 | 42.6 | 80.9 | 60.4 | 63 | 259 | N/A
+| | Swin-B | 51.8 | 56.3 | 43.2 | 81.4 | 61.8 | 102 | 411 | N/A
 
 </details>
 
