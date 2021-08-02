@@ -7,6 +7,7 @@
 [volo]: https://arxiv.org/abs/2106.13112v1
 [maskformer]: https://arxiv.org/abs/2107.06278v1
 [openworld]: https://arxiv.org/abs/2107.14228
+[shuffle]: https://arxiv.org/abs/2106.03650
 
 [mit]: https://drive.google.com/drive/folders/1b7bwrInTW4VLEm27YawHOAMSMikga2Ia?usp=sharing
 
@@ -30,6 +31,10 @@ Method | Backbone | mIoU <br><sup>(%) | Params <br><sup>(M) | GFLOPs<br><sup>(51
 ||
 [MaskFormer][maskformer] | Swin-T | 48.8 | 42 | 55 | N/A
 | | Swin-S | 51.0 | 63 | 79 | N/A
+||
+[Shuffle][shuffle] | Shuffle-T | 47.6 | 60 | - | N/A
+| | Shuffle-S | 49.6 | 81 | - | N/A
+| | Shuffle-B | 50.5 | 121 | - | N/A
 
 
 > Note: `*` models use 640x640 image size. Only backbones pretrained on ImageNet1k are reported.
