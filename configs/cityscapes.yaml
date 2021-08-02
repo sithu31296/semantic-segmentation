@@ -12,7 +12,7 @@ DATASET:
   ROOT: 'C:\\Users\\sithu\\Documents\\Datasets\\CityScapes'              # dataset root path
 
 TRAIN:
-  IMG_SIZE: [480, 640]                    # training image size in (h, w)
+  IMG_SIZE: [1024, 1024]                    # training image size in (h, w)
   EPOCHS: 500                             # number of epochs to train
   BATCH_SIZE: 8                           # batch size used to train
   WORKERS: 8                              # number of workers used in training dataloader
@@ -24,7 +24,7 @@ TRAIN:
   AMP: false                              # use AMP in training
 
 EVAL:
-  IMG_SIZE: [480, 640]                    # evaluation image size in (h, w)
+  IMG_SIZE: [1024, 1024]                    # evaluation image size in (h, w)
   BATCH_SIZE: 8                           # batch size used in evaluation
   WORKERS: 4                              # number of workers used in evaluation dataloader    
   MSF: false                              # multi-scale and flip evaluation    
@@ -33,4 +33,4 @@ EVAL:
 TEST:
   MODE: image                             # inference mode (image, video, webcam)
   FILE: 'test_imgs'                       # filename or foldername (image mode), video name (video mode), 0 (webcam mode)
-  IMG_SIZE: [480, 640]                    # inference image size in (h, w)
+  IMG_SIZE: [1024, 1024]                    # inference image size in (h, w)

@@ -1,34 +1,46 @@
 DEVICE: cpu                            # device used for training and evaluation (cpu, cuda, cuda0, cuda1, ...)
 SAVE_DIR: 'output'                        # output folder name used for saving the model, logs and inference results
-TRAINED_MODEL: './checkpoints/pretrained/segformer/segformer.b3.512x512.ade.pth'        # trained model file path
+MODEL_PATH: ''        # trained model file path
 
 MODEL:                                    
   NAME: segformer                         # name of the model you are using
-  VARIANT: B3
-  PRETRAINED: 'checkpoints/backbone/mit/mit_b3.pth'  # backbone model's weight file path if the segmentation model use separate backbone like ResNet                    
+  BACKBONE: 
+    NAME: mit
+    VARIANT: B3
+    PRETRAINED: 'checkpoints/backbone/mit/mit_b3.pth'  # backbone model's weight file path if the segmentation model use separate backbone like ResNet                    
 
 DATASET:
   NAME: ade20k                            # dataset name to be trained with (camvid, cityscapes, ade20k)
   ROOT: 'C:\\Users\\sithu\\Documents\\Datasets\\ADEChallenge\\ADEChallengedata2016'              # dataset root path
 
 TRAIN:
-  IMG_SIZE: [480, 640]                    # training image size in (h, w)
+  IMAGE_SIZE: [512, 512]                  # training image size in (h, w)
   EPOCHS: 500                             # number of epochs to train
   BATCH_SIZE: 8                           # batch size used to train
   WORKERS: 8                              # number of workers used in training dataloader
   LR: 0.01                                # initial learning rate used in optimizer
   DECAY: 0.0005                           # decay rate used in optimizer
-  WARMUP: 10                              # warmup epochs used in scheduler
-  SEED: 123                               # random seed number
+  LOSS:
+    NAME: ohemce                          # loss function name (ohemce, ce, dice)
+    CLS_WEIGHTS: false                    # use class weights in loss calculation
+    THRESH: 0.7                           # ohemce threshold or dice delta if you choose ohemce loss or dice loss
+  SCHEDULER:
+    NAME: warmuppolylr
+    POWER: 0.9
+    WARMUP: 10                              # warmup epochs used in scheduler
+    WARMUP_RATIO: 0.1
   EVAL_INTERVAL: 10                       # evaluation interval during training
   AMP: false                              # use AMP in training
+  DDP: false                              # use DDP training
 
 EVAL:
-  IMG_SIZE: [480, 640]                    # evaluation image size in (h, w)
+  IMAGE_SIZE: [512, 512]                    # evaluation image size in (h, w)
   BATCH_SIZE: 8                           # batch size used in evaluation
   WORKERS: 4                              # number of workers used in evaluation dataloader                        
-  MSF: false                              # multi-scale and flip evaluation    
-  SCALES: [0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0]  # scales used in MSF evaluation                
+  MSF: 
+    ENABLE: false                                   # multi-scale and flip evaluation  
+    FLIP: true                                      # use flip in evaluation  
+    SCALES: [0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0]  # scales used in MSF evaluation                
 
 TEST:
   MODE: image                             # inference mode (image, video, webcam)

@@ -11,7 +11,10 @@ class Compose:
         self.transforms = transforms
 
     def __call__(self, img: Tensor, mask: Tensor) -> Tuple[Tensor, Tensor]:
-        assert img.shape == mask.shape
+        if mask.ndim == 2:
+            assert img.shape[1:] == mask.shape
+        else:
+            assert img.shape[1:] == mask.shape[1:]
 
         for transform in self.transforms:
             img, mask = transform(img, mask)
@@ -59,7 +62,7 @@ class RandomAdjustSharpness:
 
     def __call__(self, img: Tensor, mask: Tensor) -> Tuple[Tensor, Tensor]:
         if random.random() < self.p:
-            return TF.adjust_sharpness(img, self.sharpness), mask
+            img = TF.adjust_sharpness(img, self.sharpness)
         return img, mask
 
 
@@ -69,7 +72,7 @@ class RandomAutoContrast:
 
     def __call__(self, img: Tensor, mask: Tensor) -> Tuple[Tensor, Tensor]:
         if random.random() < self.p:
-            return TF.autocontrast(img), mask
+            img = TF.autocontrast(img)
         return img, mask
 
 
@@ -86,13 +89,16 @@ class CenterCrop:
         return TF.center_crop(img, self.size), TF.center_crop(mask, self.size)
 
 
-class GaussianBlur:
-    def __init__(self, kernel_size: List[int], sigma: Optional[List[float]] = None) -> None:
+class RandomGaussianBlur:
+    def __init__(self, kernel_size: List[int], sigma: Optional[List[float]] = None, p: float = 0.5) -> None:
         self.kernel_size = kernel_size
         self.sigma = sigma
+        self.p = p
 
     def __call__(self, img: Tensor, mask: Tensor) -> Tuple[Tensor, Tensor]:
-        return TF.gaussian_blur(img, self.kernel_size, self.sigma), mask
+        if random.random() < self.p:
+            img = TF.gaussian_blur(img, self.kernel_size, self.sigma)
+        return img, mask
 
 
 class RandomCrop:
@@ -182,6 +188,18 @@ class Resize:
         return TF.resize(img, self.size, TF.InterpolationMode.BILINEAR), TF.resize(mask, self.size, TF.InterpolationMode.NEAREST)
 
 
+class Normalize:
+    def __init__(self, mean: list = (0.485, 0.456, 0.406), std: list = (0.229, 0.224, 0.225)):
+        self.mean = mean
+        self.std = std
+
+    def __call__(self, img: Tensor, mask: Tensor) -> Tuple[Tensor, Tensor]:
+        img = img.float()
+        img /= 255
+        img = TF.normalize(img, self.mean, self.std)
+        return img, mask
+    
+
 class RandomResizedCrop:
     def __init__(self, size, scale=(0.08, 1.0), ratio=(3./4., 4./3.)) -> None:
         self.size = size
@@ -190,7 +208,7 @@ class RandomResizedCrop:
 
     @staticmethod
     def get_params(img: Tensor, scale: List[float], ratio: List[float]) -> Tuple[int, int, int, int]:
-        width, height = F._get_image_size(img)
+        width, height = TF._get_image_size(img)
         area = height * width
 
         log_ratio = torch.log(torch.tensor(ratio))
@@ -234,7 +252,7 @@ class RandomGrayscale:
 
     def __call__(self, img: Tensor, mask: Tensor) -> Tuple[Tensor, Tensor]:
         if random.random() < self.p:
-            return TF.rgb_to_grayscale(img), mask
+            img = TF.rgb_to_grayscale(img, 3)
         return img, mask
 
 

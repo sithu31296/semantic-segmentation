@@ -1,5 +1,4 @@
 import torch 
-import numpy as np
 from torch import Tensor
 from torch.utils.data import Dataset, DataLoader
 from torchvision import io
@@ -7,32 +6,25 @@ from pathlib import Path
 from typing import Tuple
 
 
-class CityScapes(Dataset):
+class LIP(Dataset):
     """
-    num_classes: 19
+    num_classes: 19+background
+    30462 train images
+    10000 val images
     """
-    CLASSES = ['road', 'sidewalk', 'building', 'wall', 'fence', 'pole', 'traffic light', 'traffic sign', 'vegetation', 
-                'terrain', 'sky', 'person', 'rider', 'car', 'truck', 'bus', 'train', 'motorcycle', 'bicycle']
+    CLASSES = ['background', 'hat', 'hair', 'glove', 'sunglasses', 'upperclothes', 'dress', 'coat', 'socks', 'pants', 'jumpsuits', 'scarf', 'skirt', 'face', 'left-arm', 'right-arm', 'left-leg', 'right-leg', 'left-shoe', 'right-shoe']
+    PALETTE = torch.tensor([[0, 0, 0], [127, 0, 0], [254, 0, 0], [0, 84, 0], [169, 0, 50], [254, 84, 0], [255, 0, 84], [0, 118, 220], [84, 84, 0], [0, 84, 84], [84, 50, 0], [51, 85, 127], [0, 127, 0], [0, 0, 254], [50, 169, 220], [0, 254, 254], [84, 254, 169], [169, 254, 84], [254, 254, 0], [254, 169, 0]])
 
-    PALETTE = torch.tensor([[128, 64, 128], [244, 35, 232], [70, 70, 70], [102, 102, 156], [190, 153, 153], [153, 153, 153], [250, 170, 30], [220, 220, 0], [107, 142, 35], 
-                [152, 251, 152], [70, 130, 180], [220, 20, 60], [255, 0, 0], [0, 0, 142], [0, 0, 70], [0, 60, 100], [0, 80, 100], [0, 0, 230], [119, 11, 32]])
-
-    ID2TRAINID = {0: 255, 1: 255, 2: 255, 3: 255, 4: 255, 5: 255, 6: 255, 7: 0, 8: 1, 9: 255, 10: 255, 11: 2, 12: 3, 13: 4, 14: 255, 15: 255, 16: 255,
-                  17: 5, 18: 255, 19: 6, 20: 7, 21: 8, 22: 9, 23: 10, 24: 11, 25: 12, 26: 13, 27: 14, 28: 15, 29: 255, 30: 255, 31: 16, 32: 17, 33: 18, -1: -1}
-    
     def __init__(self, root: str, split: str = 'train', transform = None) -> None:
         super().__init__()
-        assert split in ['train', 'val', 'test']
+        assert split in ['train', 'val']
+        self.split = split
         self.transform = transform
         self.n_classes = len(self.CLASSES)
         self.ignore_label = 255
 
-        self.label_map = np.arange(256)
-        for id, trainid in self.ID2TRAINID.items():
-            self.label_map[id] = trainid
-
-        img_path = Path(root) / 'leftImg8bit' / split
-        self.files = list(img_path.rglob('*.png'))
+        img_path = Path(root) / 'TrainVal_images' / f'{split}_images' 
+        self.files = list(img_path.glob('*.jpg'))
     
         if not self.files:
             raise Exception(f"No images found in {img_path}")
@@ -41,25 +33,18 @@ class CityScapes(Dataset):
 
     def __len__(self) -> int:
         return len(self.files)
-    
+
     def __getitem__(self, index: int) -> Tuple[Tensor, Tensor]:
         img_path = str(self.files[index])
-        lbl_path = str(self.files[index]).replace('leftImg8bit', 'gtFine').replace('.png', '_labelIds.png')
+        lbl_path = str(self.files[index]).replace('TrainVal_images', 'TrainVal_parsing_annotations').replace(f'{self.split}_images', f'{self.split}_segmentations').replace('.jpg', '.png')
 
         image = io.read_image(img_path)
         label = io.read_image(lbl_path)
-        
+
         if self.transform:
             image, label = self.transform(image, label)
-        return image, self.encode(label.squeeze().numpy()).long()
-
-    def encode(self, label: Tensor) -> Tensor:
-        label = self.label_map[label]
-        return torch.from_numpy(label)
-        # for id, trainid in self.ID2TRAINID.items():
-        #     label[label == id] = trainid
-        # return label
-
+        return image, label.squeeze().long() 
+        
     def decode(self, label: Tensor) -> Tensor:
         return self.PALETTE[label.to(int)]
 
@@ -70,15 +55,14 @@ if __name__ == '__main__':
     from torchvision.utils import make_grid
     from augmentations import Compose, Resize, Normalize
 
-    root = 'C:\\Users\\sithu\\Documents\\Datasets\\CityScapes'
+    root = 'C:\\Users\\sithu\\Documents\\Datasets\\LIP\\LIP'
     transform = Compose([Resize((480, 640)), Normalize()])
 
-    dataset = CityScapes(root, split="train", transform=transform)
+    dataset = LIP(root, split="val", transform=transform)
     dataloader = DataLoader(dataset, shuffle=True, batch_size=4)
     image, label = next(iter(dataloader))
     print(image.shape, label.shape)
     print(label.unique())
-    label[label==255] = 0
     labels = [dataset.decode(lbl).permute(2, 0, 1) for lbl in label]
     labels = torch.stack(labels)
 

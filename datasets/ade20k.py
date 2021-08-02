@@ -1,12 +1,15 @@
 import torch 
+from torch import Tensor
 from torch.utils.data import Dataset, DataLoader
-from torchvision import transforms as T
 from torchvision import io
 from pathlib import Path
-from typing import Tuple, Union, List
+from typing import Tuple
 
 
 class ADE20K(Dataset):
+    """
+    num_classes: 150
+    """
     CLASSES = ['wall', 'building', 'sky', 'floor', 'tree', 'ceiling', 'road', 'bed ',
         'windowpane', 'grass', 'cabinet', 'sidewalk', 'person', 'earth',
         'door', 'table', 'mountain', 'plant', 'curtain', 'chair', 'car',
@@ -71,71 +74,56 @@ class ADE20K(Dataset):
                [184, 255, 0], [0, 133, 255], [255, 214, 0], [25, 194, 194],
                [102, 255, 0], [92, 0, 255]])
 
-    def __init__(self, root: str, split: str = 'train', img_size: Union[int, Tuple[int], List[int]] = 512, transforms = None) -> None:
+    def __init__(self, root: str, split: str = 'train', transform = None) -> None:
         super().__init__()
-        assert split in ['train', 'val', 'test']
+        assert split in ['train', 'val']
         split = 'training' if split == 'train' else 'validation'
 
-        self.transforms = transforms
+        self.transform = transform
         self.n_classes = len(self.CLASSES)
         self.ignore_label = -1
-        img_size = (img_size, img_size) if isinstance(img_size, int) else img_size
 
-        self.image_transforms = T.Compose([
-            T.Resize(img_size, interpolation=T.InterpolationMode.BILINEAR),
-            T.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
-        ])
-        self.label_transforms = T.Resize(img_size, interpolation=T.InterpolationMode.NEAREST)
+        img_path = Path(root) / 'images' / split 
+        self.files = list(img_path.glob('*.jpg'))
+    
+        if not self.files:
+            raise Exception(f"No images found in {img_path}")
 
-        if split != 'test':
-            img_path = Path(root) / 'images' / split 
-            self.files = list(img_path.glob('*.jpg'))
-        
-            if not self.files:
-                raise Exception(f"No images found in {img_path}")
-
-            print(f"Found {len(self.files)} {split} images.")
-
+        print(f"Found {len(self.files)} {split} images.")
 
     def __len__(self) -> int:
         return len(self.files)
-    
 
-    def __getitem__(self, index: int) -> Tuple[torch.Tensor, torch.Tensor]:
+    def __getitem__(self, index: int) -> Tuple[Tensor, Tensor]:
         img_path = str(self.files[index])
         lbl_path = str(self.files[index]).replace('images', 'annotations').replace('.jpg', '.png')
 
         image = io.read_image(img_path)
         label = io.read_image(lbl_path)
         
-        if self.transforms:
-            image, label = self.transforms(image, label)
-
-        image, label = self.transform(image, label)
-        return image, label
+        if self.transform:
+            image, label = self.transform(image, label)
+        return image, label.squeeze().long() - 1    # subtract -1 since original label index starts from 1
         
-
-    def transform(self, image: torch.Tensor, label: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-        image = image.float()
-        image /= 255
-        return self.image_transforms(image), self.label_transforms(label).squeeze().long() - 1
-
-    
-    def decode(self, label: torch.Tensor) -> torch.Tensor:
+    def decode(self, label: Tensor) -> Tensor:
         return self.PALETTE[label.to(int)]
 
 
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
+    from torchvision import transforms as T
     from torchvision.utils import make_grid
+    from augmentations import Compose, Resize, Normalize
 
     root = 'C:\\Users\\sithu\\Documents\\Datasets\\ADEChallenge\\ADEChallengeData2016'
+    transform = Compose([Resize((480, 640)), Normalize()])
 
-    dataset = ADE20K(root, split="train", img_size=(480, 640))
+    dataset = ADE20K(root, split="train", transform=transform)
     dataloader = DataLoader(dataset, shuffle=True, batch_size=4)
     image, label = next(iter(dataloader))
     print(image.shape, label.shape)
     print(label.unique())
+    label[label == -1] = 0
     labels = [dataset.decode(lbl).permute(2, 0, 1) for lbl in label]
     labels = torch.stack(labels)
 

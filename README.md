@@ -1,96 +1,252 @@
-# Semantic Segmentation Pipeline
+# <div align="center">Semantic, Panoptic, Entity Segmentation</div>
+<p align="center"> A collection of SOTA Semantic, Panoptic & Entity Segmentation Models implemented in PyTorch</p>
 
-* [Introduction](#introduction)
-* [Datasets, Models, Features](#features)
-* [Models Comparison](#models-comparison)
-* [Configuration](#configuration)
-* [Training](#training)
-* [Evaluation](#evaluation)
-* [Inference](#inference)
+## <div align="center">Model Zoo</div>
 
-## Introduction
+[segformer]: https://arxiv.org/abs/2105.15203v2
+[volo]: https://arxiv.org/abs/2106.13112v1
+[maskformer]: https://arxiv.org/abs/2107.06278v1
+[openworld]: https://arxiv.org/abs/2107.14228
 
-There are a lot of great repositories for semantic segmentation models but most of them are quite complicated if you want to modify or only need necessary parts. 
+[mit]: https://drive.google.com/drive/folders/1b7bwrInTW4VLEm27YawHOAMSMikga2Ia?usp=sharing
 
-In this repository, a complete training, evaluation and inference pipeline is written for the purpose of easy to understand and modify. 
+[segformerw]: https://drive.google.com/drive/folders/1GAku0G0iR9DsBxCbfENWMJ27c5lYUeQA?usp=sharing
 
-If you want to use a custom model, custom dataset and other training configurations like optimizers, schedulers, etc., you can modify easily after taking a quick look at the codes.
+<details open>
+  <summary>Semantic Segmentation on ADE20K-val</summary>
 
-## Features
+Method | Backbone | mIoU <br><sup>(%) | Params <br><sup>(M) | GFLOPs<br><sup>(512x512) | Pretrained
+--- | --- | --- | --- | --- | ---
+[SegFormer][segformer] | [MiT-B0][mit] | 38.0 | 4 | 8 | [download][segformerw]
+| | [MiT-B1][mit] | 43.1 | 14 | 16 | [download][segformerw]
+| | [MiT-B2][mit] | 47.5 | 28 | 62 | [download][segformerw]
+| | [MiT-B3][mit] | 50.0 | 47 | 79 | [download][segformerw]
+| | [MiT-B4][mit] | 51.1 | 64 | 96 | [download][segformerw]
+| | [MiT-B5][mit] | 51.8 | 85 | 183 | [download][segformerw]
+||
+[VOLO][volo] | VOLO-D1 | 50.5 | - | - | N/A
+| | VOLO-D3 | 52.9 | - | - | N/A
+| | VOLO-D5 | 64.3 | - | - | N/A
+||
+[MaskFormer][maskformer] | Swin-T | 48.8 | 42 | 55 | N/A
+| | Swin-S | 51.0 | 63 | 79 | N/A
+| | Swin-B | 53.9 | 102 | 195 | N/A
 
-Datasets
-* [ADE20K](https://groups.csail.mit.edu/vision/datasets/ADE20K/) 
-* [CamVid](http://mi.eng.cam.ac.uk/research/projects/VideoRec/CamVid/)
-* [CityScapes](https://www.cityscapes-dataset.com/) 
-* [COCO-Stuff](https://github.com/nightrome/cocostuff) (Coming Soon)
-* [MHP](https://lv-mhp.github.io/) (Coming Soon)
-* [Pascal Context](https://cs.stanford.edu/~roozbeh/pascal-context/) (Coming Soon)
+</details>
 
-Models
-* [SegFormer](https://arxiv.org/abs/2105.15203v2)
-* [VOLO](https://arxiv.org/abs/2106.13112v1) (Coming Soon)
-* [MaskFormer](https://arxiv.org/abs/2107.06278v1) (Coming Soon)
-* [CSWin Transformer](https://arxiv.org/abs/2107.00652v1) (Coming Soon)
+<details>
+  <summary>Semantic Segmentation on CityScapes-val (click to expand)</summary>
+
+Method | Backbone | mIoU <br><sup>(%) | Params <br><sup>(M) | GFLOPs<br><sup>(1024x1024) | Pretrained
+--- | --- | --- | --- | --- | ---
+[SegFormer][segformer] | [MiT-B0][mit] | 78.1 | 4 | 126 | [download][segformerw]
+| | [MiT-B1][mit] | 80.0 | 14 | 244 | [download][segformerw]
+| | [MiT-B2][mit] | 82.2 | 28 | 717 | [download][segformerw]
+| | [MiT-B3][mit] | 83.3 | 47 | 963 | [download][segformerw]
+| | [MiT-B4][mit] | 83.9 | 64 | 1241 | [download][segformerw]
+| | [MiT-B5][mit] | 84.0 | 85 | 1460 | [download][segformerw]
+||
+[VOLO][volo] | VOLO-D1 | 83.1 | - | - | N/A
+| | VOLO-D4 | 84.3 | - | - | N/A
+
+</details>
+
+<details>
+  <summary>Panoptic Segmentation on COCO-val (click to expand)</summary>
+
+Method | Backbone | PQ | Params <br><sup>(M) | GFLOPs | Pretrained
+--- | --- | --- | --- | --- | --- 
+[MaskFormer][maskformer] | Swin-T | 47.7 | 42 | 179 | N/A
+| | Swin-S | 49.7 | 63 | 259 | N/A
+| | Swin-B | 51.8 | 102 | 411 | N/A
+
+</details>
+
+<details>
+  <summary>Entity Segmentation on COCO-val (click to expand)</summary>
+
+Method | Backbone | Entity AP | Mask Rescore | Pretrained
+--- | --- | --- | --- | ---
+[Open-World Entity][openworld] | MiT-B0 | 28.8 | 30.4 | N/A
+| | MiT-B2 | 35.1 | 36.6 | N/A
+| | MiT-B3 | 36.9 | 38.5 | N/A
+| | MiT-B5 | 37.2 | 38.7 | N/A
+
+
+</details>
+
+## <div align="center">Datasets</div>
+
+[ade20k]: http://sceneparsing.csail.mit.edu/
+[cityscapes]: https://www.cityscapes-dataset.com/
+[camvid]: http://mi.eng.cam.ac.uk/research/projects/VideoRec/CamVid/
+[cocostuff]: https://github.com/nightrome/cocostuff
+[mhp]: https://lv-mhp.github.io/
+[lip]: http://sysu-hcp.net/lip/index.php
+[atr]: https://github.com/lemondan/HumanParsing-Dataset
+[pascalcontext]: https://cs.stanford.edu/~roozbeh/pascal-context/
+
+Dataset | Type | Categories | Train <br>Images | Val<br>Images | Test<br>Images
+--- | --- | --- | --- | --- | ---
+[ADE20K][ade20k] | Indoor Scene Parsing | 150 | 20,210 | 2,000 | 3,352
+[CityScapes][cityscapes] | Street Scene Parsing | 19 | 2,975 | 500 | 1,525<sup>+labels
+[CamVid][camvid] | Street Scene Parsing | 12 | 367 | 101 | 233<sup>+labels
+[PASCALContext][pascalcontext] | General Scene Parsing | 60 | 10,103 | - | 9,637
+[COCO-Stuff][cocostuff] | General Scene Parsing | 171 | 118,000 | 5,000 | 20,000
+[MHPv1][mhp] | Multi-Human Parsing | 19 | 3,000 | 1,000 | 980<sup>+labels
+[MHPv2][mhp] | Multi-Human Parsing | 59 | 15,403 | 5,000 | 5,000
+[LIP][lip] | Multi-Human Parsing | 20 | 30,462 | 10,000 | -
+[CIHP][lip] | Multi-Human Parsing | 20 | 28,280 | 5,000 | -
+[ATR][atr] | Single-Human Parsing | 18 | 16,000 | 700 | 1,000<sup>+labels
+
+<details>
+  <summary>Datasets Structure</summary>
+
+Datasets should have the following structure:
+
+```
+datasets
+|__ ADEChallenge
+    |__ ADEChallengeData2016
+        |__ images
+            |__ training
+            |__ validation
+        |__ annotations
+            |__ training
+            |__ validation
+
+    |__ CityScapes
+        |__ leftImg8bit
+            |__ train
+            |__ val
+            |__ test
+        |__ gtFine
+            |__ train
+            |__ val
+            |__ test
+
+    |__ CamVid
+        |__ train
+        |__ val
+        |__ test
+        |__ train_labels
+        |__ val_labels
+        |__ test_labels
     
-PyTorch Features:
-* [Native TorchVision I/O](https://pytorch.org/vision/stable/io.html)
-* [Native AMP](https://pytorch.org/docs/stable/notes/amp_examples.html)
-* [Native DDP](https://pytorch.org/docs/stable/notes/ddp.html) (Coming Soon)
+    |__ VOCdevkit
+        |__ VOC2010
+            |__ JPEGImages
+            |__ train_val_merged.json
+    
+    |__ COCO
+        |__ images
+            |__ train2017
+            |__ val2017
+        |__ labels
+            |__ train2017
+            |__ val2017
 
+    |__ MHPv1
+        |__ images
+        |__ annotations
+        |__ train_list.txt
+        |__ test_list.txt
 
-## Models Comparison
+    |__ MHPv2
+        |__ train
+            |__ images
+            |__ parsing_annos
+        |__ val
+            |__ images
+            |__ parsing_annos
 
-Model | CityScapes-val (mIoU) | ADE20K val (mIoU) | Params (M) | FLOPs-CityScapes (G) | FLOPs-ADE20K (G) | Weights
---- | --- | --- | --- | --- | --- | ---
-SegFormer-B0 | 78.1 | 38.0 | 3.8 | 125.5 | 8.4 | [pretrained](https://drive.google.com/drive/folders/1UUMCAA51zkBBGAGh9zAX79q0YzHaa0p8?usp=sharing) / [backbone](https://drive.google.com/drive/folders/1WApNd_0T5heB5H5zhvwu6HiI1amvA8Hv?usp=sharing)
-SegFormer-B1 | 80.0 | 43.1 | 13.7 | 243.7 | 15.9 | [pretrained](https://drive.google.com/drive/folders/1UUMCAA51zkBBGAGh9zAX79q0YzHaa0p8?usp=sharing) / [backbone](https://drive.google.com/drive/folders/1WApNd_0T5heB5H5zhvwu6HiI1amvA8Hv?usp=sharing)
-SegFormer-B2 | 82.2 | 47.5 | 27.5 | 717.1 | 62.4 | [pretrained](https://drive.google.com/drive/folders/1UUMCAA51zkBBGAGh9zAX79q0YzHaa0p8?usp=sharing) / [backbone](https://drive.google.com/drive/folders/1WApNd_0T5heB5H5zhvwu6HiI1amvA8Hv?usp=sharing)
-SegFormer-B3 | 83.3 | 50.0 | 47.3 | 962.9 | 79.0 | [pretrained](https://drive.google.com/drive/folders/1UUMCAA51zkBBGAGh9zAX79q0YzHaa0p8?usp=sharing) / [backbone](https://drive.google.com/drive/folders/1WApNd_0T5heB5H5zhvwu6HiI1amvA8Hv?usp=sharing)
-SegFormer-B4 | 83.9 | 51.1 | 64.1 | 1240.6 | 95.7 | [pretrained](https://drive.google.com/drive/folders/1UUMCAA51zkBBGAGh9zAX79q0YzHaa0p8?usp=sharing) / [backbone](https://drive.google.com/drive/folders/1WApNd_0T5heB5H5zhvwu6HiI1amvA8Hv?usp=sharing)
-SegFormer-B5 | 84.0 | 51.8 | 84.7 | 1460.4 | 183.3 | [pretrained](https://drive.google.com/drive/folders/1UUMCAA51zkBBGAGh9zAX79q0YzHaa0p8?usp=sharing) / [backbone](https://drive.google.com/drive/folders/1WApNd_0T5heB5H5zhvwu6HiI1amvA8Hv?usp=sharing)
-VOLO-D1 | 83.1 | 50.5 | - | - | - | N/A
-VOLO-D3 | - | 52.9 | - | - | - | N/A
-VOLO-D4 | 84.3 | - | - | - | - | N/A
-VOLO-D5 | - | 54.3 | - | - | - | N/A
-MaskFormer-Swin-T | - | 48.8 | 42 | - | 55 | N/A
-MaskFormer-Swin-S | - | 51.0 | 63 | - | 79 | N/A
-MaskFormer-Swin-B | - | 53.9 | 102 | - | 195 | N/A
-MaskFormer-Swin-L | - | 55.6 | 212 | - | 375 | N/A
-CSWin-T | - | 50.4 | 59.9 | - | - | N/A
-CSWin-S | - | 50.8 | 64.4 | - | - | N/A
-CSWin-B | - | 51.7 | 109.2 | - | - | N/A
-CSWin-L^ | - | 55.2 | 207.7 | - | - | N/A
+    |__ LIP
+        |__ LIP
+            |__ TrainVal_images
+                |__ train_images
+                |__ val_images
+            |__ TrainVal_parsing_annotations
+                |__ train_segmentations
+                |__ val_segmentations
 
-> Notes: All models' results are from papers with multi-scale inference. Pretrained models are converted from official implementations. `^` means the model is pretrained on ImageNet-21K.
+        |__ CIHP
+            |__ instance-leve_human_parsing
+                |__ train
+                    |__ Images
+                    |__ Category_ids
+                |__ val
+                    |__ Images
+                    |__ Category_ids
 
-Panoptic Segmentation
+        |__ ATR
+            |__ humanparsing
+                |__ JPEGImages
+                |__ SegmentationClassAug
 
-Model | COCO Panoptic (PQ) | ADE20K Panoptic (PQ) | Params (M) | FLOPs-COCO (G) | FLOPs-ADE20K (G) | Weights
---- | --- | --- | --- | --- | --- | ---
-MaskFormer-Swin-T | 47.7 | - | 42 | 179 | - | N/A
-MaskFormer-Swin-S | 49.7 | - | 63 | 259 | - | N/A
-MaskFormer-Swin-B | 51.8 | - | 102 | 411 | - | N/A
-MaskFormer-Swin-L | 52.7 | - | 212 | 792 | - | N/A
+```
 
-## Configuration 
+</details>
 
-Create a configuration file in `configs`. Sample configuration for CamVid dataset can be found [here](configs/camvid.yaml). Then edit the fields you think if it is needed. This configuration file is needed for all of training, evaluation and inference scripts.
+## <div align="center">Usage</div>
 
-## Training
+<details>
+  <summary>Configuration (click to expand)</summary>
+
+Create a configuration file in `configs`. Sample configuration for CityScapes dataset can be found [here](configs/cityscapes.yaml). Then edit the fields you think if it is needed. This configuration file is needed for all of training, evaluation and prediction scripts.
+
+</details>
+
+<details>
+  <summary>Training (click to expand)</summary>
+
+Train with 1 GPU:
 
 ```bash
 $ python tools/train.py --cfg configs/CONFIG_FILE_NAME.yaml
 ```
 
-## Evaluation
+Train with 2 GPUs:
 
 ```bash
-$ python tools/eval.py --cfg configs/CONFIG_FILE_NAME.yaml
+$ python -m torch.distributed.launch --nproc_per_node=2 --use_env tools/train.py --cfg configs/CONFIG_FILE_NAME.yaml
 ```
 
-## Inference
+</details>
+
+
+<details>
+  <summary>Evaluation (click to expand)</summary>
+
+Make sure to set `MODEL_PATH` of the configuration file to your trained model directory.
+
+```bash
+$ python tools/val.py --cfg configs/CONFIG_FILE_NAME.yaml
+```
+
+</details>
+
+
+<details>
+  <summary>Inference (click to expand)</summary>
+
+Make sure to set `MODEL_PATH` of the configuration file to model's weights.
 
 ```bash
 $ python tools/infer.py --cfg configs/CONFIG_FILE_NAME.yaml
 ```
 
+</details>
+
+<details>
+  <summary>Optimization (click to expand)</summary>
+
+For optimizing these models for deployment, see [torch_optimize](https://github.com/sithu31296/torch_optimize).
+
+</details>
+
+<details>
+  <summary>References (click to expand)</summary>
+
+
+
+</details>

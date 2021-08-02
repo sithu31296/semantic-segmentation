@@ -10,14 +10,14 @@ from torch.optim import SGD
 from pathlib import Path
 from torch.utils.tensorboard import SummaryWriter
 from torch.cuda.amp import GradScaler, autocast
+from torch.nn.parallel import DistributedDataParallel as DDP
 
 import sys
 sys.path.insert(0, '.')
-from utils.loss import OhemCELoss
-from utils.scheduler import WarmupPolyLR
-from models import choose_models
-from datasets import choose_datasets
-from datasets.augmentations import Compose, randomCrop, randomHorizontalFlip
+from utils.losses import get_loss
+from utils.schedulers import get_scheduler
+from models import get_model
+from datasets import get_dataset, get_train_transform, get_val_transform
 from utils.utils import fix_seeds, setup_cudnn
 from val import evaluate
 
@@ -29,11 +29,6 @@ def main(cfg):
 
     fix_seeds(cfg['TRAIN']['SEED'])
     setup_cudnn()
-
-    transforms = Compose([
-        randomHorizontalFlip(p=0.3),
-        randomCrop((480, 640), p=0.2)
-    ])
 
     device = torch.device(cfg['DEVICE'])
 

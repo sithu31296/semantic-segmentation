@@ -1,9 +1,10 @@
 import torch
 import math
 from bisect import bisect_right
-from torch.optim import lr_scheduler
+from torch.optim.lr_scheduler import _LRScheduler
 
-class PolyLR(lr_scheduler._LRScheduler):
+
+class PolyLR(_LRScheduler):
     def __init__(self, optimizer, max_iter, decay_iter=1, power=0.9, last_epoch=-1) -> None:
         self.decay_iter = decay_iter
         self.max_iter = max_iter
@@ -18,7 +19,7 @@ class PolyLR(lr_scheduler._LRScheduler):
             return [factor*lr for lr in self.base_lrs]
 
 
-class WarmupLR(lr_scheduler._LRScheduler):
+class WarmupLR(_LRScheduler):
     def __init__(self, optimizer, warmup_iter=500, warmup_ratio=5e-4, warmup='exp', last_epoch=-1) -> None:
         self.warmup_iter = warmup_iter
         self.warmup_ratio = warmup_ratio
@@ -64,7 +65,6 @@ class WarmupExpLR(WarmupLR):
 
     def get_main_ratio(self):
         real_iter = self.last_epoch - self.warmup_iter
-        
         return self.gamma ** (real_iter // self.interval)
 
 
@@ -92,12 +92,25 @@ class WarmupStepLR(WarmupLR):
         return self.gamma ** bisect_right(self.milestones, real_iter)
 
 
+__all__ = ['polylr', 'warmuppolylr', 'warmupcosinelr', 'warmupsteplr']
+
+def get_scheduler(scheduler_name: str, optimizer, max_iter: int, power: int, warmup_iter: int, warmup_ratio: float, milestones: list = None):
+    assert scheduler_name in __all__, f"Unavailable scheduler name >> {scheduler_name}.\nAvailable schedulers: {__all__}"
+    if scheduler_name == 'warmuppolylr':
+        return WarmupPolyLR(optimizer, power, max_iter, warmup_iter, warmup_ratio)
+    elif scheduler_name == 'warmupcosinelr':
+        return WarmupCosineLR(optimizer, max_iter, warmup_iter=warmup_iter, warmup_ratio=warmup_ratio)
+    elif scheduler_name == 'warmupsteplr':
+        return WarmupStepLR(optimizer, milestones, warmup_iter=warmup_iter, warmup_ratio=warmup_ratio)
+    return PolyLR(optimizer, max_iter)
+
+
 if __name__ == '__main__':
     model = torch.nn.Conv2d(3, 16, 3, 1, 1)
     optim = torch.optim.SGD(model.parameters(), lr=1e-3)
 
     max_iter = 20000
-    sched = WarmupPolyLR(optim, power=0.9, max_iter=max_iter, warmup_iter=200, warmup_ratio=0.1, warmup='linear', last_epoch=-1)
+    sched = WarmupPolyLR(optim, power=0.9, max_iter=max_iter, warmup_iter=200, warmup_ratio=0.1, warmup='exp', last_epoch=-1)
 
     lrs = []
 
