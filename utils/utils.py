@@ -5,12 +5,14 @@ import time
 import os
 from pathlib import Path
 from torch.backends import cudnn
-from torch import nn
+from torch import nn, Tensor
 from torch.autograd import profiler
 from typing import Union
+from torch import distributed as dist
 
 
 def fix_seeds(seed: int = 123) -> None:
+    seed += dist.get_rank()
     torch.manual_seed(seed)
     torch.cuda.manual_seed(seed)
     np.random.seed(seed)
@@ -21,7 +23,7 @@ def setup_cudnn() -> None:
     cudnn.benchmark = True
     cudnn.deterministic = False
 
-def time_synschronized() -> float:
+def time_sync() -> float:
     if torch.cuda.is_available():
         torch.cuda.synchronize()
     return time.time()
@@ -44,3 +46,39 @@ def test_model_latency(model: nn.Module, inputs: torch.Tensor, use_cuda: bool = 
 
 def count_parameters(model: nn.Module) -> float:
     return sum(p.numel() for p in model.parameters() if p.requires_grad) / 1e6      # in M
+
+def setup_ddp() -> None:
+    if 'RANK' in os.environ and 'WORLD_SIZE' in os.environ:
+        rank = int(os.environ['RANK'])
+        world_size = int(os.environ['WORLD_SIZE'])
+        gpu = int(os.environ(['LOCAL_RANK']))
+    else:
+        rank, world_size, gpu = 0, 1, 0
+
+    torch.cuda.set_device(gpu)
+    dist.init_process_group('nccl', init_method="env://",world_size=world_size, rank=rank)
+    dist.barrier()
+    return gpu
+
+def cleanup_ddp():
+    dist.destroy_process_group()
+
+def reduce_tensor(tensor: Tensor) -> Tensor:
+    rt = tensor.clone()
+    dist.all_reduce(rt, op=dist.ReduceOp.SUM)
+    rt /= dist.get_world_size()
+    return rt
+
+@torch.no_grad()
+def throughput(dataloader, model: nn.Module, times: int = 30):
+    model.eval()
+    images, _  = next(iter(dataloader))
+    images = images.cuda(non_blocking=True)
+    B = images.shape[0]
+    print(f"Throughput averaged with {times} times")
+    start = time_sync()
+    for _ in range(times):
+        model(images)
+    end = time_sync()
+
+    print(f"Batch Size {B} throughput {times * B / (end - start)} images/s")

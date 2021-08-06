@@ -1,7 +1,8 @@
 import torch
 import argparse
 import yaml
-
+import math
+from pathlib import Path
 from tqdm import tqdm
 from tabulate import tabulate
 from torch.utils.data import DataLoader
@@ -9,9 +10,10 @@ from torch.nn import functional as F
 
 import sys
 sys.path.insert(0, '.')
-from utils.utils import fix_seeds, setup_cudnn
-from datasets import choose_datasets
-from models import choose_models
+from utils.utils import setup_cudnn
+from datasets import get_dataset
+from datasets.transforms import get_val_transform
+from models import get_model
 
 
 @torch.no_grad()
@@ -20,6 +22,7 @@ def evaluate(model, dataloader, device):
     model.eval()
 
     n_classes = dataloader.dataset.n_classes
+    ignore_label = dataloader.dataset.ignore_label
     hist = torch.zeros(n_classes, n_classes).to(device)
 
     for images, labels in tqdm(dataloader):
@@ -29,7 +32,8 @@ def evaluate(model, dataloader, device):
         logits = model(images)
         logits = F.interpolate(logits, size=labels.shape[-2:], mode='bilinear', align_corners=True)
         preds = torch.softmax(logits, dim=1)
-        keep = labels != dataloader.dataset.ignore_label
+        preds = preds.argmax(dim=1)
+        keep = labels != ignore_label
 
         hist += torch.bincount(labels[keep] * n_classes + preds[keep], minlength=n_classes**2).view(n_classes, n_classes)
     
@@ -40,33 +44,36 @@ def evaluate(model, dataloader, device):
 
 
 @torch.no_grad()
-def evaluate_msf(model, dataloader, device, scales):
+def evaluate_msf(model, dataloader, device, scales, flip):
     model.eval()
 
     n_classes = dataloader.dataset.n_classes
+    ignore_label = dataloader.dataset.ignore_label
     hist = torch.zeros(n_classes, n_classes).to(device)
 
     for images, labels in tqdm(dataloader):
         labels = labels.to(device)
-        scaled_logits = torch.zeros_like(labels)
+        B, H, W = labels.shape
+        scaled_logits = torch.zeros(B, n_classes, H, W).to(device)
 
         for scale in scales:
-            new_H, new_W = int(scale * labels.shape[2]), int(scale * labels.shape[3])
+            new_H, new_W = int(scale * H), int(scale * W)
+            new_H, new_W = int(math.ceil(new_H / 32)) * 32, int(math.ceil(new_W / 32)) * 32
             scaled_images = F.interpolate(images, size=(new_H, new_W), mode='bilinear', align_corners=True)
             scaled_images = scaled_images.to(device)
-
             logits = model(scaled_images)
-            logits = F.interpolate(logits, size=labels.shape[-2:], mode='bilinear', align_corners=True)
+            logits = F.interpolate(logits, size=(H, W), mode='bilinear', align_corners=True)
             scaled_logits += torch.softmax(logits, dim=1)
 
-            scaled_images = torch.flip(scaled_images, dims=(3,))
-            logits = model(scaled_images)
-            logits = torch.flip(logits, dims=(3,))
-            logits = F.interpolate(logits, size=labels.shape[-2:], mode='bilinear', align_corners=True)
-            scaled_logits += torch.softmax(logits, dim=1)
+            if flip:
+                scaled_images = torch.flip(scaled_images, dims=(3,))
+                logits = model(scaled_images)
+                logits = torch.flip(logits, dims=(3,))
+                logits = F.interpolate(logits, size=(H, W), mode='bilinear', align_corners=True)
+                scaled_logits += torch.softmax(logits, dim=1)
 
         preds = scaled_logits.argmax(dim=1)
-        keep = labels != dataloader.dataset.ignore_label
+        keep = labels != ignore_label
 
         hist += torch.bincount(labels[keep] * n_classes + preds[keep], minlength=n_classes**2).view(n_classes, n_classes)
     
@@ -77,25 +84,26 @@ def evaluate_msf(model, dataloader, device, scales):
 
 
 def main(cfg):
-    fix_seeds(cfg['TRAIN']['SEED'])
-    setup_cudnn()
-
     device = torch.device(cfg['DEVICE'])
 
-    test_dataset = choose_datasets(cfg['DATASET']['NAME'], root=cfg['DATASET']['ROOT'], split='val', img_size=cfg['EVAL']['IMG_SIZE'])
-    test_loader = DataLoader(test_dataset, batch_size=cfg['EVAL']['BATCH_SIZE'], num_workers=cfg['EVAL']['WORKERS'], pin_memory=True)
+    transform = get_val_transform(cfg['EVAL']['IMAGE_SIZE'])
+    dataset = get_dataset(cfg['DATASET']['NAME'], cfg['DATASET']['ROOT'], 'val', transform)
+    dataloader = DataLoader(dataset, 1, num_workers=1, pin_memory=True)
 
-    model = choose_models(cfg['MODEL']['NAME'], cfg['MODEL']['VARIANT'], test_dataset.n_classes, cfg['EVAL']['IMG_SIZE'])
-    model.load_state_dict(torch.load(cfg['TRAINED_MODEL'], map_location='cpu'))
+    model_path = Path(cfg['MODEL_PATH'])
+    if not model_path.exists(): model_path = Path(cfg['SAVE_DIR']) / f"{cfg['MODEL']['NAME']}_{cfg['MODEL']['VARIANT']}_{cfg['DATASET']['NAME']}.pth"
+
+    model = get_model(cfg['MODEL']['NAME'], cfg['MODEL']['VARIANT'], dataset.n_classes)
+    model.load_state_dict(torch.load(str(model_path), map_location='cpu')['state_dict'], strict=False)
     model = model.to(device)
 
-    if cfg['EVAL']['MSF']:
-        ious, miou = evaluate_msf(model, test_loader, device, cfg['EVAL']['SCALES'])
+    if cfg['EVAL']['MSF']['ENABLE']:
+        ious, miou = evaluate_msf(model, dataloader, device, cfg['EVAL']['MSF']['SCALES'], cfg['EVAL']['MSF']['FLIP'])
     else:
-        ious, miou = evaluate(model, test_loader, device)
+        ious, miou = evaluate(model, dataloader, device)
 
     table = {
-        'Class': list(test_dataset.CLASSES),
+        'Class': list(dataset.CLASSES),
         'IoU': ious
     }
 
@@ -111,4 +119,5 @@ if __name__ == '__main__':
     with open(args.cfg) as f:
         cfg = yaml.load(f, Loader=yaml.FullLoader)
 
+    setup_cudnn()
     main(cfg)

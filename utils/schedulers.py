@@ -97,7 +97,7 @@ __all__ = ['polylr', 'warmuppolylr', 'warmupcosinelr', 'warmupsteplr']
 def get_scheduler(scheduler_name: str, optimizer, max_iter: int, power: int, warmup_iter: int, warmup_ratio: float, milestones: list = None):
     assert scheduler_name in __all__, f"Unavailable scheduler name >> {scheduler_name}.\nAvailable schedulers: {__all__}"
     if scheduler_name == 'warmuppolylr':
-        return WarmupPolyLR(optimizer, power, max_iter, warmup_iter, warmup_ratio)
+        return WarmupPolyLR(optimizer, power, max_iter, warmup_iter, warmup_ratio, warmup='linear')
     elif scheduler_name == 'warmupcosinelr':
         return WarmupCosineLR(optimizer, max_iter, warmup_iter=warmup_iter, warmup_ratio=warmup_ratio)
     elif scheduler_name == 'warmupsteplr':

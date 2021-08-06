@@ -1,5 +1,6 @@
 # <div align="center">Semantic, Panoptic, Entity Segmentation</div>
-<p align="center"> A collection of SOTA Semantic, Panoptic & Entity Segmentation Models implemented in PyTorch</p>
+
+![banner](assests/banner.jpg)
 
 ## <div align="center">Model Zoo</div>
 
@@ -7,7 +8,6 @@
 [volo]: https://arxiv.org/abs/2106.13112v1
 [maskformer]: https://arxiv.org/abs/2107.06278v1
 [openworld]: https://arxiv.org/abs/2107.14228
-[shuffle]: https://arxiv.org/abs/2106.03650
 [cswin]: https://arxiv.org/abs/2107.00652
 
 [mit]: https://drive.google.com/drive/folders/1b7bwrInTW4VLEm27YawHOAMSMikga2Ia?usp=sharing
@@ -33,9 +33,6 @@ Method | Backbone | mIoU <br><sup>(%) | Params <br><sup>(M) | GFLOPs<br><sup>(51
 [MaskFormer][maskformer] | Swin-T | 48.8 | 42 | 55 | N/A
 | | Swin-S | 51.0 | 63 | 79 | N/A
 ||
-[Shuffle][shuffle] | Shuffle-T | 47.6 | 60 | - | N/A
-| | Shuffle-S | 49.6 | 81 | - | N/A
-| | Shuffle-B | 50.5 | 121 | - | N/A
 [CSWin][cswin] | CSWin-T | 50.4 | 60 | - | N/A
 | | CSWin-S | 50.8 | 65 | - | N/A
 | | CSWin-B | 51.7 | 109 | - | N/A
@@ -97,7 +94,7 @@ Method | Backbone | Entity AP | Mask Rescore | Pretrained
 [atr]: https://github.com/lemondan/HumanParsing-Dataset
 [pascalcontext]: https://cs.stanford.edu/~roozbeh/pascal-context/
 
-Dataset | Type | Categories | Train <br>Images | Val<br>Images | Test<br>Images
+Dataset | Type | Categories | Train <br><sup>Images | Val<br><sup>Images | Test<br><sup>Images
 --- | --- | --- | --- | --- | ---
 [ADE20K][ade20k] | Indoor Scene Parsing | 150 | 20,210 | 2,000 | 3,352
 [CityScapes][cityscapes] | Street Scene Parsing | 19 | 2,975 | 500 | 1,525<sup>+labels
@@ -116,7 +113,7 @@ Dataset | Type | Categories | Train <br>Images | Val<br>Images | Test<br>Images
 Datasets should have the following structure:
 
 ```
-datasets
+data
 |__ ADEChallenge
     |__ ADEChallengeData2016
         |__ images
@@ -148,6 +145,11 @@ datasets
         |__ VOC2010
             |__ JPEGImages
             |__ train_val_merged.json
+            |__ SegmentationClassContext
+            |__ ImageSets
+                |__ SegmentationContext
+                    |__ train.txt
+                    |__ val.txt
     
     |__ COCO
         |__ images

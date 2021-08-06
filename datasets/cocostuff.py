@@ -240,10 +240,10 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
     from torchvision import transforms as T
     from torchvision.utils import make_grid
-    from augmentations import Compose, Resize, Normalize
+    from transforms import Compose, RandomResizedCrop, Normalize
 
     root = 'C:\\Users\\sithu\\Documents\\Datasets\\COCO'
-    transform = Compose([Resize((480, 640)), Normalize()])
+    transform = Compose([RandomResizedCrop((512, 512)), Normalize()])
 
     dataset = COCOStuff(root, split="train", transform=transform)
     dataloader = DataLoader(dataset, shuffle=True, batch_size=4)

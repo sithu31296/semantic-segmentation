@@ -13,7 +13,7 @@ class CIHP(Dataset):
     5000 val images
     """
     CLASSES = ['background', 'hat', 'hair', 'glove', 'sunglasses', 'upperclothes', 'dress', 'coat', 'socks', 'pants', 'jumpsuits', 'scarf', 'skirt', 'face', 'left-arm', 'right-arm', 'left-leg', 'right-leg', 'left-shoe', 'right-shoe']
-    PALETTE = torch.tensor([[0, 0, 0], [127, 0, 0], [254, 0, 0], [0, 84, 0], [169, 0, 50], [254, 84, 0], [255, 0, 84], [0, 118, 220], [84, 84, 0], [0, 84, 84], [84, 50, 0], [51, 85, 127], [0, 127, 0], [0, 0, 254], [50, 169, 220], [0, 254, 254], [84, 254, 169], [169, 254, 84], [254, 254, 0], [254, 169, 0]])
+    PALETTE = torch.tensor([[120, 120, 120], [127, 0, 0], [254, 0, 0], [0, 84, 0], [169, 0, 50], [254, 84, 0], [255, 0, 84], [0, 118, 220], [84, 84, 0], [0, 84, 84], [84, 50, 0], [51, 85, 127], [0, 127, 0], [0, 0, 254], [50, 169, 220], [0, 254, 254], [84, 254, 169], [169, 254, 84], [254, 254, 0], [254, 169, 0]])
 
     def __init__(self, root: str, split: str = 'train', transform = None) -> None:
         super().__init__()
@@ -53,10 +53,10 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
     from torchvision import transforms as T
     from torchvision.utils import make_grid
-    from augmentations import Compose, Resize, Normalize
+    from transforms import Compose, RandomResizedCrop, Normalize
 
     root = 'C:\\Users\\sithu\\Documents\\Datasets\\LIP\\CIHP'
-    transform = Compose([Resize((480, 640)), Normalize()])
+    transform = Compose([RandomResizedCrop((512, 512)), Normalize()])
 
     dataset = CIHP(root, split="val", transform=transform)
     dataloader = DataLoader(dataset, shuffle=True, batch_size=4)

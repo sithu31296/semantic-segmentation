@@ -1,8 +1,8 @@
 import torch
 from torch import nn, Tensor
 from torch.nn import functional as F
-from backbones.mit import MiT
-from heads.segformerhead import SegFormerHead
+from .backbones.mit import MiT
+from .heads.segformerhead import SegFormerHead
 
 
 head_settings = {
@@ -14,11 +14,11 @@ head_settings = {
     'B5': 768
 }
 
+
 class SegFormer(nn.Module):
-    def __init__(self, model_name: str = 'B0', num_classes: int = 19, image_size: int = 224) -> None:
+    def __init__(self, model_name: str = 'B0', num_classes: int = 19) -> None:
         super().__init__()
-        self.image_size = image_size
-        self.backbone = MiT(model_name, image_size)
+        self.backbone = MiT(model_name)
         self.decode_head = SegFormerHead(self.backbone.embed_dims, head_settings[model_name], num_classes)
 
     def init_weights(self, pretrained: str = None) -> None:
@@ -40,16 +40,16 @@ class SegFormer(nn.Module):
 
 
     def forward(self, x: Tensor) -> Tensor:
-        outs = self.backbone(x)
-        y = self.decode_head(outs)   # 4x reduction in image size
-        y = F.interpolate(y, size=self.image_size, mode='bilinear', align_corners=False)    # to original image shape
+        y = self.backbone(x)
+        y = self.decode_head(y)   # 4x reduction in image size
+        y = F.interpolate(y, size=x.shape[2:], mode='bilinear', align_corners=False)    # to original image shape
         return y
 
 
 if __name__ == '__main__':
-    model = SegFormer('B0', 19, 1024)
+    model = SegFormer('B0', 19)
     model.load_state_dict(torch.load('checkpoints/pretrained/segformer/segformer.b0.1024x1024.city.160k.pth', map_location='cpu')['state_dict'], strict=False)
-    x = torch.zeros(1, 3, 1024, 1024)
+    x = torch.zeros(1, 3, 512, 512)
     y = model(x)
     print(y.shape)
         
