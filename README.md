@@ -95,22 +95,33 @@ Method | Backbone | Entity AP | Mask Rescore | Pretrained
 [pascalcontext]: https://cs.stanford.edu/~roozbeh/pascal-context/
 [pcannos]: https://drive.google.com/file/d/1hOQnuTVYE9s7iRdo-6iARWkN2-qCAoVz/view?usp=sharing
 [suim]: http://irvlab.cs.umn.edu/resources/suim-dataset
+[mv]: https://www.mapillary.com/dataset/vistas
+[apolloscape]: http://apolloscape.auto/scene.html
+[d2s]: https://www.mvtec.com/company/research/datasets/mvtec-d2s/
 
-Dataset | Type | Categories | Train <br><sup>Images | Val<br><sup>Images | Test<br><sup>Images
---- | --- | --- | --- | --- | ---
-[ADE20K][ade20k] | Indoor Scene Parsing | 150 | 20,210 | 2,000 | 3,352
-[CityScapes][cityscapes] | Street Scene Parsing | 19 | 2,975 | 500 | 1,525<sup>+labels
-[CamVid][camvid] | Street Scene Parsing | 11+1 | 367 | 101 | 233<sup>+labels
-[PASCALContext][pascalcontext] | General Scene Parsing | 59 | 4,996 | 5,104 | 9,637
-[COCO-Stuff][cocostuff] | General Scene Parsing | 171 | 118,000 | 5,000 | 20,000
-[MHPv1][mhp] | Multi-Human Parsing | 18+1 | 3,000 | 1,000 | 980<sup>+labels
-[MHPv2][mhp] | Multi-Human Parsing | 58+1 | 15,403 | 5,000 | 5,000
-[LIP][lip] | Multi-Human Parsing | 19+1 | 30,462 | 10,000 | -
-[CIHP][lip] | Multi-Human Parsing | 19+1 | 28,280 | 5,000 | -
-[ATR][atr] | Single-Human Parsing | 17+1 | 16,000 | 700 | 1,000<sup>+labels
-[SUIM][suim] | Underwater Imagery | 8 | 1,525 | - | 110<sup>+labels
+Dataset | Type | Categories | Train <br><sup>Images | Val<br><sup>Images | Test<br><sup>Images | Image Size<br><sup>(HxW)
+--- | --- | --- | --- | --- | --- | ---
+[COCO-Stuff][cocostuff] | General Scene Parsing | 171 | 118,000 | 5,000 | 20,000 | -
+[PASCALContext][pascalcontext] | General Scene Parsing | 59 | 4,996 | 5,104 | 9,637 | -
+||
+[ADE20K][ade20k] | Indoor Scene Parsing | 150 | 20,210 | 2,000 | 3,352 | -
+||
+[Mapillary Vistas][mv]^ | Street Scene Parsing | 124 | 18,000 | 2,000 | 5,000 | 1080x1920
+[ApolloScape][apolloscape]^ | Street Scene Parsing | 22 | - | - | - | -
+[CityScapes][cityscapes] | Street Scene Parsing | 19 | 2,975 | 500 | 1,525<sup>+labels | 1024x2048
+[CamVid][camvid] | Street Scene Parsing | 11+1 | 367 | 101 | 233<sup>+labels | 720x960
+||
+[MHPv2][mhp] | Multi-Human Parsing | 58+1 | 15,403 | 5,000 | 5,000 | -
+[MHPv1][mhp] | Multi-Human Parsing | 18+1 | 3,000 | 1,000 | 980<sup>+labels | -
+[LIP][lip] | Multi-Human Parsing | 19+1 | 30,462 | 10,000 | - | -
+[CIHP][lip] | Multi-Human Parsing | 19+1 | 28,280 | 5,000 | - | -
+[ATR][atr] | Single-Human Parsing | 17+1 | 16,000 | 700 | 1,000<sup>+labels | -
+||
+[D2S][d2s]^ | Groceries | 60 | 4,380 | 3,600 | 13,020 | -
+[SUIM][suim] | Underwater Imagery | 8 | 1,525 | - | 110<sup>+labels | -
 
-> Note: `+1` means '+background class'.
+
+> Note: `+1` means '+background class'. `^` means coming soon.
 
 <details>
   <summary>Datasets Structure</summary>
