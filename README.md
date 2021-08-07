@@ -93,19 +93,22 @@ Method | Backbone | Entity AP | Mask Rescore | Pretrained
 [lip]: http://sysu-hcp.net/lip/index.php
 [atr]: https://github.com/lemondan/HumanParsing-Dataset
 [pascalcontext]: https://cs.stanford.edu/~roozbeh/pascal-context/
+[pcannos]: https://drive.google.com/file/d/1hOQnuTVYE9s7iRdo-6iARWkN2-qCAoVz/view?usp=sharing
 
 Dataset | Type | Categories | Train <br><sup>Images | Val<br><sup>Images | Test<br><sup>Images
 --- | --- | --- | --- | --- | ---
 [ADE20K][ade20k] | Indoor Scene Parsing | 150 | 20,210 | 2,000 | 3,352
 [CityScapes][cityscapes] | Street Scene Parsing | 19 | 2,975 | 500 | 1,525<sup>+labels
-[CamVid][camvid] | Street Scene Parsing | 12 | 367 | 101 | 233<sup>+labels
-[PASCALContext][pascalcontext] | General Scene Parsing | 60 | 10,103 | - | 9,637
+[CamVid][camvid] | Street Scene Parsing | 11+1 | 367 | 101 | 233<sup>+labels
+[PASCALContext][pascalcontext] | General Scene Parsing | 59 | 4,996 | 5,104 | 9,637
 [COCO-Stuff][cocostuff] | General Scene Parsing | 171 | 118,000 | 5,000 | 20,000
-[MHPv1][mhp] | Multi-Human Parsing | 19 | 3,000 | 1,000 | 980<sup>+labels
-[MHPv2][mhp] | Multi-Human Parsing | 59 | 15,403 | 5,000 | 5,000
-[LIP][lip] | Multi-Human Parsing | 20 | 30,462 | 10,000 | -
-[CIHP][lip] | Multi-Human Parsing | 20 | 28,280 | 5,000 | -
-[ATR][atr] | Single-Human Parsing | 18 | 16,000 | 700 | 1,000<sup>+labels
+[MHPv1][mhp] | Multi-Human Parsing | 18+1 | 3,000 | 1,000 | 980<sup>+labels
+[MHPv2][mhp] | Multi-Human Parsing | 58+1 | 15,403 | 5,000 | 5,000
+[LIP][lip] | Multi-Human Parsing | 19+1 | 30,462 | 10,000 | -
+[CIHP][lip] | Multi-Human Parsing | 19+1 | 28,280 | 5,000 | -
+[ATR][atr] | Single-Human Parsing | 17+1 | 16,000 | 700 | 1,000<sup>+labels
+
+> Note: `+1` means '+background class'.
 
 <details>
   <summary>Datasets Structure</summary>
@@ -144,7 +147,6 @@ data
     |__ VOCdevkit
         |__ VOC2010
             |__ JPEGImages
-            |__ train_val_merged.json
             |__ SegmentationClassContext
             |__ ImageSets
                 |__ SegmentationContext
@@ -197,6 +199,8 @@ data
                 |__ SegmentationClassAug
 
 ```
+
+> Note: For PASCALContext, download the annotations from [here](pcannos) and put it in VOC2010.
 
 </details>
 
