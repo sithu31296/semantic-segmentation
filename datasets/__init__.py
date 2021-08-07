@@ -8,6 +8,7 @@ from .cihp import CIHP
 from .atr import ATR
 from .pascalcontext import PASCALContext
 from .cocostuff import COCOStuff
+from .suim import SUIM
 
 __all__ = {
     'camvid': CamVid,
@@ -19,7 +20,8 @@ __all__ = {
     'cihp': CIHP,
     'atr': ATR,
     'pascalconteext': PASCALContext,
-    'cocostuff': COCOStuff
+    'cocostuff': COCOStuff,
+    'suim': SUIM
 }
 
 

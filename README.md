@@ -94,6 +94,7 @@ Method | Backbone | Entity AP | Mask Rescore | Pretrained
 [atr]: https://github.com/lemondan/HumanParsing-Dataset
 [pascalcontext]: https://cs.stanford.edu/~roozbeh/pascal-context/
 [pcannos]: https://drive.google.com/file/d/1hOQnuTVYE9s7iRdo-6iARWkN2-qCAoVz/view?usp=sharing
+[suim]: http://irvlab.cs.umn.edu/resources/suim-dataset
 
 Dataset | Type | Categories | Train <br><sup>Images | Val<br><sup>Images | Test<br><sup>Images
 --- | --- | --- | --- | --- | ---
@@ -107,6 +108,7 @@ Dataset | Type | Categories | Train <br><sup>Images | Val<br><sup>Images | Test<
 [LIP][lip] | Multi-Human Parsing | 19+1 | 30,462 | 10,000 | -
 [CIHP][lip] | Multi-Human Parsing | 19+1 | 28,280 | 5,000 | -
 [ATR][atr] | Single-Human Parsing | 17+1 | 16,000 | 700 | 1,000<sup>+labels
+[SUIM][suim] | Underwater Imagery | 8 | 1,525 | - | 110<sup>+labels
 
 > Note: `+1` means '+background class'.
 
@@ -198,6 +200,13 @@ data
                 |__ JPEGImages
                 |__ SegmentationClassAug
 
+    |__ SUIM
+        |__ train_val
+            |__ images
+            |__ masks
+        |__ TEST
+            |__ images
+            |__ masks
 ```
 
 > Note: For PASCALContext, download the annotations from [here](pcannos) and put it in VOC2010.
