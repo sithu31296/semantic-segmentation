@@ -4,6 +4,9 @@
 
 ## <div align="center">Model Zoo</div>
 
+[stdc]: https://openaccess.thecvf.com/content/CVPR2021/papers/Fan_Rethinking_BiSeNet_for_Real-Time_Semantic_Segmentation_CVPR_2021_paper.pdf
+[ddrnet]: https://arxiv.org/abs/2101.06085
+
 [segformer]: https://arxiv.org/abs/2105.15203v2
 [volo]: https://arxiv.org/abs/2106.13112v1
 [maskformer]: https://arxiv.org/abs/2107.06278v1
@@ -45,17 +48,36 @@ Method | Backbone | mIoU <br><sup>(%) | Params <br><sup>(M) | GFLOPs<br><sup>(51
 <details>
   <summary>Semantic Segmentation on CityScapes-val (click to expand)</summary>
 
-Method | Backbone | mIoU <br><sup>(%) | Params <br><sup>(M) | GFLOPs<br><sup>(1024x1024) | Pretrained
---- | --- | --- | --- | --- | ---
-[SegFormer][segformer] | [MiT-B0][mit] | 78.1 | 4 | 126 | [download][segformerw]
+Method<br><sup>(Image Size) | Backbone | mIoU <br><sup>(%) | Params <br><sup>(M) | GFLOPs | Pretrained
+--- | --- | --- | --- | --- | --- 
+[SegFormer][segformer]<br>(1024x1024) | [MiT-B0][mit] | 78.1 | 4 | 126 | [download][segformerw]
 | | [MiT-B1][mit] | 80.0 | 14 | 244 | [download][segformerw]
 | | [MiT-B2][mit] | 82.2 | 28 | 717 | [download][segformerw]
 | | [MiT-B3][mit] | 83.3 | 47 | 963 | [download][segformerw]
 | | [MiT-B4][mit] | 83.9 | 64 | 1241 | [download][segformerw]
 | | [MiT-B5][mit] | 84.0 | 85 | 1460 | [download][segformerw]
 ||
-[VOLO][volo] | VOLO-D1 | 83.1 | - | - | N/A
+[VOLO][volo]<br>(1024x1024) | VOLO-D1 | 83.1 | - | - | N/A
 | | VOLO-D4 | 84.3 | - | - | N/A
+||
+[DDRNet][ddrnet]<br>(1024x2048) | DDRNet-23-Slim | 77.8 | 6 | 36 | N/A
+|| DDRNet-23 | 79.5 | 20 | 143 | N/A
+||
+[STDC][stdc]<br>(768x1536) | STDC1 | 74.5 | - | - | N/A
+|| STDC2 | 77.0 | - | - | N/A
+
+</details>
+
+<details>
+  <summary>Semantic Segmentation on CamVid (click to expand)</summary>
+
+Method | Backbone | mIoU <br><sup>(%) | Params <br><sup>(M) | GFLOPs<br><sup>(720x960) | Pretrained
+--- | --- | --- | --- | --- | ---
+[DDRNet][ddrnet] | DDRNet-23-slim | 74.4 | 6 | - | N/A
+|| DDRNet-23 | 76.3 | 20 | - | N/A
+||
+[STDC][stdc] | STDC1 | 73.0 | - | - | N/A
+| | STDC2 | 73.9 | - | - | N/A
 
 </details>
 
@@ -109,7 +131,7 @@ Dataset | Type | Categories | Train <br><sup>Images | Val<br><sup>Images | Test<
 [Mapillary Vistas][mv]^ | Street Scene Parsing | 124 | 18,000 | 2,000 | 5,000 | 1080x1920
 [ApolloScape][apolloscape]^ | Street Scene Parsing | 22 | - | - | - | -
 [CityScapes][cityscapes] | Street Scene Parsing | 19 | 2,975 | 500 | 1,525<sup>+labels | 1024x2048
-[CamVid][camvid] | Street Scene Parsing | 11+1 | 367 | 101 | 233<sup>+labels | 720x960
+[CamVid][camvid] | Street Scene Parsing | 11 | 367 | 101 | 233<sup>+labels | 720x960
 ||
 [MHPv2][mhp] | Multi-Human Parsing | 58+1 | 15,403 | 5,000 | 5,000 | -
 [MHPv1][mhp] | Multi-Human Parsing | 18+1 | 3,000 | 1,000 | 980<sup>+labels | -
