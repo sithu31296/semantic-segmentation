@@ -18,7 +18,7 @@
 [segformerw]: https://drive.google.com/drive/folders/1GAku0G0iR9DsBxCbfENWMJ27c5lYUeQA?usp=sharing
 
 <details open>
-  <summary>Semantic Segmentation on ADE20K-val</summary>
+  <summary><strong>Semantic Segmentation on ADE20K-val</strong></summary>
 
 Method | Backbone | mIoU <br><sup>(%) | Params <br><sup>(M) | GFLOPs<br><sup>(512x512) | Pretrained
 --- | --- | --- | --- | --- | ---
@@ -46,7 +46,7 @@ Method | Backbone | mIoU <br><sup>(%) | Params <br><sup>(M) | GFLOPs<br><sup>(51
 </details>
 
 <details>
-  <summary>Semantic Segmentation on CityScapes-val (click to expand)</summary>
+  <summary><strong>Semantic Segmentation on CityScapes-val</strong> (click to expand)</summary>
 
 Method<br><sup>(Image Size) | Backbone | mIoU <br><sup>(%) | Params <br><sup>(M) | GFLOPs | Pretrained
 --- | --- | --- | --- | --- | --- 
@@ -69,7 +69,7 @@ Method<br><sup>(Image Size) | Backbone | mIoU <br><sup>(%) | Params <br><sup>(M)
 </details>
 
 <details>
-  <summary>Semantic Segmentation on CamVid (click to expand)</summary>
+  <summary><strong>Semantic Segmentation on CamVid</strong> (click to expand)</summary>
 
 Method | Backbone | mIoU <br><sup>(%) | Params <br><sup>(M) | GFLOPs<br><sup>(720x960) | Pretrained
 --- | --- | --- | --- | --- | ---
@@ -82,7 +82,7 @@ Method | Backbone | mIoU <br><sup>(%) | Params <br><sup>(M) | GFLOPs<br><sup>(72
 </details>
 
 <details>
-  <summary>Panoptic Segmentation on COCO panoptic-val (click to expand)</summary>
+  <summary><strong>Panoptic Segmentation on COCO panoptic-val</strong> (click to expand)</summary>
 
 Method | Backbone | PQ | PQ<sup>Th | PQ<sup>St | SQ | RQ | Params <br><sup>(M) | GFLOPs | Pretrained
 --- | --- | --- | --- | --- | --- | --- | --- | --- | ---
@@ -93,7 +93,7 @@ Method | Backbone | PQ | PQ<sup>Th | PQ<sup>St | SQ | RQ | Params <br><sup>(M) |
 </details>
 
 <details>
-  <summary>Entity Segmentation on COCO-val (click to expand)</summary>
+  <summary><strong>Entity Segmentation on COCO-val</strong> (click to expand)</summary>
 
 Method | Backbone | Entity AP | Mask Rescore | Pretrained
 --- | --- | --- | --- | ---
@@ -146,7 +146,7 @@ Dataset | Type | Categories | Train <br><sup>Images | Val<br><sup>Images | Test<
 > Note: `+1` means '+background class'. `^` means coming soon.
 
 <details>
-  <summary>Datasets Structure</summary>
+  <summary><strong>Datasets Structure</strong> (click to expand)</summary>
 
 Datasets should have the following structure:
 
@@ -249,14 +249,14 @@ data
 ## <div align="center">Usage</div>
 
 <details>
-  <summary>Configuration (click to expand)</summary>
+  <summary><strong>Configuration</strong> (click to expand)</summary>
 
 Create a configuration file in `configs`. Sample configuration for CityScapes dataset can be found [here](configs/cityscapes.yaml). Then edit the fields you think if it is needed. This configuration file is needed for all of training, evaluation and prediction scripts.
 
 </details>
 
 <details>
-  <summary>Training (click to expand)</summary>
+  <summary><strong>Training</strong> (click to expand)</summary>
 
 Train with 1 GPU:
 
@@ -274,7 +274,7 @@ $ python -m torch.distributed.launch --nproc_per_node=2 --use_env tools/train.py
 
 
 <details>
-  <summary>Evaluation (click to expand)</summary>
+  <summary><strong>Evaluation</strong> (click to expand)</summary>
 
 Make sure to set `MODEL_PATH` of the configuration file to your trained model directory.
 
@@ -286,7 +286,7 @@ $ python tools/val.py --cfg configs/CONFIG_FILE_NAME.yaml
 
 
 <details>
-  <summary>Inference (click to expand)</summary>
+  <summary><strong>Inference</strong> (click to expand)</summary>
 
 Make sure to set `MODEL_PATH` of the configuration file to model's weights.
 
@@ -297,14 +297,14 @@ $ python tools/infer.py --cfg configs/CONFIG_FILE_NAME.yaml
 </details>
 
 <details>
-  <summary>Optimization (click to expand)</summary>
+  <summary><strong>Optimization</strong> (click to expand)</summary>
 
 For optimizing these models for deployment, see [torch_optimize](https://github.com/sithu31296/torch_optimize).
 
 </details>
 
 <details>
-  <summary>References (click to expand)</summary>
+  <summary><strong>References</strong> (click to expand)</summary>
 
 
 
