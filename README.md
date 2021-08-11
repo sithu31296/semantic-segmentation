@@ -120,13 +120,17 @@ Method | Backbone | Entity AP | Mask Rescore | Pretrained
 [mv]: https://www.mapillary.com/dataset/vistas
 [apolloscape]: http://apolloscape.auto/scene.html
 [d2s]: https://www.mvtec.com/company/research/datasets/mvtec-d2s/
+[nyudepthv2]: https://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html
+[sunrgbd]: https://rgbd.cs.princeton.edu/
 
 Dataset | Type | Categories | Train <br><sup>Images | Val<br><sup>Images | Test<br><sup>Images | Image Size<br><sup>(HxW)
 --- | --- | --- | --- | --- | --- | ---
 [COCO-Stuff][cocostuff] | General Scene Parsing | 171 | 118,000 | 5,000 | 20,000 | -
+[ADE20K][ade20k] | General Scene Parsing | 150 | 20,210 | 2,000 | 3,352 | -
 [PASCALContext][pascalcontext] | General Scene Parsing | 59 | 4,996 | 5,104 | 9,637 | -
 ||
-[ADE20K][ade20k] | Indoor Scene Parsing | 150 | 20,210 | 2,000 | 3,352 | -
+[SUN RGB-D][sunrgbd]^ | Indoor Scene Parsing | - | 10,335 | - | - | -
+[NYU-Depthv2][nyudepthv2]^ | Indoor Scene Parsing | - | 1449 | - | - | -
 ||
 [Mapillary Vistas][mv]^ | Street Scene Parsing | 124 | 18,000 | 2,000 | 5,000 | 1080x1920
 [ApolloScape][apolloscape]^ | Street Scene Parsing | 22 | - | - | - | -
@@ -142,8 +146,9 @@ Dataset | Type | Categories | Train <br><sup>Images | Val<br><sup>Images | Test<
 [D2S][d2s]^ | Groceries | 60 | 4,380 | 3,600 | 13,020 | -
 [SUIM][suim] | Underwater Imagery | 8 | 1,525 | - | 110<sup>+labels | -
 
-
 > Note: `+1` means '+background class'. `^` means coming soon.
+
+Check [DATASETS](./DATASETS.md) to find more segmentation datasets.
 
 <details>
   <summary><strong>Datasets Structure</strong> (click to expand)</summary>
