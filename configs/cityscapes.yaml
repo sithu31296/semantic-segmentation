@@ -1,46 +1,51 @@
-DEVICE: cpu                               # device used for training and evaluation (cpu, cuda, cuda0, cuda1, ...)
-SAVE_DIR: 'output'                        # output folder name used for saving the model, logs and inference results
-MODEL_PATH: 'checkpoints/pretrained/segformer/segformer.b3.1024x1024.city.160k.pth'        # trained model file path
+DEVICE          : cpu              # device used for training and evaluation (cpu, cuda, cuda0, cuda1, ...)
+SAVE_DIR        : 'output'         # output folder name used for saving the model, logs and inference results
 
 MODEL:                                    
-  NAME: segformer                         # name of the model you are using
-  VARIANT: B3                             # model variant
-  PRETRAINED: 'checkpoints/backbone/mit/mit_b3.pth'  # backbone model's weight 
+  NAME          : segformer                                           # name of the model you are using
+  VARIANT       : B0                                                  # model variant
+  PRETRAINED    : 'checkpoints/backbones/mit/mit_b0.pth'              # backbone model's weight 
 
 DATASET:
-  NAME: cityscapes                        # dataset name to be trained with (camvid, cityscapes, ade20k)
-  ROOT: 'data/CityScapes'                 # dataset root path
+  NAME          : cityscapes                                          # dataset name to be trained with (camvid, cityscapes, ade20k)
+  ROOT          : 'data/CityScapes'                                   # dataset root path
 
 TRAIN:
-  IMAGE_SIZE: [1024, 1024]                # training image size in (h, w)
-  EPOCHS: 500                             # number of epochs to train
-  BATCH_SIZE: 8                           # batch size used to train
-  WORKERS: 8                              # number of workers used in training dataloader
-  LOSS:
-    NAME: ohemce                          # loss function name (ohemce, ce, dice)
-    CLS_WEIGHTS: true                     # use class weights in loss calculation
-    THRESH: 0.7                           # ohemce threshold or dice delta if you choose ohemce loss or dice loss
-  OPTIMIZER:
-    NAME: adamw                           # optimizer name
-    LR: 1e-3                              # initial learning rate used in optimizer
-    WEIGHT_DECAY: 0.01                    # decay rate used in optimizer                   
-  SCHEDULER:
-    NAME: warmuppolylr                    # scheduler name
-    POWER: 0.9                            # scheduler power
-    WARMUP: 10                            # warmup epochs used in scheduler
-    WARMUP_RATIO: 0.1                     # warmup ratio
-  EVAL_INTERVAL: 50                       # evaluation interval during training
-  AMP: false                              # use AMP in training
-  DDP: false                              # use DDP training
+  IMAGE_SIZE    : [1024, 1024]    # training image size in (h, w)
+  BATCH_SIZE    : 8               # batch size used to train
+  EPOCHS        : 500             # number of epochs to train
+  EVAL_INTERVAL : 20              # evaluation interval during training
+  AMP           : true            # use AMP in training
+  DDP           : false           # use DDP training
+
+LOSS:
+  NAME          : ohemce          # loss function name (ohemce, ce, dice)
+  CLS_WEIGHTS   : true            # use class weights in loss calculation
+  THRESH        : 0.7             # ohemce threshold or dice delta if you choose ohemce loss or dice loss
+
+OPTIMIZER:
+  NAME          : adamw           # optimizer name
+  LR            : 0.001           # initial learning rate used in optimizer
+  WEIGHT_DECAY  : 0.01            # decay rate used in optimizer 
+
+SCHEDULER:
+  NAME          : warmuppolylr    # scheduler name
+  POWER         : 0.9             # scheduler power
+  WARMUP        : 10              # warmup epochs used in scheduler
+  WARMUP_RATIO  : 0.1             # warmup ratio
+  
 
 EVAL:
-  IMAGE_SIZE: [1024, 1024]                # evaluation image size in (h, w)                       
+  MODEL_PATH    : 'output/segformer_B0_citycapes.pth'     # trained model file path
+  IMAGE_SIZE    : [1024, 1024]                            # evaluation image size in (h, w)                       
   MSF: 
-    ENABLE: false                         # multi-scale and flip evaluation  
-    FLIP: true                            # use flip in evaluation  
-    SCALES: [0.5, 0.75, 1.0, 1.25, 1.5, 1.75]  # scales used in MSF evaluation                
+    ENABLE      : false                                   # multi-scale and flip evaluation  
+    FLIP        : true                                    # use flip in evaluation  
+    SCALES      : [0.5, 0.75, 1.0, 1.25, 1.5, 1.75]       # scales used in MSF evaluation                
+
 
 TEST:
-  MODE: image                             # inference mode (image, video, webcam)
-  FILE: 'assests/cityscapes'              # filename or foldername (image mode), video name (video mode), 0 (webcam mode)
-  IMAGE_SIZE: [1024, 1024]                # inference image size in (h, w)
+  MODEL_PATH    : 'output/segformer_B0_cityscapes.pth'    # trained model file path
+  FILE          : 'assests/cityscapes'                    # filename or foldername 
+  IMAGE_SIZE    : [1024, 1024]                            # inference image size in (h, w)
+  OVERLAY       : true                                    # save the overlay result (image_alpha+label_alpha)

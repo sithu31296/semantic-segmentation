@@ -343,13 +343,13 @@ __all__ = [
 
 def get_train_transform(size: Union[int, Tuple[int], List[int]], seg_fill: int = 0):
     return Compose([
-        ColorJitter(brightness=0.5, contrast=0.5, saturation=0.5, hue=0.5),
-        RandomAdjustSharpness(sharpness_factor=0.1, p=0.5),
-        RandomAutoContrast(p=0.5),
+        # ColorJitter(brightness=0.5, contrast=0.5, saturation=0.5, hue=0.5),
+        # RandomAdjustSharpness(sharpness_factor=0.1, p=0.5),
+        # RandomAutoContrast(p=0.5),
         RandomHorizontalFlip(p=0.5),
-        RandomVerticalFlip(p=0.5),
-        RandomGaussianBlur((3, 3), p=0.5),
-        RandomGrayscale(p=0.5),
+        # RandomVerticalFlip(p=0.5),
+        # RandomGaussianBlur((3, 3), p=0.5),
+        # RandomGrayscale(p=0.5),
         RandomRotation(degrees=10, p=0.2, seg_fill=seg_fill),
         RandomResizedCrop(size, scale=(0.5, 2.0), seg_fill=seg_fill),
         Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))

@@ -8,8 +8,8 @@ from typing import Tuple
 
 class CamVid(Dataset):
     """
-    num_classes: 11+unlabelled
-    all_num_classes: 31+unlabelled
+    num_classes: 11
+    all_num_classes: 31
     """
     CLASSES = ['Sky', 'Building', 'Pole', 'Road', 'Pavement', 'Tree', 'SignSymbol', 'Fence', 'Car', 'Pedestrian', 'Bicyclist']
     CLASSES_ALL = ['Wall', 'Animal', 'Archway', 'Bicyclist', 'Bridge', 'Building', 'Car', 'CarLuggage', 'Child', 'Pole', 'Fence', 'LaneDrive', 'LaneNonDrive', 'MiscText', 'Motorcycle/Scooter', 'OtherMoving', 'ParkingBlock', 'Pedestrian', 'Road', 'RoadShoulder', 'Sidewalk', 'SignSymbol', 'Sky', 'SUV/PickupTruck', 'TrafficCone', 'TrafficLight', 'Train', 'Tree', 'Truck/Bus', 'Tunnel', 'VegetationMisc']
@@ -22,7 +22,7 @@ class CamVid(Dataset):
         self.split = split
         self.transform = transform
         self.n_classes = len(self.CLASSES)
-        self.ignore_label = 255
+        self.ignore_label = -1
 
         img_path = Path(root) / split
         self.files = list(img_path.glob("*.png"))
@@ -44,16 +44,16 @@ class CamVid(Dataset):
         
         if self.transform:
             image, label = self.transform(image, label)
-        return image, self.encode(label).long()
+        return image, self.encode(label).long() - 1
 
     def encode(self, label: Tensor) -> Tensor:
         label = label.permute(1, 2, 0)
-        mask = torch.ones(label.shape[:-1]) * 255
+        mask = torch.zeros(label.shape[:-1])
 
         for index, color in enumerate(self.PALETTE):
             bool_mask = torch.eq(label, color)
             class_map = torch.all(bool_mask, dim=-1)
-            mask[class_map] = index
+            mask[class_map] = index + 1
         return mask
     
     def decode(self, label: Tensor) -> Tensor:
@@ -74,7 +74,7 @@ if __name__ == '__main__':
     image, label = next(iter(dataloader))
     print(image.shape, label.shape)
     print(label.unique())
-    label[label == 255] = 0
+    label[label == -1] = 0
     labels = [dataset.decode(lbl).permute(2, 0, 1) for lbl in label]
     labels = torch.stack(labels)
 

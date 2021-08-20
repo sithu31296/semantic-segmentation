@@ -12,7 +12,6 @@ from torch import distributed as dist
 
 
 def fix_seeds(seed: int = 123) -> None:
-    seed += dist.get_rank()
     torch.manual_seed(seed)
     torch.cuda.manual_seed(seed)
     np.random.seed(seed)
@@ -47,21 +46,21 @@ def test_model_latency(model: nn.Module, inputs: torch.Tensor, use_cuda: bool = 
 def count_parameters(model: nn.Module) -> float:
     return sum(p.numel() for p in model.parameters() if p.requires_grad) / 1e6      # in M
 
-def setup_ddp() -> None:
+def setup_ddp() -> int:
     if 'RANK' in os.environ and 'WORLD_SIZE' in os.environ:
         rank = int(os.environ['RANK'])
         world_size = int(os.environ['WORLD_SIZE'])
         gpu = int(os.environ(['LOCAL_RANK']))
+        torch.cuda.set_device(gpu)
+        dist.init_process_group('nccl', init_method="env://",world_size=world_size, rank=rank)
+        dist.barrier()
     else:
-        rank, world_size, gpu = 0, 1, 0
-
-    torch.cuda.set_device(gpu)
-    dist.init_process_group('nccl', init_method="env://",world_size=world_size, rank=rank)
-    dist.barrier()
+        gpu = 0
     return gpu
 
 def cleanup_ddp():
-    dist.destroy_process_group()
+    if dist.is_initialized():
+        dist.destroy_process_group()
 
 def reduce_tensor(tensor: Tensor) -> Tensor:
     rt = tensor.clone()

@@ -31,10 +31,9 @@ def evaluate(model, dataloader, device):
 
         logits = model(images)
         logits = F.interpolate(logits, size=labels.shape[-2:], mode='bilinear', align_corners=True)
-        preds = torch.softmax(logits, dim=1)
-        preds = preds.argmax(dim=1)
-        keep = labels != ignore_label
+        preds = logits.softmax(dim=1).argmax(dim=1)
 
+        keep = labels != ignore_label
         hist += torch.bincount(labels[keep] * n_classes + preds[keep], minlength=n_classes**2).view(n_classes, n_classes)
     
     ious = hist.diag() / (hist.sum(0) + hist.sum(1) - hist.diag())
@@ -63,18 +62,17 @@ def evaluate_msf(model, dataloader, device, scales, flip):
             scaled_images = scaled_images.to(device)
             logits = model(scaled_images)
             logits = F.interpolate(logits, size=(H, W), mode='bilinear', align_corners=True)
-            scaled_logits += torch.softmax(logits, dim=1)
+            scaled_logits += logits.softmax(dim=1)
 
             if flip:
                 scaled_images = torch.flip(scaled_images, dims=(3,))
                 logits = model(scaled_images)
                 logits = torch.flip(logits, dims=(3,))
                 logits = F.interpolate(logits, size=(H, W), mode='bilinear', align_corners=True)
-                scaled_logits += torch.softmax(logits, dim=1)
+                scaled_logits += logits.softmax(dim=1)
 
         preds = scaled_logits.argmax(dim=1)
         keep = labels != ignore_label
-
         hist += torch.bincount(labels[keep] * n_classes + preds[keep], minlength=n_classes**2).view(n_classes, n_classes)
     
     ious = hist.diag() / (hist.sum(0) + hist.sum(1) - hist.diag())
@@ -86,19 +84,20 @@ def evaluate_msf(model, dataloader, device, scales, flip):
 def main(cfg):
     device = torch.device(cfg['DEVICE'])
 
-    transform = get_val_transform(cfg['EVAL']['IMAGE_SIZE'])
+    eval_cfg = cfg['EVAL']
+    transform = get_val_transform(eval_cfg['IMAGE_SIZE'])
     dataset = get_dataset(cfg['DATASET']['NAME'], cfg['DATASET']['ROOT'], 'val', transform)
     dataloader = DataLoader(dataset, 1, num_workers=1, pin_memory=True)
 
-    model_path = Path(cfg['MODEL_PATH'])
+    model_path = Path(eval_cfg['MODEL_PATH'])
     if not model_path.exists(): model_path = Path(cfg['SAVE_DIR']) / f"{cfg['MODEL']['NAME']}_{cfg['MODEL']['VARIANT']}_{cfg['DATASET']['NAME']}.pth"
 
     model = get_model(cfg['MODEL']['NAME'], cfg['MODEL']['VARIANT'], dataset.n_classes)
-    model.load_state_dict(torch.load(str(model_path), map_location='cpu')['state_dict'], strict=False)
+    model.load_state_dict(torch.load(str(model_path), map_location='cpu'))
     model = model.to(device)
 
-    if cfg['EVAL']['MSF']['ENABLE']:
-        ious, miou = evaluate_msf(model, dataloader, device, cfg['EVAL']['MSF']['SCALES'], cfg['EVAL']['MSF']['FLIP'])
+    if eval_cfg['MSF']['ENABLE']:
+        ious, miou = evaluate_msf(model, dataloader, device, eval_cfg['MSF']['SCALES'], eval_cfg['MSF']['FLIP'])
     else:
         ious, miou = evaluate(model, dataloader, device)
 
@@ -117,7 +116,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     with open(args.cfg) as f:
-        cfg = yaml.load(f, Loader=yaml.FullLoader)
+        cfg = yaml.load(f, Loader=yaml.SafeLoader)
 
     setup_cudnn()
     main(cfg)

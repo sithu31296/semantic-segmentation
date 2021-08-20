@@ -10,11 +10,10 @@ from torchvision import transforms as T
 import sys
 sys.path.insert(0, '.')
 from models import get_model
-from utils.utils import time_sync
 from datasets import __all__
 
 
-class Model:
+class SemSeg:
     def __init__(self, cfg) -> None:
         # inference device cuda or cpu
         self.device = torch.device(cfg['DEVICE'])
@@ -22,7 +21,7 @@ class Model:
         self.palette = __all__[cfg['DATASET']['NAME']].PALETTE
         # initialize the model and load weights and send to device
         self.model = get_model(cfg['MODEL']['NAME'], cfg['MODEL']['VARIANT'], len(self.palette))
-        self.model.load_state_dict(torch.load(cfg['MODEL_PATH'], map_location='cpu')['state_dict'], strict=False)
+        self.model.load_state_dict(torch.load(cfg['TEST']['MODEL_PATH'], map_location='cpu')['state_dict'], strict=False)
         self.model = self.model.to(self.device)
         self.model.eval()
         # preprocess parameters
@@ -54,27 +53,24 @@ class Model:
 
     def postprocess(self, seg_map: Tensor, orig_size: list) -> Tensor:
         # resize to original image size
-        seg_map = F.interpolate(seg_map, size=orig_size, mode='bilinear', align_corners=False)
+        seg_map = F.interpolate(seg_map, size=orig_size, mode='bilinear', align_corners=True)
         # get segmentation map (value being 0 to num_classes)
-        seg_map = F.softmax(seg_map, dim=1)
-        seg_map = seg_map.argmax(dim=1).to(int)
+        seg_map = seg_map.softmax(dim=1).argmax(dim=1).to(int)
         # convert segmentation map to color map
         seg_map = self.palette[seg_map]
-        return seg_map.squeeze().cpu().permute(2, 0, 1).to(torch.uint8)
-        
+        return seg_map.squeeze().cpu().permute(2, 0, 1)
+
     @torch.no_grad()
-    def predict(self, img_fname: str) -> Tensor:
-        # read the image
+    def model_forward(self, img: Tensor) -> Tensor:
+        return self.model(img)
+        
+    def predict(self, img_fname: str, overlay: bool) -> Tensor:
         image = io.read_image(img_fname)
-        # preprocess the image
         img = self.preprocess(image)
-        # model pass
-        start = time_sync()
-        seg_map = self.model(img)
-        print(f"Model Inference Time: {(time_sync()-start)*1000}ms.")
-        # postprocess the image
+        seg_map = self.model_forward(img)
         seg_map = self.postprocess(seg_map, image.shape[1:])
-        return seg_map
+        if overlay: seg_map = (image * 0.3) + (seg_map * 0.7)
+        return seg_map.to(torch.uint8)
 
 
 if __name__ == '__main__':
@@ -83,29 +79,23 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     with open(args.cfg) as f:
-        cfg = yaml.load(f, Loader=yaml.FullLoader)
+        cfg = yaml.load(f, Loader=yaml.SafeLoader)
 
+    test_file = Path(cfg['TEST']['FILE'])
     save_dir = Path(cfg['SAVE_DIR']) / 'test_results'
     save_dir.mkdir(exist_ok=True)
     
-    model = Model(cfg)
+    semseg = SemSeg(cfg)
 
-    if cfg['TEST']['MODE'] == 'image':
-        test_file = Path(cfg['TEST']['FILE'])
-        if test_file.is_file():
-            print(f'Inferencing {test_file} >>>', end=' ')
-            segmap = model.predict(str(test_file))
-            io.write_png(segmap, str(save_dir / f"{str(test_file.stem)}.png"))
-        
-        else:
-            files = test_file.glob('*.*')
-            for file in files:
-                print(f'Inferencing {file} >>>', end=' ')
-                segmap = model.predict(str(file))
-                io.write_png(segmap, str(save_dir / f"{str(file.stem)}.png"))
-
-    elif cfg['TEST']['MODE'] == 'video':
-        pass
+    if test_file.is_file():
+        print(f'Inferencing {test_file} ...')
+        segmap = semseg.predict(str(test_file), cfg['TEST']['OVERLAY'])
+        io.write_png(segmap, str(save_dir / f"{str(test_file.stem)}.png"))
     else:
-        pass
+        files = test_file.glob('*.*')
+        for file in files:
+            print(f'Inferencing {file} ...')
+            segmap = semseg.predict(str(file), cfg['TEST']['OVERLAY'])
+            io.write_png(segmap, str(save_dir / f"{str(file.stem)}.png"))
 
+    print(f"Results saved in {save_dir}")

@@ -122,3 +122,4 @@
 * [RoadAnomaly21](https://segmentmeifyoucan.com/datasets)
 * [RoadObstacle21](https://segmentmeifyoucan.com/datasets)
 * [HouseExpo](https://github.com/teaganli/houseexpo/)
+* [D2S](https://www.mvtec.com/company/research/datasets/mvtec-d2s/)
