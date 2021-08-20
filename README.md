@@ -4,7 +4,6 @@
 
 ## <div align="center">Model Zoo</div>
 
-[stdc]: https://arxiv.org/abs/2104.13188
 [ddrnet]: https://arxiv.org/abs/2101.06085
 
 [resnet]: https://arxiv.org/abs/1512.03385
@@ -35,7 +34,7 @@ Supported Heads:
 * *CNN*: [UPerNet][upernet], [FaPN][fapn]
 
 Supported Standalone Models:
-* *CNN*: [DDRNet][ddrnet], [STDC][stdc]
+* *CNN*: [DDRNet][ddrnet]
 
 <details open>
   <summary><strong>Semantic Segmentation on ADE20K-val</strong></summary>
@@ -54,27 +53,25 @@ Method<br><sup>(Image Size) | Backbone/Head | mIoU <br><sup>(%) | Params <br><su
 --- | --- | --- | --- | --- | --- | ---
 [SegFormer][segformer]<br>(1024x1024) | MiT/SegFormerHead | 78.1`\|`80.0`\|`82.2`\|`83.3`\|`83.9 | 4`\|`14`\|`28`\|`47`\|`64 | 126`\|`244`\|`717`\|`963`\|`1241 | B0\|B1\|B2\|B3\|B4 | [models][segformerw]\|[backbones][mit]
 [DDRNet][ddrnet]<br>(1024x2048) | DDRNet | 77.8`\|`79.5 | 6`\|`20 | 36`\|`143 | 23slim\|23 | N/A
-[STDC][stdc]<br>(768x1536) | STDC | 74.5`\|`77.0 | - | - | 1\|2 | N/A
 [FaPN][fapn]<br>(768x1536) | ResNet | 75.6 | - | - | 18 | N/A
 
 </details>
 
 <details open>
-  <summary><strong>Semantic Segmentation on COCO-Stuff-10K-val</strong></summary>
-
-Method | Backbone | mIoU <br><sup>(%) | Params <br><sup>(M) | GFLOPs | Variants | Pretrained
---- | --- | --- | --- | --- | --- | ---
-[FaPN][fapn] | ResNet | 28.4`\|`30.3 | - | - | 18\|34 | N/A
-
-</details>
-
-<details open>
-  <summary><strong>Semantic Segmentation on CamVid</strong></summary>
+  <summary><strong>Semantic Segmentation on CamVid-val</strong></summary>
 
 Method | Backbone | mIoU <br><sup>(%) | Params <br><sup>(M) | GFLOPs<br><sup>(720x960) | Variants | Pretrained
 --- | --- | --- | --- | --- | --- | ---
 [DDRNet][ddrnet] | DDRNet | 74.4`\|`76.3 | 6`\|`20 | - | 23slim\|23 | N/A
-[STDC][stdc] | STDC | 73.0`\|`73.9 | - | - | 1\|2 | N/A
+
+</details>
+
+<details open>
+  <summary><strong>Semantic Segmentation on COCO-Stuff-full-val</strong></summary>
+
+Method | Backbone/Head | mIoU <br><sup>(%) | Params <br><sup>(M) | Variants | Pretrained
+--- | --- | --- | --- | --- | --- 
+[SegFormer][segformer] | MiT/SegFormerHead | 46.7 | 85 | B5 | N/A
 
 </details>
 
@@ -102,7 +99,7 @@ Method | Backbone | Entity AP | Mask Rescore | Pretrained
 
 </details>
 
-## <div align="center">SUpported Datasets</div>
+## <div align="center">Supported Datasets</div>
 
 [ade20k]: http://sceneparsing.csail.mit.edu/
 [cityscapes]: https://www.cityscapes-dataset.com/
