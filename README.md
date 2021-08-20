@@ -26,16 +26,16 @@
 
 
 Supported Backbones:
-* **Vision Transformers**: [MiT][segformer], [PVTv2][pvtv2], [ResT][rest]
-* **MLP**: [CycleMLP][cyclemlp]
-* **CNN**: [ResNet][resnet]
+* *Vision Transformers*: [MiT][segformer], [PVTv2][pvtv2], [ResT][rest]
+* *MLP*: [CycleMLP][cyclemlp]
+* *CNN*: [ResNet][resnet]
 
 Supported Heads:
-* **Linear**: [SegFormer][segformer]
-* **CNN**: [UPerNet][upernet], [FaPN][fapn]
+* *Linear*: [SegFormer][segformer]
+* *CNN*: [UPerNet][upernet], [FaPN][fapn]
 
 Supported Standalone Models:
-* **CNN**: [DDRNet][ddrnet], [STDC][stdc]
+* *CNN*: [DDRNet][ddrnet], [STDC][stdc]
 
 <details open>
   <summary><strong>Semantic Segmentation on ADE20K-val</strong></summary>
