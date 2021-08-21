@@ -9,6 +9,8 @@ from .atr import ATR
 from .pascalcontext import PASCALContext
 from .cocostuff import COCOStuff
 from .suim import SUIM
+from .sunrgbd import SunRGBD
+
 
 __all__ = {
     'camvid': CamVid,
@@ -21,7 +23,8 @@ __all__ = {
     'atr': ATR,
     'pascalconteext': PASCALContext,
     'cocostuff': COCOStuff,
-    'suim': SUIM
+    'suim': SUIM,
+    'sunrgbd': SunRGBD
 }
 
 

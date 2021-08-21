@@ -16,6 +16,8 @@
 [upernet]: https://arxiv.org/abs/1807.10221
 [fapn]: https://arxiv.org/abs/2108.07058
 
+[psa]: https://arxiv.org/abs/2107.00782
+
 [maskformer]: https://arxiv.org/abs/2107.06278v1
 [openworld]: https://arxiv.org/abs/2107.14228
 
@@ -36,7 +38,10 @@ Supported Heads:
 * *MLP*: [SegFormer][segformer]
 
 Supported Standalone Models:
-* *CNN*: [DDRNet][ddrnet]
+* [DDRNet][ddrnet]
+
+Supported Modules:
+* [PSA][psa]
 
 <details open>
   <summary><strong>ADE20K</strong></summary>
@@ -126,10 +131,10 @@ Dataset | Type | Categories | Train <br><sup>Images | Val<br><sup>Images | Test<
 [ADE20K][ade20k] | General Scene Parsing | 150 | 20,210 | 2,000 | 3,352 | -
 [PASCALContext][pascalcontext] | General Scene Parsing | 59 | 4,996 | 5,104 | 9,637 | -
 ||
-[SUN RGB-D][sunrgbd]^ | Indoor Scene Parsing | - | 10,335 | - | - | -
+[SUN RGB-D][sunrgbd] | Indoor Scene Parsing | - | 10,335 | - | - | -
 ||
-[Mapillary Vistas][mv]^ | Street Scene Parsing | 124 | 18,000 | 2,000 | 5,000 | 1080x1920
-[ApolloScape][apolloscape]^ | Street Scene Parsing | 22 | 146,997 | - | - | -
+[Mapillary Vistas][mv] | Street Scene Parsing | 124 | 18,000 | 2,000 | 5,000 | 1080x1920
+[ApolloScape][apolloscape] | Street Scene Parsing | 22 | 146,997 | - | - | -
 [CityScapes][cityscapes] | Street Scene Parsing | 19 | 2,975 | 500 | 1,525<sup>+labels | 1024x2048
 [CamVid][camvid] | Street Scene Parsing | 11 | 367 | 101 | 233<sup>+labels | 720x960
 ||
@@ -140,8 +145,6 @@ Dataset | Type | Categories | Train <br><sup>Images | Val<br><sup>Images | Test<
 [ATR][atr] | Single-Human Parsing | 17+1 | 16,000 | 700 | 1,000<sup>+labels | -
 ||
 [SUIM][suim] | Underwater Imagery | 8 | 1,525 | - | 110<sup>+labels | -
-
-> Note: `+1` means '+background class'. `^` means coming soon.
 
 Check [DATASETS](./DATASETS.md) to find more segmentation datasets.
 
@@ -385,6 +388,13 @@ Example test results:
   eprint={2106.13797},
   archivePrefix={arXiv},
   primaryClass={cs.CV}
+}
+
+@article{Liu2021PSA,
+  title={Polarized Self-Attention: Towards High-quality Pixel-wise Regression},
+  author={Huajun Liu and Fuqiang Liu and Xinyi Fan and Dong Huang},
+  journal={Arxiv Pre-Print arXiv:2107.00782 },
+  year={2021}
 }
 
 ```
