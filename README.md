@@ -41,20 +41,20 @@ Supported Standalone Models:
 <details open>
   <summary><strong>ADE20K</strong></summary>
 
-Model | Backbone<br>Head | mIoU (%) | Params (M) | GFLOPs<br><sup>(512x512) | Weights
---- | --- | --- | --- | --- | --- 
-[SegFormer][segformer]<br>B0\|B1\|B2\|B3\|B4 | MiT<br>SegFormerHead | 38.0`\|`43.1`\|`47.5`\|`50.0`\|`51.1 | 4`\|`14`\|`28`\|`47`\|`64 | 8`\|`16`\|`62`\|`79`\|`96 | [models][segformerw]\|[backbones][mit]
-[VOLO][volo]<br>D1\|D3\|D5 | VOLO<br>UperNet | 50.5`\|`52.9`\|`54.3 | - | - | N/A
+Model | Backbone<br>Head | mIoU (%) | Params (M)<br>GFLOPs <small>(512x512)</small> | Weights
+--- | --- | --- | --- | --- 
+[SegFormer][segformer]<br>B0\|B1\|B2\|B3\|B4 | MiT<br>SegFormerHead | 38.0`\|`43.1`\|`47.5`\|`50.0`\|`51.1 | 4`\|`14`\|`28`\|`47`\|`64<br>8`\|`16`\|`62`\|`79`\|`96 | [models][segformerw]\|[backbones][mit]
+[VOLO][volo]<br>D1\|D3\|D5 | VOLO<br>UperNet | 50.5`\|`52.9`\|`54.3 | - | N/A
 
 </details>
 
 <details open>
   <summary><strong>CityScapes</strong></summary>
 
-Model<br><sup>(Image Size) | Backbone<br>Head | mIoU (%)<br><sup>(val/test) | Params (M) | GFLOPs | Weights
---- | --- | --- | --- | --- | --- 
-[SegFormer][segformer]<br>B0\|B1\|B2\|B3\|B4<br>(1024x1024) | MiT<br>SegFormerHead | 78.1`\|`80.0`\|`82.2`\|`83.3`\|`83.9<br>- | 4`\|`14`\|`28`\|`47`\|`64 | 126`\|`244`\|`717`\|`963`\|`1241 | [models][segformerw]\|[backbones][mit]
-[DDRNet][ddrnet]<br>23slim\|23<br>(1024x2048) | DDRNet | 77.8`\|`79.5<br>77.4`\|`79.4 | 6`\|`20 | 36`\|`143 | [models][ddrnetw]\|[backbones][ddrnetbw]
+Model<br><sup>(Image Size) | Backbone<br>Head | mIoU (%)<br><sup>(val/test) | Params (M)<br>GFLOPs | Weights
+--- | --- | --- | --- | --- 
+[SegFormer][segformer]<br>B0\|B1\|B2\|B3\|B4<br>(1024x1024) | MiT<br>SegFormerHead | 78.1`\|`80.0`\|`82.2`\|`83.3`\|`83.9<br>- | 4`\|`14`\|`28`\|`47`\|`64 <br> 126`\|`244`\|`717`\|`963`\|`1241 | [models][segformerw]\|[backbones][mit]
+[DDRNet][ddrnet]<br>23slim\|23<br>(1024x2048) | DDRNet | 77.8`\|`79.5<br>77.4`\|`79.4 | 6`\|`20 <br> 36`\|`143 | [models][ddrnetw]\|[backbones][ddrnetbw]
 [FaPN][fapn]<br>R18<br>(768x1536) | ResNet | 75.6<br>- | - | - | N/A
 
 </details>
@@ -62,18 +62,18 @@ Model<br><sup>(Image Size) | Backbone<br>Head | mIoU (%)<br><sup>(val/test) | Pa
 <details open>
   <summary><strong>CamVid</strong></summary>
 
-Model | Backbone<br>Head | mIoU (%)<br><sup>(val/test) | Params (M) | GFLOPs<br><sup>(720x960) | Weights
---- | --- | --- | --- | --- | --- 
-[DDRNet][ddrnet]<br>23slim\|23 | DDRNet | -<br>74.4`\|`76.3 | 6`\|`20 | - | N/A
+Model | Backbone<br>Head | mIoU (%)<br><sup>(val/test) | Params (M) | Weights
+--- | --- | --- | --- | --- 
+[DDRNet][ddrnet]<br>23slim\|23 | DDRNet | -<br>74.4`\|`76.3 | 6`\|`20 | N/A
 
 </details>
 
 <details open>
   <summary><strong>COCO-Stuff-full</strong></summary>
 
-Model | Backbone<br>Head  | mIoU <br><sup>(%) | Params <br><sup>(M) | GFLOPs | Weights
---- | --- | --- | --- | --- | --- 
-[SegFormer][segformer]<br>B5 | MiT<br>SegFormerHead | 46.7 | 85 | - | N/A
+Model | Backbone<br>Head  | mIoU <br><sup>(%) | Params <br><sup>(M) | Weights
+--- | --- | --- | --- | --- 
+[SegFormer][segformer]<br>B5 | MiT<br>SegFormerHead | 46.7 | 85 | N/A
 
 </details>
 
