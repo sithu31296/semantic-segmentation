@@ -78,7 +78,7 @@ def evaluate_msf(model, dataloader, device, scales, flip):
     ious = hist.diag() / (hist.sum(0) + hist.sum(1) - hist.diag())
     miou = ious[~ious.isnan()].mean().item()
 
-    return ious.cpu().numpy().tolist(), miou
+    return ious.cpu().numpy().tolist(), miou * 100
 
 
 def main(cfg):
@@ -107,7 +107,7 @@ def main(cfg):
     }
 
     print(tabulate(table, headers='keys'))
-    print(f"\nOverall mIoU: {miou:4.4f}")
+    print(f"\nOverall mIoU: {miou:.2f}")
 
 
 if __name__ == '__main__':

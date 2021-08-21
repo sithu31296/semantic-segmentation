@@ -66,10 +66,11 @@ def main(cfg, gpu, save_dir):
         pbar = tqdm(enumerate(trainloader), total=iters_per_epoch, desc=f"Epoch: [{epoch+1}/{epochs}] Iter: [{0}/{iters_per_epoch}] LR: {lr:.8f} Loss: {train_loss:.8f}")
 
         for iter, (img, lbl) in pbar:
+            optimizer.zero_grad(set_to_none=True)
+
             img = img.to(device)
             lbl = lbl.to(device)
-            optimizer.zero_grad()
-
+            
             with autocast(enabled=train_cfg['AMP']):
                 logits = model(img)
                 loss = loss_fn(logits, lbl)
@@ -77,7 +78,6 @@ def main(cfg, gpu, save_dir):
             scaler.scale(loss).backward()
             scaler.step(optimizer)
             scaler.update()
-
             scheduler.step()
             torch.cuda.synchronize()
 
@@ -100,7 +100,7 @@ def main(cfg, gpu, save_dir):
             if miou > best_mIoU:
                 best_mIoU = miou
                 torch.save(model.module.state_dict() if train_cfg['DDP'] else model.state_dict(), save_dir / f"{model_cfg['NAME']}_{model_cfg['VARIANT']}_{dataset_cfg['NAME']}.pth")
-            print(f"Current mIoU: {miou:4.4f} Best mIoU: {best_mIoU:4.4f}")
+            print(f"Current mIoU: {miou:4.4f} Best mIoU: {best_mIoU:.2f}")
 
     writer.close()
     pbar.close()
@@ -123,7 +123,7 @@ if __name__ == '__main__':
     with open(args.cfg) as f:
         cfg = yaml.load(f, Loader=yaml.SafeLoader)
 
-    pprint(cfg)
+    pprint(cfg, sort_dicts=False)
     fix_seeds(123)
     setup_cudnn()
     gpu = setup_ddp()

@@ -1,4 +1,4 @@
-# <div align="center">Semantic, Panoptic, Entity Segmentation</div>
+# <div align="center">SOTA Semantic Segmentation</div>
 
 ![banner](assests/banner.jpg)
 
@@ -22,59 +22,62 @@
 
 [mit]: https://drive.google.com/drive/folders/1b7bwrInTW4VLEm27YawHOAMSMikga2Ia?usp=sharing
 [segformerw]: https://drive.google.com/drive/folders/1GAku0G0iR9DsBxCbfENWMJ27c5lYUeQA?usp=sharing
+[ddrnetw]: https://drive.google.com/drive/folders/15-rUFFwhKVra-6Y46HdcsfFCdOM4oEJA?usp=sharing
+[ddrnetbw]: https://drive.google.com/drive/folders/15d-JHTt6k335ieHEMTGt1nWJHnxfP3LN?usp=sharing
 
 
 Supported Backbones:
-* *Vision Transformers*: [MiT][segformer], [PVTv2][pvtv2], [ResT][rest]
-* *MLP*: [CycleMLP][cyclemlp]
 * *CNN*: [ResNet][resnet]
+* *ViT*: [MiT][segformer], [PVTv2][pvtv2], [ResT][rest]
+* *MLP*: [CycleMLP][cyclemlp]
 
 Supported Heads:
-* *Linear*: [SegFormer][segformer]
 * *CNN*: [UPerNet][upernet], [FaPN][fapn]
+* *MLP*: [SegFormer][segformer]
 
 Supported Standalone Models:
 * *CNN*: [DDRNet][ddrnet]
 
 <details open>
-  <summary><strong>Semantic Segmentation on ADE20K-val</strong></summary>
+  <summary><strong>ADE20K</strong></summary>
 
-Method | Backbone/Head | mIoU <br><sup>(%) | Params <br><sup>(M) | GFLOPs<br><sup>(512x512) | Variants | Weights
---- | --- | --- | --- | --- | --- | ---
-[SegFormer][segformer] | MiT/SegFormerHead | 38.0`\|`43.1`\|`47.5`\|`50.0`\|`51.1 | 4`\|`14`\|`28`\|`47`\|`64 | 8`\|`16`\|`62`\|`79`\|`96 | B0\|B1\|B2\|B3\|B4 | [models][segformerw]\|[backbones][mit]
-[VOLO][volo] | VOLO/UperNet | 50.5`\|`52.9`\|`54.3 | - | - | D1\|D3\|D5 | N/A
-
-</details>
-
-<details open>
-  <summary><strong>Semantic Segmentation on CityScapes-val</strong></summary>
-
-Method<br><sup>(Image Size) | Backbone/Head | mIoU <br><sup>(%) | Params <br><sup>(M) | GFLOPs | Variants | Pretrained
---- | --- | --- | --- | --- | --- | ---
-[SegFormer][segformer]<br>(1024x1024) | MiT/SegFormerHead | 78.1`\|`80.0`\|`82.2`\|`83.3`\|`83.9 | 4`\|`14`\|`28`\|`47`\|`64 | 126`\|`244`\|`717`\|`963`\|`1241 | B0\|B1\|B2\|B3\|B4 | [models][segformerw]\|[backbones][mit]
-[DDRNet][ddrnet]<br>(1024x2048) | DDRNet | 77.8`\|`79.5 | 6`\|`20 | 36`\|`143 | 23slim\|23 | N/A
-[FaPN][fapn]<br>(768x1536) | ResNet | 75.6 | - | - | 18 | N/A
-
-</details>
-
-<details open>
-  <summary><strong>Semantic Segmentation on CamVid-val</strong></summary>
-
-Method | Backbone | mIoU <br><sup>(%) | Params <br><sup>(M) | GFLOPs<br><sup>(720x960) | Variants | Pretrained
---- | --- | --- | --- | --- | --- | ---
-[DDRNet][ddrnet] | DDRNet | 74.4`\|`76.3 | 6`\|`20 | - | 23slim\|23 | N/A
-
-</details>
-
-<details open>
-  <summary><strong>Semantic Segmentation on COCO-Stuff-full-val</strong></summary>
-
-Method | Backbone/Head | mIoU <br><sup>(%) | Params <br><sup>(M) | Variants | Pretrained
+Model | Backbone<br>Head | mIoU (%) | Params (M) | GFLOPs<br><sup>(512x512) | Weights
 --- | --- | --- | --- | --- | --- 
-[SegFormer][segformer] | MiT/SegFormerHead | 46.7 | 85 | B5 | N/A
+[SegFormer][segformer]<br>B0\|B1\|B2\|B3\|B4 | MiT<br>SegFormerHead | 38.0`\|`43.1`\|`47.5`\|`50.0`\|`51.1 | 4`\|`14`\|`28`\|`47`\|`64 | 8`\|`16`\|`62`\|`79`\|`96 | [models][segformerw]\|[backbones][mit]
+[VOLO][volo]<br>D1\|D3\|D5 | VOLO<br>UperNet | 50.5`\|`52.9`\|`54.3 | - | - | N/A
 
 </details>
 
+<details open>
+  <summary><strong>CityScapes</strong></summary>
+
+Model<br><sup>(Image Size) | Backbone<br>Head | mIoU (%)<br><sup>(val/test) | Params (M) | GFLOPs | Weights
+--- | --- | --- | --- | --- | --- 
+[SegFormer][segformer]<br>B0\|B1\|B2\|B3\|B4<br>(1024x1024) | MiT<br>SegFormerHead | 78.1`\|`80.0`\|`82.2`\|`83.3`\|`83.9<br>- | 4`\|`14`\|`28`\|`47`\|`64 | 126`\|`244`\|`717`\|`963`\|`1241 | [models][segformerw]\|[backbones][mit]
+[DDRNet][ddrnet]<br>23slim\|23<br>(1024x2048) | DDRNet | 77.8`\|`79.5<br>77.4`\|`79.4 | 6`\|`20 | 36`\|`143 | [models][ddrnetw]\|[backbones][ddrnetbw]
+[FaPN][fapn]<br>R18<br>(768x1536) | ResNet | 75.6<br>- | - | - | N/A
+
+</details>
+
+<details open>
+  <summary><strong>CamVid</strong></summary>
+
+Model | Backbone<br>Head | mIoU (%)<br><sup>(val/test) | Params (M) | GFLOPs<br><sup>(720x960) | Weights
+--- | --- | --- | --- | --- | --- 
+[DDRNet][ddrnet]<br>23slim\|23 | DDRNet | -<br>74.4`\|`76.3 | 6`\|`20 | - | N/A
+
+</details>
+
+<details open>
+  <summary><strong>COCO-Stuff-full</strong></summary>
+
+Model | Backbone<br>Head  | mIoU <br><sup>(%) | Params <br><sup>(M) | GFLOPs | Weights
+--- | --- | --- | --- | --- | --- 
+[SegFormer][segformer]<br>B5 | MiT<br>SegFormerHead | 46.7 | 85 | - | N/A
+
+</details>
+
+<!---
 <details>
   <summary><strong>Panoptic Segmentation on COCO panoptic-val</strong> (click to expand)</summary>
 
@@ -98,6 +101,8 @@ Method | Backbone | Entity AP | Mask Rescore | Pretrained
 
 
 </details>
+
+--->
 
 ## <div align="center">Supported Datasets</div>
 
@@ -335,6 +340,49 @@ Example test results:
   author={Tete Xiao and Yingcheng Liu and Bolei Zhou and Yuning Jiang and Jian Sun},
   year={2018},
   eprint={1807.10221},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV}
+}
+
+@article{hong2021deep,
+  title={Deep Dual-resolution Networks for Real-time and Accurate Semantic Segmentation of Road Scenes},
+  author={Hong, Yuanduo and Pan, Huihui and Sun, Weichao and Jia, Yisong},
+  journal={arXiv preprint arXiv:2101.06085},
+  year={2021}
+}
+
+@misc{zhang2021rest,
+  title={ResT: An Efficient Transformer for Visual Recognition}, 
+  author={Qinglong Zhang and Yubin Yang},
+  year={2021},
+  eprint={2105.13677},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV}
+}
+
+@misc{huang2021fapn,
+  title={FaPN: Feature-aligned Pyramid Network for Dense Image Prediction}, 
+  author={Shihua Huang and Zhichao Lu and Ran Cheng and Cheng He},
+  year={2021},
+  eprint={2108.07058},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV}
+}
+
+@misc{chen2021cyclemlp,
+  title={CycleMLP: A MLP-like Architecture for Dense Prediction}, 
+  author={Shoufa Chen and Enze Xie and Chongjian Ge and Ding Liang and Ping Luo},
+  year={2021},
+  eprint={2107.10224},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV}
+}
+
+@misc{wang2021pvtv2,
+  title={PVTv2: Improved Baselines with Pyramid Vision Transformer}, 
+  author={Wenhai Wang and Enze Xie and Xiang Li and Deng-Ping Fan and Kaitao Song and Ding Liang and Tong Lu and Ping Luo and Ling Shao},
+  year={2021},
+  eprint={2106.13797},
   archivePrefix={arXiv},
   primaryClass={cs.CV}
 }

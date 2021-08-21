@@ -8,7 +8,7 @@ MODEL:
 
 DATASET:
   NAME          : ade20k                                              # dataset name to be trained with (camvid, cityscapes, ade20k)
-  ROOT          : 'data/ADEChallengedata2016'                         # dataset root path
+  ROOT          : 'data/ADEChallengeData2016'                         # dataset root path
 
 TRAIN:
   IMAGE_SIZE    : [512, 512]      # training image size in (h, w)

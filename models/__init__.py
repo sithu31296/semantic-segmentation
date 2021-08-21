@@ -1,7 +1,13 @@
 from .segformer import SegFormer
+from .custom_cnn import CustomCNN
+from .custom_vit import CustomVIT
+from .ddrnet import DDRNet
 
 __all__ = {
+    'customcnn': CustomCNN,
+    'customvit': CustomVIT,
     'segformer': SegFormer,
+    'ddrnet': DDRNet,
 }
 
 def get_model(model_name: str, variant: str, num_classes: int):
