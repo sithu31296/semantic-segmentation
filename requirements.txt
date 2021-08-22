@@ -1,5 +1,6 @@
 tqdm
 tabulate
-numpy 
+numpy
+scipy 
 matplotlib
 tensorboard
