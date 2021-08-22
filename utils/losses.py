@@ -4,27 +4,34 @@ from torch.nn import functional as F
 
 
 class CrossEntropy(nn.Module):
-    def __init__(self, ignore_label: int = 255, weight: Tensor = None) -> None:
+    def __init__(self, ignore_label: int = 255, weight: Tensor = None, aux_weights: list = [1, 0.4]) -> None:
         super().__init__()
+        self.aux_weights = aux_weights
         self.criterion = nn.CrossEntropyLoss(weight=weight, ignore_index=ignore_label)
 
-    def forward(self, preds: Tensor, labels: Tensor) -> Tensor:
+    def _forward(self, preds: Tensor, labels: Tensor) -> Tensor:
         # preds in shape [B, C, H, W] and labels in shape [B, H, W]
-        if preds.shape[2:] != labels.shape[1:]:
+        if preds.shape[-2:] != labels.shape[-2:]:
             preds = F.interpolate(preds, size=labels.shape[1:], mode='bilinear', align_corners=False)
         return self.criterion(preds, labels)
 
+    def forward(self, preds, labels: Tensor) -> Tensor:
+        if isinstance(preds, list):
+            return sum([w * self._forward(pred, labels) for (pred, w) in zip(preds, self.aux_weights)])
+        return self._forward(preds, labels)
+
 
 class OhemCrossEntropy(nn.Module):
-    def __init__(self, ignore_label: int = 255, weight: Tensor = None, thresh: float = 0.7) -> None:
+    def __init__(self, ignore_label: int = 255, weight: Tensor = None, thresh: float = 0.7, aux_weights: list = [1, 0.4]) -> None:
         super().__init__()
         self.ignore_label = ignore_label
+        self.aux_weights = aux_weights
         self.thresh = -torch.log(torch.tensor(thresh, dtype=torch.float))
         self.criterion = nn.CrossEntropyLoss(weight=weight, ignore_index=ignore_label, reduction='none')
 
-    def forward(self, preds: Tensor, labels: Tensor) -> Tensor:
+    def _forward(self, preds: Tensor, labels: Tensor) -> Tensor:
         # preds in shape [B, C, H, W] and labels in shape [B, H, W]
-        if preds.shape[2:] != labels.shape[1:]:
+        if preds.shape[-2:] != labels.shape[-2:]:
             preds = F.interpolate(preds, size=labels.shape[1:], mode='bilinear', align_corners=False)
 
         n_min = labels[labels != self.ignore_label].numel() // 16
@@ -36,18 +43,24 @@ class OhemCrossEntropy(nn.Module):
 
         return torch.mean(loss_hard)
 
+    def forward(self, preds, labels: Tensor) -> Tensor:
+        if isinstance(preds, list):
+            return sum([w * self._forward(pred, labels) for (pred, w) in zip(preds, self.aux_weights)])
+        return self._forward(preds, labels)
+
 
 class Dice(nn.Module):
-    def __init__(self, delta: float = 0.5):
+    def __init__(self, delta: float = 0.5, aux_weights: list = [1, 0.4]):
         """
         delta: Controls weight given to FP and FN. This equals to dice score when delta=0.5
         """
         super().__init__()
         self.delta = delta
+        self.aux_weights = aux_weights
 
-    def forward(self, preds: Tensor, targets: Tensor) -> Tensor:
+    def _forward(self, preds: Tensor, targets: Tensor) -> Tensor:
         # preds in shape [B, C, H, W] and targets in shape [B, C, H, W]
-        if preds.shape[2:] != targets.shape[2:]:
+        if preds.shape[-2:] != targets.shape[-2:]:
             preds = F.interpolate(preds, size=targets.shape[2:], mode='bilinear', align_corners=False)
 
         tp = torch.sum(targets*preds, dim=(2, 3))
@@ -60,6 +73,11 @@ class Dice(nn.Module):
         # adjust loss to account for number of classes
         dice_score = dice_score / targets.shape[1]
         return dice_score.mean()
+
+    def forward(self, preds, targets: Tensor) -> Tensor:
+        if isinstance(preds, list):
+            return sum([w * self._forward(pred, targets) for (pred, w) in zip(preds, self.aux_weights)])
+        return self._forward(preds, targets)
 
 
 
@@ -76,8 +94,8 @@ def get_loss(loss_fn_name: str = 'ce', ignore_label: int = 255, cls_weights: Ten
 
 
 if __name__ == '__main__':
-    pred = torch.randint(0, 19, (2, 19, 224, 224), dtype=torch.float)
+    pred = [torch.randint(0, 19, (2, 19, 224, 224), dtype=torch.float) for _ in range(2)]
     label = torch.randint(0, 19, (2, 224, 224), dtype=torch.long)
-    loss_fn = OhemCrossEntropy(0.7)
+    loss_fn = OhemCrossEntropy(thresh=0.7)
     y = loss_fn(pred, label)
     print(y)
