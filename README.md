@@ -273,14 +273,13 @@ Check out the notebook [here](./datasets/aug_test.ipynb) to test the augmentatio
 
 Pixel-level Transforms:
 * ColorJitter (Brightness, Contrast, Saturation, Hue)
-* Gamma, Sharpness, AutoContrast
+* Gamma, Sharpness, AutoContrast, Equalize, Posterize
 * GaussianBlur, Grayscale
 
 Spatial-level Transforms:
+* Affine, RandomRotation
 * HorizontalFlip, VerticalFlip
-* RandomRotation
-* CenterCrop
-* RandomCrop
+* CenterCrop, RandomCrop
 * Pad, ResizePad, Resize
 * RandomResizedCrop
 

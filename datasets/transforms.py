@@ -129,6 +129,31 @@ class RandomGrayscale:
         return img, mask
 
 
+class Equalize:
+    def __call__(self, image, label):
+        return TF.equalize(image), label
+
+
+class Posterize:
+    def __init__(self, bits=2):
+        self.bits = bits # 0-8
+        
+    def __call__(self, image, label):
+        return TF.posterize(image, self.bits), label
+
+
+class Affine:
+    def __init__(self, angle=0, translate=[0, 0], scale=1.0, shear=[0, 0], seg_fill=0):
+        self.angle = angle
+        self.translate = translate
+        self.scale = scale
+        self.shear = shear
+        self.seg_fill = seg_fill
+        
+    def __call__(self, img, label):
+        return TF.affine(img, self.angle, self.translate, self.scale, self.shear, TF.InterpolationMode.BILINEAR, 0), TF.affine(label, self.angle, self.translate, self.scale, self.shear, TF.InterpolationMode.NEAREST, self.seg_fill) 
+
+
 class RandomRotation:
     def __init__(self, degrees: float = 10.0, p: float = 0.2, seg_fill: int = 0, expand: bool = False) -> None:
         """Rotate the image by a random angle between -angle and angle with probability p
