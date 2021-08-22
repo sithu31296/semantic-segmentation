@@ -89,14 +89,13 @@ class RandomAutoContrast:
 
 
 class RandomGaussianBlur:
-    def __init__(self, kernel_size: List[int], sigma: Optional[List[float]] = None, p: float = 0.5) -> None:
+    def __init__(self, kernel_size: int = 3, p: float = 0.5) -> None:
         self.kernel_size = kernel_size
-        self.sigma = sigma
         self.p = p
 
     def __call__(self, img: Tensor, mask: Tensor) -> Tuple[Tensor, Tensor]:
         if random.random() < self.p:
-            img = TF.gaussian_blur(img, self.kernel_size, self.sigma)
+            img = TF.gaussian_blur(img, self.kernel_size)
         return img, mask
 
 
@@ -305,40 +304,6 @@ class RandomResizedCrop:
             mask = TF.pad(mask, padding, fill=self.seg_fill)
         return img, mask 
 
-
-# def slide_windows(img: Tensor, strides, crop_size) -> Tensor:
-#     """Inference by sliding window with overlap
-#     """
-#     h_stride, w_stride = strides    # 768x768
-#     h_crop, w_crop = crop_size      # 1024x1024
-#     B, _, H, W = img.shape            # 1024x2048
-#     h_grids = max(H - h_crop + h_stride - 1, 0) // h_stride + 1
-#     w_grids = max(W - w_crop + w_stride - 1, 0) // w_stride + 1
-
-#     img_crops = []
-
-#     for h_idx in range(h_grids):
-#         for w_idx in range(w_grids):
-#             x1 = w_idx * w_stride
-#             y1 = h_idx * h_stride
-#             x2 = min(x1 + w_crop, W)
-#             y2 = min(y1 + h_crop, H)
-#             x1 = max(x2 - w_crop, 0)
-#             y1 = max(y2 - h_crop, 0)
-#             img_crops.append(img[:, :, y1:y2, x1:x2])
-    
-#     return img_crops
-
-# def merge_windows():
-#     pass
-
-
-__all__ = [
-    'ColorJitter', 'AdjustGamma', 'RandomAdjustSharpness', 'RandomAutoContrast',
-    'RandomGaussianBlur', 'RandomHorizontalFlip', 'RandomVerticalFlip', 'RandomGrayscale',
-    'CenterCrop', 'RandomCrop', 'Pad', 'ResizePad', 'Resize', 'RandomRotation'
-    'Normalize'
-]
 
 
 def get_train_transform(size: Union[int, Tuple[int], List[int]], seg_fill: int = 0):

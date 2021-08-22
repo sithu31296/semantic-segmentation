@@ -265,6 +265,27 @@ data
 
 </details>
 
+<br>
+<details>
+  <summary><strong>Augmentations</strong> (click to expand)</summary>
+
+Check out the notebook [here](./datasets/aug_test.ipynb) to test the augmentation effects.
+
+Pixel-level Transforms:
+* ColorJitter (Brightness, Contrast, Saturation, Hue)
+* Gamma, Sharpness, AutoContrast
+* GaussianBlur, Grayscale
+
+Spatial-level Transforms:
+* HorizontalFlip, VerticalFlip
+* RandomRotation
+* CenterCrop
+* RandomCrop
+* Pad, ResizePad, Resize
+* RandomResizedCrop
+
+</details>
+
 ## <div align="center">Usage</div>
 
 <details>
