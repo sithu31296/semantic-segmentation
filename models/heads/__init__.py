@@ -1,2 +1,2 @@
-from .uperhead import UPerHead
-from .segformerhead import SegFormerHead
+from .uper_head import UPerHead
+from .segformer_head import SegFormerHead

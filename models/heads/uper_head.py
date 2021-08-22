@@ -47,8 +47,7 @@ class UPerHead(nn.Module):
         psp_outs = [x]
         for ppm in self.psp_modules:
             psp_outs.append(F.interpolate(ppm(x), size=x.shape[2:], mode='bilinear', align_corners=False))
-        psp_outs = torch.cat(psp_outs, dim=1)
-        return self.bottleneck(psp_outs)
+        return self.bottleneck(torch.cat(psp_outs, dim=1))
 
     def forward(self, inputs: Tuple[Tensor, Tensor, Tensor, Tensor]) -> Tensor:
         laterals = [lateral_conv(inputs[i]) for i, lateral_conv in enumerate(self.lateral_convs)]
@@ -63,10 +62,8 @@ class UPerHead(nn.Module):
 
         for i in range(used_backbone_levels-1, 0, -1):
             fpn_outs[i] = F.interpolate(fpn_outs[i], size=fpn_outs[0].shape[2:], mode='bilinear', align_corners=False)
-
-        fpn_outs = torch.cat(fpn_outs, dim=1)
-        output = self.fpn_bottleneck(fpn_outs)
-        output = self.dropout(output)
-        output = self.conv_seg(output)
+ 
+        output = self.fpn_bottleneck(torch.cat(fpn_outs, dim=1))
+        output = self.conv_seg(self.dropout(output))
         return output
 
