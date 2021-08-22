@@ -21,7 +21,7 @@ class SemSeg:
         self.palette = __all__[cfg['DATASET']['NAME']].PALETTE
         # initialize the model and load weights and send to device
         self.model = get_model(cfg['MODEL']['NAME'], cfg['MODEL']['VARIANT'], len(self.palette))
-        self.model.load_state_dict(torch.load(cfg['TEST']['MODEL_PATH'], map_location='cpu')['state_dict'], strict=False)
+        self.model.load_state_dict(torch.load(cfg['TEST']['MODEL_PATH'], map_location='cpu'))
         self.model = self.model.to(self.device)
         self.model.eval()
         # preprocess parameters

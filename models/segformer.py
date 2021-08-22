@@ -52,10 +52,8 @@ class SegFormer(nn.Module):
 
 
 if __name__ == '__main__':
-    model = SegFormer('B0', 19)
-    model.load_state_dict(torch.load('checkpoints/pretrained/segformer/segformer.b0.1024x1024.city.160k.pth', map_location='cpu')['state_dict'], strict=False)
+    model = SegFormer('B0', 150)
+    model.load_state_dict(torch.load('checkpoints/pretrained/segformer/segformer.b0.ade.pth', map_location='cpu'))
     x = torch.zeros(1, 3, 512, 512)
     y = model(x)
     print(y.shape)
-        
-

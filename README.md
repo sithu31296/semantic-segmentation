@@ -22,8 +22,8 @@
 [openworld]: https://arxiv.org/abs/2107.14228
 
 
-[mit]: https://drive.google.com/drive/folders/1b7bwrInTW4VLEm27YawHOAMSMikga2Ia?usp=sharing
-[segformerw]: https://drive.google.com/drive/folders/1GAku0G0iR9DsBxCbfENWMJ27c5lYUeQA?usp=sharing
+[mit]: https://drive.google.com/drive/folders/1b7bwrInTW4VLEm27YawHOAMSMikga2Ia
+[segformerw]: https://drive.google.com/drive/folders/1UUMCAA51zkBBGAGh9zAX79q0YzHaa0p8?usp=sharing
 [ddrnetw]: https://drive.google.com/drive/folders/15-rUFFwhKVra-6Y46HdcsfFCdOM4oEJA?usp=sharing
 [ddrnetbw]: https://drive.google.com/drive/folders/15d-JHTt6k335ieHEMTGt1nWJHnxfP3LN?usp=sharing
 
@@ -50,6 +50,7 @@ Model | Backbone<br>Head | mIoU (%) | Params (M)<br>GFLOPs <small>(512x512)</sma
 --- | --- | --- | --- | --- 
 [SegFormer][segformer]<br>B0\|B1\|B2\|B3\|B4 | MiT<br>SegFormerHead | 38.0`\|`43.1`\|`47.5`\|`50.0`\|`51.1 | 4`\|`14`\|`28`\|`47`\|`64<br>8`\|`16`\|`62`\|`79`\|`96 | [models][segformerw]\|[backbones][mit]
 [VOLO][volo]<br>D1\|D3\|D5 | VOLO<br>UperNet | 50.5`\|`52.9`\|`54.3 | - | N/A
+[CycleMLP][cyclemlp]<br>B1\|B2\|B3\|B4\|B5 | CycleMLP<br>FPN | 39.5`\|`42.4`\|`44.5`\|`45.1`\|`45.6 | 19`\|`31`\|`42`\|`56`\|`79 | N/A
 
 </details>
 
@@ -58,7 +59,7 @@ Model | Backbone<br>Head | mIoU (%) | Params (M)<br>GFLOPs <small>(512x512)</sma
 
 Model<br><sup>(Image Size) | Backbone<br>Head | mIoU (%)<br><sup>(val/test) | Params (M)<br>GFLOPs | Weights
 --- | --- | --- | --- | --- 
-[SegFormer][segformer]<br>B0\|B1\|B2\|B3\|B4<br>(1024x1024) | MiT<br>SegFormerHead | 78.1`\|`80.0`\|`82.2`\|`83.3`\|`83.9<br>- | 4`\|`14`\|`28`\|`47`\|`64 <br> 126`\|`244`\|`717`\|`963`\|`1241 | [models][segformerw]\|[backbones][mit]
+[SegFormer][segformer]<br>B0\|B1\|B2\|B3\|B4<br>(1024x1024) | MiT<br>SegFormerHead | 78.1`\|`80.0`\|`82.2`\|`83.3`\|`83.9 | 4`\|`14`\|`28`\|`47`\|`64 <br> 126`\|`244`\|`717`\|`963`\|`1241 | [backbones][mit]
 [DDRNet][ddrnet]<br>23slim\|23<br>(1024x2048) | DDRNet | 77.8`\|`79.5<br>77.4`\|`79.4 | 6`\|`20 <br> 36`\|`143 | [models][ddrnetw]\|[backbones][ddrnetbw]
 [FaPN][fapn]<br>R18<br>(768x1536) | ResNet | 75.6<br>- | - | - | N/A
 
