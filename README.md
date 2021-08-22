@@ -134,7 +134,7 @@ Dataset | Type | Categories | Train <br><sup>Images | Val<br><sup>Images | Test<
 ||
 [SUN RGB-D][sunrgbd] | Indoor Scene Parsing | 37 | 2,666 | 2,619 | 5,050<sup>+labels | -
 ||
-[Mapillary Vistas][mv] | Street Scene Parsing | 124 | 18,000 | 2,000 | 5,000 | 1080x1920
+[Mapillary Vistas][mv] | Street Scene Parsing | 65 | 18,000 | 2,000 | 5,000 | 1080x1920
 [ApolloScape][apolloscape] | Street Scene Parsing | 22 | 146,997 | - | - | -
 [CityScapes][cityscapes] | Street Scene Parsing | 19 | 2,975 | 500 | 1,525<sup>+labels | 1024x2048
 [CamVid][camvid] | Street Scene Parsing | 11 | 367 | 101 | 233<sup>+labels | 720x960
@@ -251,6 +251,14 @@ data
     |__ SUNRGBDtoolbox
         |__ traintestSUNRGBD
             |__ allsplit.mat
+
+|__ Mapillary
+    |__ training
+        |__ images
+        |__ labels
+    |__ validation
+        |__ images
+        |__ labels
 ```
 
 > Note: For PASCALContext, download the annotations from [here](pcannos) and put it in VOC2010.

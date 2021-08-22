@@ -10,6 +10,7 @@ from .pascalcontext import PASCALContext
 from .cocostuff import COCOStuff
 from .suim import SUIM
 from .sunrgbd import SunRGBD
+from .mapillary import MapillaryVistas
 
 
 __all__ = {
@@ -24,7 +25,8 @@ __all__ = {
     'pascalconteext': PASCALContext,
     'cocostuff': COCOStuff,
     'suim': SUIM,
-    'sunrgbd': SunRGBD
+    'sunrgbd': SunRGBD,
+    'mapillaryvistas': MapillaryVistas,
 }
 
 
