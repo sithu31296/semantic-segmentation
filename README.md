@@ -26,6 +26,7 @@
 [segformerw]: https://drive.google.com/drive/folders/1UUMCAA51zkBBGAGh9zAX79q0YzHaa0p8?usp=sharing
 [ddrnetw]: https://drive.google.com/drive/folders/15-rUFFwhKVra-6Y46HdcsfFCdOM4oEJA?usp=sharing
 [ddrnetbw]: https://drive.google.com/drive/folders/15d-JHTt6k335ieHEMTGt1nWJHnxfP3LN?usp=sharing
+[cyclemlpw]: https://drive.google.com/drive/folders/19DNSyZfJKKvH_ab0-kGlsYOdy9Zc_BiA?usp=sharing
 
 
 Supported Backbones:
@@ -43,13 +44,16 @@ Supported Standalone Models:
 Supported Modules:
 * [PSA][psa]
 
+> Notes: Check each backbone model's accuracy and download its weights from [image-classification](https://github.com/sithu31296/image-classification) if it is not provided in this repo. 
+
+
 <details open>
   <summary><strong>ADE20K</strong></summary>
 
 Model | Backbone<br>Head | mIoU (%) | Params (M)<br>GFLOPs <small>(512x512)</small> | Weights
 --- | --- | --- | --- | --- 
 [SegFormer][segformer]<br>B0\|B1\|B2\|B3\|B4 | MiT<br>SegFormerHead | 38.0`\|`43.1`\|`47.5`\|`50.0`\|`51.1 | 4`\|`14`\|`28`\|`47`\|`64<br>8`\|`16`\|`62`\|`79`\|`96 | [models][segformerw]\|[backbones][mit]
-[CycleMLP][cyclemlp]<br>B1\|B2\|B3\|B4\|B5 | CycleMLP<br>FPN | 39.5`\|`42.4`\|`44.5`\|`45.1`\|`45.6 | 19`\|`31`\|`42`\|`56`\|`79 | N/A
+[CycleMLP][cyclemlp]<br>B1\|B2\|B3\|B4\|B5 | CycleMLP<br>FPN | 39.5`\|`42.4`\|`44.5`\|`45.1`\|`45.6 | 19`\|`31`\|`42`\|`56`\|`79 | [backbones][cyclemlpw]
 [VOLO][volo]<br>D1\|D3\|D5 | VOLO<br>UperNet | 50.5`\|`52.9`\|`54.3 | - | N/A
 
 </details>
