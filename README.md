@@ -127,7 +127,6 @@ Method | Backbone | Entity AP | Mask Rescore | Pretrained
 [pcannos]: https://drive.google.com/file/d/1hOQnuTVYE9s7iRdo-6iARWkN2-qCAoVz/view?usp=sharing
 [suim]: http://irvlab.cs.umn.edu/resources/suim-dataset
 [mv]: https://www.mapillary.com/dataset/vistas
-[apolloscape]: http://apolloscape.auto/scene.html
 [sunrgbd]: https://rgbd.cs.princeton.edu/
 
 Dataset | Type | Categories | Train <br><sup>Images | Val<br><sup>Images | Test<br><sup>Images | Image Size<br><sup>(HxW)
@@ -139,7 +138,6 @@ Dataset | Type | Categories | Train <br><sup>Images | Val<br><sup>Images | Test<
 [SUN RGB-D][sunrgbd] | Indoor Scene Parsing | 37 | 2,666 | 2,619 | 5,050<sup>+labels | -
 ||
 [Mapillary Vistas][mv] | Street Scene Parsing | 65 | 18,000 | 2,000 | 5,000 | 1080x1920
-[ApolloScape][apolloscape] | Street Scene Parsing | 22 | 146,997 | - | - | -
 [CityScapes][cityscapes] | Street Scene Parsing | 19 | 2,975 | 500 | 1,525<sup>+labels | 1024x2048
 [CamVid][camvid] | Street Scene Parsing | 11 | 367 | 101 | 233<sup>+labels | 720x960
 ||

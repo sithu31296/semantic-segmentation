@@ -11,7 +11,6 @@ from .cocostuff import COCOStuff
 from .suim import SUIM
 from .sunrgbd import SunRGBD
 from .mapillary import MapillaryVistas
-from .apolloscape import ApolloScape
 
 
 __all__ = {
@@ -28,7 +27,6 @@ __all__ = {
     'suim': SUIM,
     'sunrgbd': SunRGBD,
     'mapillaryvistas': MapillaryVistas,
-    'apolloscape': ApolloScape,
 }
 
 
