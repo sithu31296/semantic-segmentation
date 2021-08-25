@@ -171,7 +171,6 @@ class DDRNet(nn.Module):
         self.down3 = ConvBN(planes[1], planes[2], 3, 2, 1)
         self.down4 = Conv2BN(planes[1], planes[2], planes[3], 3, 2, 1)
 
-
         self.spp = DAPPM(planes[-1], spp_planes, planes[2])
         self.seghead_extra = SegHead(planes[1], head_planes, num_classes)
         self.final_layer = SegHead(planes[2], head_planes, num_classes)
@@ -226,7 +225,7 @@ class DDRNet(nn.Module):
         x += self.down3(F.relu(x_))
         x_ += F.interpolate(self.compression3(F.relu(layers[2])), size=(H, W), mode='bilinear', align_corners=True)
 
-        x_aux = self.seghead_extra(x_)
+        if self.training: x_aux = self.seghead_extra(x_)
 
         x = self.layer4(F.relu(x))   
         layers.append(x)
@@ -238,7 +237,7 @@ class DDRNet(nn.Module):
         x = F.interpolate(self.spp(self.layer5(F.relu(x))), size=(H, W), mode='bilinear', align_corners=True)
         x_ = self.final_layer(x + x_)
 
-        return x_, x_aux
+        return (x_, x_aux) if self.training else x_
 
 
 if __name__ == '__main__':

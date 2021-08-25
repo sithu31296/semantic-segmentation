@@ -46,6 +46,6 @@ EVAL:
 
 TEST:
   MODEL_PATH    : 'checkpoints/pretrained/ddrnet/ddrnet_23slim_city.pth'  # trained model file path
-  FILE          : 'assests/city'                                                         # filename or foldername 
+  FILE          : 'assests/cityscapes'                                                         # filename or foldername 
   IMAGE_SIZE    : [1024, 2048]                                                            # inference image size in (h, w)
   OVERLAY       : true                                                                  # save the overlay result (image_alpha+label_alpha)

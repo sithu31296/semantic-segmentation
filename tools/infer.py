@@ -43,8 +43,7 @@ class SemSeg:
         # resize the image to inference image size
         img = self.resize(image)
         # scale to [0.0, 1.0]
-        img = img.float()
-        img /= 255
+        img = img.float() / 255
         # normalize
         img = self.norm(img)
         # add batch size and send to device
@@ -68,7 +67,7 @@ class SemSeg:
         image = io.read_image(img_fname)
         img = self.preprocess(image)
         seg_map = self.model_forward(img)
-        seg_map = self.postprocess(seg_map, image.shape[1:])
+        seg_map = self.postprocess(seg_map, image.shape[-2:])
         if overlay: seg_map = (image * 0.3) + (seg_map * 0.7)
         return seg_map.to(torch.uint8)
 
