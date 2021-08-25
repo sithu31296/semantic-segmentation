@@ -1,7 +1,7 @@
 import torch
 from torch import nn, Tensor
 from torch.nn import functional as F
-from backbones import ResNet
+from .backbones import ResNet
 from .heads import UPerHead
 
 
