@@ -42,7 +42,7 @@ Supported Backbones:
 * *MLP*: [CycleMLP][cyclemlp]
 
 Supported Heads:
-* *CNN*: [UPerNet][upernet], [FaPN][fapn]
+* *CNN*: [UPerNet][upernet], [FaPN][fapn] (coming soon)
 * *MLP*: [SegFormer][segformer]
 
 Supported Standalone Models:
