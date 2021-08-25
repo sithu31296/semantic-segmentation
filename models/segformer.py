@@ -7,7 +7,7 @@ from .backbones.layers import trunc_normal_
 from .heads import SegFormerHead
 
 
-head_settings = {
+segformer_settings = {
     'B0': 256,        # head_dim
     'B1': 256,
     'B2': 768,
@@ -21,7 +21,7 @@ class SegFormer(nn.Module):
     def __init__(self, model_name: str = 'B0', num_classes: int = 19) -> None:
         super().__init__()
         self.backbone = MiT(model_name)
-        self.decode_head = SegFormerHead(self.backbone.embed_dims, head_settings[model_name], num_classes)
+        self.decode_head = SegFormerHead(self.backbone.embed_dims, segformer_settings[model_name], num_classes)
 
         self.apply(self._init_weights)
 

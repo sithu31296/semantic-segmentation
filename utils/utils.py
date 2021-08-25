@@ -9,6 +9,10 @@ from torch import nn, Tensor
 from torch.autograd import profiler
 from typing import Union
 from torch import distributed as dist
+from tabulate import tabulate
+import sys
+sys.path.insert(0, '.')
+import models
 
 
 def fix_seeds(seed: int = 123) -> None:
@@ -81,3 +85,14 @@ def throughput(dataloader, model: nn.Module, times: int = 30):
     end = time_sync()
 
     print(f"Batch Size {B} throughput {times * B / (end - start)} images/s")
+
+
+
+def show_models():
+    model_names = list(models.__all__.keys())
+    model_variants = []
+
+    for name in model_names:
+        model_variants.append(list(eval(f'models.{name}_settings').keys()))
+
+    print(tabulate({'Model Names': model_names, 'Model Variants': model_variants}, headers='keys'))

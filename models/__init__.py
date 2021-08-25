@@ -1,11 +1,7 @@
-from .segformer import SegFormer
-from .custom_cnn import CustomCNN
-from .custom_vit import CustomVIT
-from .ddrnet import DDRNet
+from .segformer import SegFormer, segformer_settings
+from .ddrnet import DDRNet, ddrnet_settings
 
 __all__ = {
-    'customcnn': CustomCNN,
-    'customvit': CustomVIT,
     'segformer': SegFormer,
     'ddrnet': DDRNet,
 }

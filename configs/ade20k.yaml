@@ -36,7 +36,7 @@ SCHEDULER:
   
 
 EVAL:
-  MODEL_PATH    : 'checkpoints/pretrained/segformer/segformer.b3.512x512.ade.160k.pth'  # trained model file path
+  MODEL_PATH    : 'checkpoints/pretrained/segformer/segformer.b3.ade.pth'  # trained model file path
   IMAGE_SIZE    : [512, 512]                                                            # evaluation image size in (h, w)                       
   MSF: 
     ENABLE      : false                                                                 # multi-scale and flip evaluation  
@@ -45,7 +45,7 @@ EVAL:
 
 
 TEST:
-  MODEL_PATH    : 'checkpoints/pretrained/segformer/segformer.b3.512x512.ade.160k.pth'  # trained model file path
+  MODEL_PATH    : 'checkpoints/pretrained/segformer/segformer.b3.ade.pth'  # trained model file path
   FILE          : 'assests/ade'                                                         # filename or foldername 
   IMAGE_SIZE    : [512, 512]                                                            # inference image size in (h, w)
-  OVERLAY       : true                                                                  # save the overlay result (image_alpha+label_alpha)
+  OVERLAY       : false                                                                  # save the overlay result (image_alpha+label_alpha)
