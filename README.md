@@ -12,6 +12,7 @@
 ## <div align="center">Model Zoo</div>
 
 [ddrnet]: https://arxiv.org/abs/2101.06085
+[hardnet]: https://arxiv.org/abs/1909.00948
 
 [resnet]: https://arxiv.org/abs/1512.03385
 [rest]: https://arxiv.org/abs/2105.13677v3
@@ -34,6 +35,8 @@
 [ddrnetw]: https://drive.google.com/drive/folders/15-rUFFwhKVra-6Y46HdcsfFCdOM4oEJA?usp=sharing
 [ddrnetbw]: https://drive.google.com/drive/folders/15d-JHTt6k335ieHEMTGt1nWJHnxfP3LN?usp=sharing
 [cyclemlpw]: https://drive.google.com/drive/folders/19DNSyZfJKKvH_ab0-kGlsYOdy9Zc_BiA?usp=sharing
+[hardnetcity]: https://drive.google.com/file/d/1QK1qgaKOPAatx-DHNmv7Mu0S0cE1fHCN/view?usp=sharing
+[hardnetw]: https://drive.google.com/file/d/1HAFHvtodAPL_eb4LX_rb0FJZyKTOo4mK/view?usp=sharing
 
 
 Supported Backbones:
@@ -46,7 +49,7 @@ Supported Heads:
 * *MLP*: [SegFormer][segformer]
 
 Supported Standalone Models:
-* [DDRNet][ddrnet]
+* [DDRNet][ddrnet], [HarDNet][hardnet]
 
 Supported Modules:
 * [PSA][psa]
@@ -72,6 +75,7 @@ Model<br><sup>(Image Size) | Backbone<br>Head | mIoU (%)<br><sup>(val/test) | Pa
 --- | --- | --- | --- | --- 
 [SegFormer][segformer]<br>B0\|B1\|B2\|B3\|B4<br>(1024x1024) | MiT<br>SegFormerHead | 78.1`\|`80.0`\|`82.2`\|`83.3`\|`83.9 | 4`\|`14`\|`28`\|`47`\|`64 <br> 126`\|`244`\|`717`\|`963`\|`1241 | [backbones][mit]
 [DDRNet][ddrnet]<br>23slim\|23<br>(1024x2048) | DDRNet | 77.8`\|`79.5<br>77.4`\|`79.4 | 6`\|`20 <br> 36`\|`143 | [models][ddrnetw]\|[backbones][ddrnetbw]
+[HarDNet][hardnet]<br>70<br>(1024x1024) | HarDNet | 77.7<br>75.9 | 4<br>35 | [model][hardnetcity]\|[backbone][hardnetw]
 [FaPN][fapn]<br>18<br>(768x1536) | ResNet<br>FaPN | 75.6<br>- | - | - | N/A
 
 </details>
@@ -440,6 +444,15 @@ Example test results:
   author={Huajun Liu and Fuqiang Liu and Xinyi Fan and Dong Huang},
   journal={Arxiv Pre-Print arXiv:2107.00782 },
   year={2021}
+}
+
+@misc{chao2019hardnet,
+  title={HarDNet: A Low Memory Traffic Network}, 
+  author={Ping Chao and Chao-Yang Kao and Yu-Shan Ruan and Chien-Hsiang Huang and Youn-Long Lin},
+  year={2019},
+  eprint={1909.00948},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV}
 }
 
 ```

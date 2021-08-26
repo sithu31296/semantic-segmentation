@@ -27,6 +27,7 @@ class SemSeg:
         # preprocess parameters
         self.size = cfg['TEST']['IMAGE_SIZE']
         self.norm = T.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
+        # self.norm = T.Normalize((0.406, 0.456, 0.485), (0.225, 0.224, 0.229))
 
     def resize(self, image: Tensor) -> Tensor:
         H, W = image.shape[1:]
@@ -42,6 +43,7 @@ class SemSeg:
     def preprocess(self, image: Tensor) -> Tensor:
         # resize the image to inference image size
         img = self.resize(image)
+        # img = img[[2, 1, 0], ...]     # RGB to BGR (for hardnet)
         # scale to [0.0, 1.0]
         img = img.float() / 255
         # normalize
