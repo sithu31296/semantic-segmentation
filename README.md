@@ -58,7 +58,7 @@ Supported Modules:
 
 Model | Backbone<br>Head | mIoU (%) | Params (M)<br>GFLOPs <small>(512x512)</small> | Weights
 --- | --- | --- | --- | --- 
-[SegFormer][segformer]<br>B0\|B1\|B2\|B3\|B4 | MiT<br>SegFormer | 38.0`\|`43.1`\|`47.5`\|`50.0`\|`51.1 | 4`\|`14`\|`28`\|`47`\|`64<br>8`\|`16`\|`62`\|`79`\|`96 | [models][segformerw]\|[backbones][mit]
+[SegFormer][segformer]<br>B0\|B1\|B2\|B3\|B4 | MiT<br>SegFormer | 38.0`\|`43.1`\|`47.5`\|`50.0`\|`51.1 | 4`\|`14`\|`28`\|`47`\|`64<br>8`\|`16`\|`62`\|`79`\|`96 | [models][segformerw]<br>[backbones][mit]
 [CycleMLP][cyclemlp]<br>B1\|B2\|B3\|B4\|B5 | CycleMLP<br>FPN | 39.5`\|`42.4`\|`44.5`\|`45.1`\|`45.6 | 19`\|`31`\|`42`\|`56`\|`79 | [backbones][cyclemlpw]
 
 </details>
@@ -70,9 +70,9 @@ Model | Image Size | Backbone<br>Head | mIoU (%) | Params (M) | GFLOPs | Weights
 --- | --- | --- | --- | --- | --- | ---
 [SegFormer][segformer]<br>B0\|B1 | 1024x1024 | MiT<br>SegFormer | 78.1`\|`80.0 | 4`\|`14 | 126`\|`244 | [backbones][mit]
 [SFNet][sfnet] | 1024x0124 | ResNet-18 | 78.4 | 13 | - | -
-[HarDNet][hardnet] | 1024x1024 | HarDNet-70 | 77.7 | 4 | 35 | [model][hardnetcity]\|[backbone][hardnetw]
+[HarDNet][hardnet] | 1024x1024 | HarDNet-70 | 77.7 | 4 | 35 | [model][hardnetcity]<br>[backbone][hardnetw]
 [FaPN][fapn] | 768x1536 | ResNet-18<br>FaPN | 75.6 | - | - | N/A
-[DDRNet][ddrnet]<br>23slim\|23<br> | 1024x2048 | DDRNet | 77.8`\|`79.5 | 6`\|`20 | 36`\|`143 | [models][ddrnetw]\|[backbones][ddrnetbw]
+[DDRNet][ddrnet]<br>23slim\|23<br> | 1024x2048 | DDRNet | 77.8`\|`79.5 | 6`\|`20 | 36`\|`143 | [models][ddrnetw]<br>[backbones][ddrnetbw]
 
 </details>
 
