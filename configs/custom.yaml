@@ -4,7 +4,7 @@ SAVE_DIR        : 'output'         # output folder name used for saving the mode
 MODEL:                                    
   NAME          : hardnet                                           # name of the model you are using
   VARIANT       : '70'                                                  # model variant
-  PRETRAINED    : 'checkpoints/backbones/ddrnet/ddrnet_23slim.pth'              # backbone model's weight 
+  PRETRAINED    : 'checkpoints/backbones/hardnet/hardnet_70.pth'              # backbone model's weight 
 
 DATASET:
   NAME          : cityscapes                                              # dataset name to be trained with (camvid, cityscapes, ade20k)
@@ -46,6 +46,6 @@ EVAL:
 
 TEST:
   MODEL_PATH    : 'checkpoints/pretrained/hardnet/hardnet70_cityscapes.pth'  # trained model file path
-  FILE          : 'assests/cityscapes'                                                         # filename or foldername 
-  IMAGE_SIZE    : [1024, 2048]                                                            # inference image size in (h, w)
+  FILE          : 'assests/cityscapes'                                                   # filename or foldername 
+  IMAGE_SIZE    : [1024, 2048]                                                           # inference image size in (h, w)
   OVERLAY       : false                                                                  # save the overlay result (image_alpha+label_alpha)

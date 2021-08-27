@@ -1,7 +1,7 @@
 # <div align="center">Semantic Segmentation</div>
 
 <div align="center">
-<p>Easy to use and customizable SOTA Semantic Segmentation models in PyTorch</p>
+<p>Easy to use and customizable SOTA Semantic Segmentation models with abundant datasets in PyTorch</p>
 
 <a href="https://colab.research.google.com/github/sithu31296/semantic-segmentation/blob/main/tutorial.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
 
@@ -68,11 +68,11 @@ Model | Backbone<br>Head | mIoU (%) | Params (M)<br>GFLOPs <small>(512x512)</sma
 
 Model<br><sup>(Image Size) | Backbone<br>Head | mIoU (%)<br><sup>(val/test) | Params (M)<br>GFLOPs | Weights
 --- | --- | --- | --- | --- 
-[SegFormer][segformer]<br>B0\|B1\|B2\|B3\|B4<br>(1024x1024) | MiT<br>SegFormer | 78.1`\|`80.0`\|`82.2`\|`83.3`\|`83.9 | 4`\|`14`\|`28`\|`47`\|`64 <br> 126`\|`244`\|`717`\|`963`\|`1241 | [backbones][mit]
+[SegFormer][segformer]<br>B0\|B1\|B2<br>(1024x1024) | MiT<br>SegFormer | 78.1`\|`80.0`\|`82.2<br>- | 4`\|`14`\|`28 <br> 126`\|`244`\|`717 | [backbones][mit]
+[SFNet][sfnet]<br>(1024x0124) | ResNet-18 | 78.4<br>- | 13<br>- | N/A
+[HarDNet][hardnet]<br>(1024x1024) | HarDNet-70 | 77.7<br>75.9 | 4<br>35 | [model][hardnetcity]\|[backbone][hardnetw]
+[FaPN][fapn]<br>(768x1536) | ResNet-18<br>FaPN | 75.6<br>- | - | - | N/A
 [DDRNet][ddrnet]<br>23slim\|23<br>(1024x2048) | DDRNet | 77.8`\|`79.5<br>77.4`\|`79.4 | 6`\|`20 <br> 36`\|`143 | [models][ddrnetw]\|[backbones][ddrnetbw]
-[HarDNet][hardnet]<br>70<br>(1024x1024) | HarDNet | 77.7<br>75.9 | 4<br>35 | [model][hardnetcity]\|[backbone][hardnetw]
-[SFNet][sfnet]<br>18<br>(1024x0124) | ResNet | 78.4<br>- | 13<br>- | N/A
-[FaPN][fapn]<br>18<br>(768x1536) | ResNet<br>FaPN | 75.6<br>- | - | - | N/A
 
 </details>
 
