@@ -64,7 +64,11 @@ class SunRGBD(Dataset):
         
         if self.transform:
             image, label = self.transform(image, label)
-        return image, label.squeeze().long() - 1    # subtract -1 to remove void class
+        return image, self.encode(label.squeeze()).long() - 1    # subtract -1 to remove void class
+
+    def encode(self, label: Tensor) -> Tensor:
+        label[label > self.n_classes] = 0
+        return label
         
     def decode(self, label: Tensor) -> Tensor:
         return self.PALETTE[label.to(int)]

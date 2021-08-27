@@ -13,6 +13,7 @@
 
 [ddrnet]: https://arxiv.org/abs/2101.06085
 [hardnet]: https://arxiv.org/abs/1909.00948
+[sfnet]: https://arxiv.org/abs/2002.10120
 
 [resnet]: https://arxiv.org/abs/1512.03385
 [rest]: https://arxiv.org/abs/2105.13677v3
@@ -49,7 +50,7 @@ Supported Heads:
 * *MLP*: [SegFormer][segformer]
 
 Supported Standalone Models:
-* [DDRNet][ddrnet], [HarDNet][hardnet]
+* [DDRNet][ddrnet], [HarDNet][hardnet], [SFNet][sfnet]
 
 Supported Modules:
 * [PSA][psa]
@@ -76,12 +77,14 @@ Model<br><sup>(Image Size) | Backbone<br>Head | mIoU (%)<br><sup>(val/test) | Pa
 [SegFormer][segformer]<br>B0\|B1\|B2\|B3\|B4<br>(1024x1024) | MiT<br>SegFormerHead | 78.1`\|`80.0`\|`82.2`\|`83.3`\|`83.9 | 4`\|`14`\|`28`\|`47`\|`64 <br> 126`\|`244`\|`717`\|`963`\|`1241 | [backbones][mit]
 [DDRNet][ddrnet]<br>23slim\|23<br>(1024x2048) | DDRNet | 77.8`\|`79.5<br>77.4`\|`79.4 | 6`\|`20 <br> 36`\|`143 | [models][ddrnetw]\|[backbones][ddrnetbw]
 [HarDNet][hardnet]<br>70<br>(1024x1024) | HarDNet | 77.7<br>75.9 | 4<br>35 | [model][hardnetcity]\|[backbone][hardnetw]
+[SFNet][sfnet]<br>18<br>(1024x0124) | ResNet | 78.4<br>- | 13<br>- | N/A
 [FaPN][fapn]<br>18<br>(768x1536) | ResNet<br>FaPN | 75.6<br>- | - | - | N/A
 
 </details>
 
-<details open>
-  <summary><strong>CamVid</strong></summary>
+<!---
+<details>
+  <summary><strong>CamVid</strong> (click to expand)</summary>
 
 Model | Backbone<br>Head | mIoU (%)<br><sup>(val/test) | Params (M) | Weights
 --- | --- | --- | --- | --- 
@@ -89,8 +92,8 @@ Model | Backbone<br>Head | mIoU (%)<br><sup>(val/test) | Params (M) | Weights
 
 </details>
 
-<details open>
-  <summary><strong>COCO-Stuff-full</strong></summary>
+<details>
+  <summary><strong>COCO-Stuff-full</strong> (click to expand)</summary>
 
 Model | Backbone<br>Head  | mIoU <br><sup>(%) | Params <br><sup>(M) | Weights
 --- | --- | --- | --- | --- 
@@ -98,7 +101,7 @@ Model | Backbone<br>Head  | mIoU <br><sup>(%) | Params <br><sup>(M) | Weights
 
 </details>
 
-<!---
+
 <details>
   <summary><strong>Panoptic Segmentation on COCO panoptic-val</strong> (click to expand)</summary>
 
@@ -453,6 +456,21 @@ Example test results:
   eprint={1909.00948},
   archivePrefix={arXiv},
   primaryClass={cs.CV}
+}
+
+@inproceedings{sfnet,
+  title={Semantic Flow for Fast and Accurate Scene Parsing},
+  author={Li, Xiangtai and You, Ansheng and Zhu, Zhen and Zhao, Houlong and Yang, Maoke and Yang, Kuiyuan and Tong, Yunhai},
+  booktitle={ECCV},
+  year={2020}
+}
+
+@article{Li2020SRNet,
+  title={Towards Efficient Scene Understanding via Squeeze Reasoning},
+  author={Xiangtai Li and Xia Li and Ansheng You and Li Zhang and Guang-Liang Cheng and Kuiyuan Yang and Y. Tong and Zhouchen Lin},
+  journal={ArXiv},
+  year={2020},
+  volume={abs/2011.03308}
 }
 
 ```
