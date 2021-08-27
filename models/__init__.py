@@ -1,11 +1,13 @@
 from .segformer import SegFormer, segformer_settings
 from .ddrnet import DDRNet, ddrnet_settings
 from .hardnet import HarDNet, hardnet_settings
+from .sfnet import SFNet, sfnet_settings
 
 __all__ = {
     'segformer': SegFormer,
     'ddrnet': DDRNet,
     'hardnet': HarDNet,
+    'sfnet': SFNet,
 }
 
 def get_model(model_name: str, variant: str, num_classes: int):
