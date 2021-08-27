@@ -19,17 +19,12 @@
 [rest]: https://arxiv.org/abs/2105.13677v3
 [pvtv2]: https://arxiv.org/abs/2106.13797
 [segformer]: https://arxiv.org/abs/2105.15203v2
-[volo]: https://arxiv.org/abs/2106.13112v1
 [cyclemlp]: https://arxiv.org/abs/2107.10224
 
 [upernet]: https://arxiv.org/abs/1807.10221
 [fapn]: https://arxiv.org/abs/2108.07058
 
 [psa]: https://arxiv.org/abs/2107.00782
-
-[maskformer]: https://arxiv.org/abs/2107.06278v1
-[openworld]: https://arxiv.org/abs/2107.14228
-
 
 [mit]: https://drive.google.com/drive/folders/1b7bwrInTW4VLEm27YawHOAMSMikga2Ia
 [segformerw]: https://drive.google.com/drive/folders/1UUMCAA51zkBBGAGh9zAX79q0YzHaa0p8?usp=sharing
@@ -63,9 +58,8 @@ Supported Modules:
 
 Model | Backbone<br>Head | mIoU (%) | Params (M)<br>GFLOPs <small>(512x512)</small> | Weights
 --- | --- | --- | --- | --- 
-[SegFormer][segformer]<br>B0\|B1\|B2\|B3\|B4 | MiT<br>SegFormerHead | 38.0`\|`43.1`\|`47.5`\|`50.0`\|`51.1 | 4`\|`14`\|`28`\|`47`\|`64<br>8`\|`16`\|`62`\|`79`\|`96 | [models][segformerw]\|[backbones][mit]
+[SegFormer][segformer]<br>B0\|B1\|B2\|B3\|B4 | MiT<br>SegFormer | 38.0`\|`43.1`\|`47.5`\|`50.0`\|`51.1 | 4`\|`14`\|`28`\|`47`\|`64<br>8`\|`16`\|`62`\|`79`\|`96 | [models][segformerw]\|[backbones][mit]
 [CycleMLP][cyclemlp]<br>B1\|B2\|B3\|B4\|B5 | CycleMLP<br>FPN | 39.5`\|`42.4`\|`44.5`\|`45.1`\|`45.6 | 19`\|`31`\|`42`\|`56`\|`79 | [backbones][cyclemlpw]
-[VOLO][volo]<br>D1\|D3\|D5 | VOLO<br>UperNet | 50.5`\|`52.9`\|`54.3 | - | N/A
 
 </details>
 
@@ -74,59 +68,13 @@ Model | Backbone<br>Head | mIoU (%) | Params (M)<br>GFLOPs <small>(512x512)</sma
 
 Model<br><sup>(Image Size) | Backbone<br>Head | mIoU (%)<br><sup>(val/test) | Params (M)<br>GFLOPs | Weights
 --- | --- | --- | --- | --- 
-[SegFormer][segformer]<br>B0\|B1\|B2\|B3\|B4<br>(1024x1024) | MiT<br>SegFormerHead | 78.1`\|`80.0`\|`82.2`\|`83.3`\|`83.9 | 4`\|`14`\|`28`\|`47`\|`64 <br> 126`\|`244`\|`717`\|`963`\|`1241 | [backbones][mit]
+[SegFormer][segformer]<br>B0\|B1\|B2\|B3\|B4<br>(1024x1024) | MiT<br>SegFormer | 78.1`\|`80.0`\|`82.2`\|`83.3`\|`83.9 | 4`\|`14`\|`28`\|`47`\|`64 <br> 126`\|`244`\|`717`\|`963`\|`1241 | [backbones][mit]
 [DDRNet][ddrnet]<br>23slim\|23<br>(1024x2048) | DDRNet | 77.8`\|`79.5<br>77.4`\|`79.4 | 6`\|`20 <br> 36`\|`143 | [models][ddrnetw]\|[backbones][ddrnetbw]
 [HarDNet][hardnet]<br>70<br>(1024x1024) | HarDNet | 77.7<br>75.9 | 4<br>35 | [model][hardnetcity]\|[backbone][hardnetw]
 [SFNet][sfnet]<br>18<br>(1024x0124) | ResNet | 78.4<br>- | 13<br>- | N/A
 [FaPN][fapn]<br>18<br>(768x1536) | ResNet<br>FaPN | 75.6<br>- | - | - | N/A
 
 </details>
-
-<!---
-<details>
-  <summary><strong>CamVid</strong> (click to expand)</summary>
-
-Model | Backbone<br>Head | mIoU (%)<br><sup>(val/test) | Params (M) | Weights
---- | --- | --- | --- | --- 
-[DDRNet][ddrnet]<br>23slim\|23 | DDRNet | -<br>74.4`\|`76.3 | 6`\|`20 | N/A
-
-</details>
-
-<details>
-  <summary><strong>COCO-Stuff-full</strong> (click to expand)</summary>
-
-Model | Backbone<br>Head  | mIoU <br><sup>(%) | Params <br><sup>(M) | Weights
---- | --- | --- | --- | --- 
-[SegFormer][segformer]<br>B5 | MiT<br>SegFormerHead | 46.7 | 85 | N/A
-
-</details>
-
-
-<details>
-  <summary><strong>Panoptic Segmentation on COCO panoptic-val</strong> (click to expand)</summary>
-
-Method | Backbone | PQ | PQ<sup>Th | PQ<sup>St | SQ | RQ | Params <br><sup>(M) | GFLOPs | Pretrained
---- | --- | --- | --- | --- | --- | --- | --- | --- | ---
-[MaskFormer][maskformer] | Swin-T | 47.7 | 51.7 | 41.7 | 80.4 | 58.3 | 42 | 179 | N/A
-| | Swin-S | 49.7 | 54.4 | 42.6 | 80.9 | 60.4 | 63 | 259 | N/A
-| | Swin-B | 51.8 | 56.3 | 43.2 | 81.4 | 61.8 | 102 | 411 | N/A
-
-</details>
-
-<details>
-  <summary><strong>Entity Segmentation on COCO-val</strong> (click to expand)</summary>
-
-Method | Backbone | Entity AP | Mask Rescore | Pretrained
---- | --- | --- | --- | ---
-[Open-World Entity][openworld] | MiT-B0 | 28.8 | 30.4 | N/A
-| | MiT-B2 | 35.1 | 36.6 | N/A
-| | MiT-B3 | 36.9 | 38.5 | N/A
-| | MiT-B5 | 37.2 | 38.7 | N/A
-
-
-</details>
-
---->
 
 ## <div align="center">Supported Datasets</div>
 
@@ -155,11 +103,11 @@ Dataset | Type | Categories | Train <br><sup>Images | Val<br><sup>Images | Test<
 [CityScapes][cityscapes] | Street Scene Parsing | 19 | 2,975 | 500 | 1,525<sup>+labels | 1024x2048
 [CamVid][camvid] | Street Scene Parsing | 11 | 367 | 101 | 233<sup>+labels | 720x960
 ||
-[MHPv2][mhp] | Multi-Human Parsing | 58+1 | 15,403 | 5,000 | 5,000 | -
-[MHPv1][mhp] | Multi-Human Parsing | 18+1 | 3,000 | 1,000 | 980<sup>+labels | -
-[LIP][lip] | Multi-Human Parsing | 19+1 | 30,462 | 10,000 | - | -
-[CIHP][lip] | Multi-Human Parsing | 19+1 | 28,280 | 5,000 | - | -
-[ATR][atr] | Single-Human Parsing | 17+1 | 16,000 | 700 | 1,000<sup>+labels | -
+[MHPv2][mhp] | Multi-Human Parsing | 59 | 15,403 | 5,000 | 5,000 | -
+[MHPv1][mhp] | Multi-Human Parsing | 19 | 3,000 | 1,000 | 980<sup>+labels | -
+[LIP][lip] | Multi-Human Parsing | 20 | 30,462 | 10,000 | - | -
+[CIHP][lip] | Multi-Human Parsing | 20 | 28,280 | 5,000 | - | -
+[ATR][atr] | Single-Human Parsing | 18 | 16,000 | 700 | 1,000<sup>+labels | -
 ||
 [SUIM][suim] | Underwater Imagery | 8 | 1,525 | - | 110<sup>+labels | -
 

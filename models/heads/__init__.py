@@ -1,4 +1,4 @@
-from .uper_head import UPerHead
-from .segformer_head import SegFormerHead
+from .upernet import UPerHead
+from .segformer import SegFormerHead
 
 __all__ = ['UPerHead', 'SegFormerHead']
