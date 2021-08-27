@@ -54,7 +54,7 @@ Supported Modules:
 
 
 <details open>
-  <summary><strong>ADE20K</strong></summary>
+  <summary><strong>ADE20K-val</strong></summary>
 
 Model | Backbone<br>Head | mIoU (%) | Params (M)<br>GFLOPs <small>(512x512)</small> | Weights
 --- | --- | --- | --- | --- 
@@ -64,15 +64,15 @@ Model | Backbone<br>Head | mIoU (%) | Params (M)<br>GFLOPs <small>(512x512)</sma
 </details>
 
 <details open>
-  <summary><strong>CityScapes</strong></summary>
+  <summary><strong>CityScapes-val</strong></summary>
 
-Model<br><sup>(Image Size) | Backbone<br>Head | mIoU (%)<br><sup>(val/test) | Params (M) | GFLOPs | Weights
---- | --- | --- | --- | --- | ---
-[SegFormer][segformer]<br>B0\|B1\|B2<br>(1024x1024) | MiT<br>SegFormer | 78.1`\|`80.0`\|`82.2<br>- | 4`\|`14`\|`28 | 126`\|`244`\|`717 | [backbones][mit]
-[SFNet][sfnet]<br>(1024x0124) | ResNet-18 | 78.4<br>- | 13 | - | -
-[HarDNet][hardnet]<br>(1024x1024) | HarDNet-70 | 77.7<br>75.9 | 4 | 35 | [model][hardnetcity]\|[backbone][hardnetw]
-[FaPN][fapn]<br>(768x1536) | ResNet-18<br>FaPN | 75.6<br>- | - | - | N/A
-[DDRNet][ddrnet]<br>23slim\|23<br>(1024x2048) | DDRNet | 77.8`\|`79.5<br>77.4`\|`79.4 | 6`\|`20 | 36`\|`143 | [models][ddrnetw]\|[backbones][ddrnetbw]
+Model | Image Size | Backbone<br>Head | mIoU (%) | Params (M) | GFLOPs | Weights
+--- | --- | --- | --- | --- | --- | ---
+[SegFormer][segformer]<br>B0\|B1 | 1024x1024 | MiT<br>SegFormer | 78.1`\|`80.0 | 4`\|`14 | 126`\|`244 | [backbones][mit]
+[SFNet][sfnet] | 1024x0124 | ResNet-18 | 78.4 | 13 | - | -
+[HarDNet][hardnet] | 1024x1024 | HarDNet-70 | 77.7 | 4 | 35 | [model][hardnetcity]\|[backbone][hardnetw]
+[FaPN][fapn] | 768x1536 | ResNet-18<br>FaPN | 75.6 | - | - | N/A
+[DDRNet][ddrnet]<br>23slim\|23<br> | 1024x2048 | DDRNet | 77.8`\|`79.5 | 6`\|`20 | 36`\|`143 | [models][ddrnetw]\|[backbones][ddrnetbw]
 
 </details>
 
