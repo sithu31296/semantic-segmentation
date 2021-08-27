@@ -8,10 +8,10 @@ from .heads import UPerHead
 
 
 class CustomVIT(nn.Module):
-    def __init__(self, model_name: str = 'S', num_classes: int = 19) -> None:
+    def __init__(self, variant: str = 'S', num_classes: int = 19) -> None:
         super().__init__()
-        self.backbone = ResT(model_name)
-        self.decode_head = UPerHead(self.backbone.embed_dims, 128, (1, 2, 3, 6), num_classes)
+        self.backbone = ResT(variant)
+        self.decode_head = UPerHead(self.backbone.embed_dims, 128, num_classes)
         self.apply(self._init_weights)
 
     def _init_weights(self, m: nn.Module) -> None:

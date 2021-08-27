@@ -148,10 +148,10 @@ ddrnet_settings = {
 
 
 class DDRNet(nn.Module):
-    def __init__(self, model_name: str = '23slim', num_classes: int = 19) -> None:
+    def __init__(self, variant: str = '23slim', num_classes: int = 19) -> None:
         super().__init__()
-        assert model_name in ddrnet_settings.keys(), f"DDRNet model name should be in {list(ddrnet_settings.keys())}"
-        planes, spp_planes, head_planes = ddrnet_settings[model_name]
+        assert variant in ddrnet_settings.keys(), f"DDRNet model variant should be in {list(ddrnet_settings.keys())}"
+        planes, spp_planes, head_planes = ddrnet_settings[variant]
 
         self.conv1 = Stem(3, planes[0])
 

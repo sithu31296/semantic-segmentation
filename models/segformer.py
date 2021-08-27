@@ -18,10 +18,10 @@ segformer_settings = {
 
 
 class SegFormer(nn.Module):
-    def __init__(self, model_name: str = 'B0', num_classes: int = 19) -> None:
+    def __init__(self, variant: str = 'B0', num_classes: int = 19) -> None:
         super().__init__()
-        self.backbone = MiT(model_name)
-        self.decode_head = SegFormerHead(self.backbone.embed_dims, segformer_settings[model_name], num_classes)
+        self.backbone = MiT(variant)
+        self.decode_head = SegFormerHead(self.backbone.embed_dims, segformer_settings[variant], num_classes)
 
         self.apply(self._init_weights)
 

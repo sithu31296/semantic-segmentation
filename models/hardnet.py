@@ -92,10 +92,10 @@ hardnet_settings = {
 
 
 class HarDNet(nn.Module):
-    def __init__(self, model_name: str = '70', num_classes: int = 19) -> None:
+    def __init__(self, variant: str = '70', num_classes: int = 19) -> None:
         super().__init__()
-        assert model_name in hardnet_settings.keys(), f"HarDNet model name should be in {list(hardnet_settings.keys())}"
-        first_ch, ch_list, gr, n_layers = hardnet_settings[model_name]
+        assert variant in hardnet_settings.keys(), f"HarDNet model variant should be in {list(hardnet_settings.keys())}"
+        first_ch, ch_list, gr, n_layers = hardnet_settings[variant]
 
         self.base = nn.ModuleList([])
 

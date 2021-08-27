@@ -89,10 +89,11 @@ class PSAS(nn.Module):
         return self.channel_pool(self.spatial_pool(x))
 
 
+"""
+PSA Module Usage
 
 class BasicBlock(nn.Module):
-    """2 Layer No Expansion Block
-    """
+    # 2 Layer No Expansion Block
     expansion: int = 1
     def __init__(self, c1, c2, s=1, downsample= None) -> None:
         super().__init__()
@@ -114,8 +115,7 @@ class BasicBlock(nn.Module):
 
 
 class Bottleneck(nn.Module):
-    """3 Layer 4x Expansion Block
-    """
+    # 3 Layer 4x Expansion Block
     expansion: int = 4
     def __init__(self, c1, c2, s=1, downsample=None) -> None:
         super().__init__()
@@ -196,5 +196,5 @@ if __name__ == '__main__':
     for y in outs:
         print(y.shape) 
 
-
+"""
         

@@ -19,7 +19,7 @@ class CustomCNN(nn.Module):
         super().__init__()
         in_channels, channels = head_settings[variant]
         self.backbone = ResNet(variant)
-        self.decode_head = UPerHead(in_channels, channels, (1, 2, 3, 6), num_classes)
+        self.decode_head = UPerHead(in_channels, channels, num_classes)
 
         self.apply(self._init_weights)
 
@@ -44,8 +44,8 @@ class CustomCNN(nn.Module):
 
     
 if __name__ == '__main__':
-    model = CustomCNN('50', 19)
-    model.init_pretrained('checkpoints/backbones/resnet/resnet50.pth')
+    model = CustomCNN('18', 19)
+    model.init_pretrained('checkpoints/backbones/resnet/resnet18.pth')
     x = torch.randn(2, 3, 224, 224)
     y = model(x)
     print(y.shape)

@@ -16,6 +16,7 @@
 [sfnet]: https://arxiv.org/abs/2002.10120
 
 [resnet]: https://arxiv.org/abs/1512.03385
+[resnetd]: https://arxiv.org/abs/1812.01187
 [rest]: https://arxiv.org/abs/2105.13677v3
 [pvtv2]: https://arxiv.org/abs/2106.13797
 [segformer]: https://arxiv.org/abs/2105.15203v2
@@ -25,6 +26,7 @@
 [fapn]: https://arxiv.org/abs/2108.07058
 
 [psa]: https://arxiv.org/abs/2107.00782
+[psp]: https://arxiv.org/abs/1612.01105
 
 [mit]: https://drive.google.com/drive/folders/1b7bwrInTW4VLEm27YawHOAMSMikga2Ia
 [segformerw]: https://drive.google.com/drive/folders/1UUMCAA51zkBBGAGh9zAX79q0YzHaa0p8?usp=sharing
@@ -33,22 +35,23 @@
 [cyclemlpw]: https://drive.google.com/drive/folders/19DNSyZfJKKvH_ab0-kGlsYOdy9Zc_BiA?usp=sharing
 [hardnetcity]: https://drive.google.com/file/d/1QK1qgaKOPAatx-DHNmv7Mu0S0cE1fHCN/view?usp=sharing
 [hardnetw]: https://drive.google.com/file/d/1HAFHvtodAPL_eb4LX_rb0FJZyKTOo4mK/view?usp=sharing
+[resnetdw]: https://drive.google.com/drive/folders/1sVyewBDkePlw3kbvhUD4PvUxjro4iKFy?usp=sharing
 
 
 Supported Backbones:
-* *CNN*: [ResNet][resnet]
+* *CNN*: [ResNet][resnet], [ResNetD][resnetd]
 * *ViT*: [MiT][segformer], [PVTv2][pvtv2], [ResT][rest]
 * *MLP*: [CycleMLP][cyclemlp]
 
 Supported Heads:
-* *CNN*: [UPerNet][upernet], [FaPN][fapn] (coming soon)
+* *CNN*: [UPerNet][upernet], [SFNet][sfnet], [FaPN][fapn] (coming soon)
 * *MLP*: [SegFormer][segformer]
 
 Supported Standalone Models:
-* [DDRNet][ddrnet], [HarDNet][hardnet], [SFNet][sfnet]
+* [DDRNet][ddrnet], [HarDNet][hardnet]
 
 Supported Modules:
-* [PSA][psa]
+* [PPM][psp], [PSA][psa]
 
 > Notes: Check each backbone model's accuracy and download its weights from [image-classification](https://github.com/sithu31296/image-classification) if it is not provided in this repo. 
 
@@ -66,12 +69,12 @@ Model | Backbone<br>Head | mIoU (%) | Params (M)<br>GFLOPs <small>(512x512)</sma
 <details open>
   <summary><strong>CityScapes-val</strong></summary>
 
-Model | Image Size | Backbone<br>Head | mIoU (%) | Params (M) | GFLOPs | Weights
+Model | Img Size | Backbone | mIoU (%) | Params (M) | GFLOPs | Weights
 --- | --- | --- | --- | --- | --- | ---
-[SegFormer][segformer]<br>B0\|B1 | 1024x1024 | MiT<br>SegFormer | 78.1`\|`80.0 | 4`\|`14 | 126`\|`244 | [backbones][mit]
-[SFNet][sfnet] | 1024x0124 | ResNet-18 | 78.4 | 13 | - | -
+[SegFormer][segformer]<br>B0\|B1 | 1024x1024 | MiT | 78.1`\|`80.0 | 4`\|`14 | 126`\|`244 | [backbones][mit]
+[SFNet][sfnet] | 1024x1024 | ResNetD-18 | 79.0 | 13 | - | [backbones][resnetd]
 [HarDNet][hardnet] | 1024x1024 | HarDNet-70 | 77.7 | 4 | 35 | [model][hardnetcity]<br>[backbone][hardnetw]
-[FaPN][fapn] | 768x1536 | ResNet-18<br>FaPN | 75.6 | - | - | N/A
+[FaPN][fapn] | 768x1536 | ResNet-18 | 75.6 | - | - | N/A
 [DDRNet][ddrnet]<br>23slim\|23<br> | 1024x2048 | DDRNet | 77.8`\|`79.5 | 6`\|`20 | 36`\|`143 | [models][ddrnetw]<br>[backbones][ddrnetbw]
 
 </details>
