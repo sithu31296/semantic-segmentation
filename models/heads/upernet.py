@@ -2,10 +2,6 @@ import torch
 from torch import nn, Tensor
 from torch.nn import functional as F
 from typing import Tuple
-import sys
-sys.path.append('..')
-from modules import PPM
-
 
 
 class ConvModule(nn.Sequential):
@@ -15,6 +11,32 @@ class ConvModule(nn.Sequential):
             nn.BatchNorm2d(c2),
             nn.ReLU(),
         )
+
+
+
+class PPM(nn.Module):
+    """Pyramid Pooling Module in PSPNet
+    """
+    def __init__(self, c1, c2=128, scales=(1, 2, 3, 6)):
+        super().__init__()
+        self.stages = nn.ModuleList([
+            nn.Sequential(
+                nn.AdaptiveAvgPool2d(scale),
+                ConvModule(c1, c2, 1)
+            )
+        for scale in scales])
+
+        self.bottleneck = ConvModule(c1 + c2 * len(scales), c2, 3, 1, 1)
+
+    def forward(self, x: Tensor) -> Tensor:
+        outs = []
+        for stage in self.stages:
+            outs.append(F.interpolate(stage(x), size=x.shape[-2:], mode='bilinear', align_corners=True))
+
+        outs = [x] + outs[::-1]
+        out = self.bottleneck(torch.cat(outs, dim=1))
+        return out
+
 
 
 class UPerHead(nn.Module):
@@ -58,11 +80,11 @@ class UPerHead(nn.Module):
         return output
 
 
-# if __name__ == '__main__':
-#     model = UPerHead([64, 128, 256, 512], 128)
-#     x1 = torch.randn(2, 64, 56, 56)
-#     x2 = torch.randn(2, 128, 28, 28)
-#     x3 = torch.randn(2, 256, 14, 14)
-#     x4 = torch.randn(2, 512, 7, 7)
-#     y = model([x1, x2, x3, x4])
-#     print(y.shape)
+if __name__ == '__main__':
+    model = UPerHead([64, 128, 256, 512], 128)
+    x1 = torch.randn(2, 64, 56, 56)
+    x2 = torch.randn(2, 128, 28, 28)
+    x3 = torch.randn(2, 256, 14, 14)
+    x4 = torch.randn(2, 512, 7, 7)
+    y = model([x1, x2, x3, x4])
+    print(y.shape)

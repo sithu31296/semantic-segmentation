@@ -38,7 +38,7 @@ class SFNet(nn.Module):
     def forward(self, x: Tensor) -> Tensor:
         outs = self.backbone(x)
         out = self.head(outs)
-        out = F.interpolate(out, size=x.shape[-2:], mode='bilinear', align_corners=False)
+        out = F.interpolate(out, size=x.shape[-2:], mode='bilinear', align_corners=True)
         return out
 
 

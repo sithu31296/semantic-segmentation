@@ -1,9 +1,6 @@
 import torch
 from torch import nn, Tensor
 from torch.nn import functional as F
-import sys
-sys.path.append('..')
-from modules import PPM
 
 
 class ConvModule(nn.Sequential):
@@ -13,6 +10,33 @@ class ConvModule(nn.Sequential):
             nn.BatchNorm2d(c2),
             nn.ReLU(),
         )
+
+
+
+class PPM(nn.Module):
+    """Pyramid Pooling Module in PSPNet
+    """
+    def __init__(self, c1, c2=128, scales=(1, 2, 3, 6)):
+        super().__init__()
+        self.stages = nn.ModuleList([
+            nn.Sequential(
+                nn.AdaptiveAvgPool2d(scale),
+                ConvModule(c1, c2, 1)
+            )
+        for scale in scales])
+
+        self.bottleneck = ConvModule(c1 + c2 * len(scales), c2, 3, 1, 1)
+
+    def forward(self, x: Tensor) -> Tensor:
+        outs = []
+        
+        for stage in self.stages:
+            outs.append(F.interpolate(stage(x), size=x.shape[-2:], mode='bilinear', align_corners=True))
+        
+        outs = [x] + outs[::-1]
+        out = self.bottleneck(torch.cat(outs, dim=1))
+        return out
+
 
 
 class AlignedModule(nn.Module):
@@ -40,7 +64,7 @@ class AlignedModule(nn.Module):
         grid = torch.cat((W.unsqueeze(2), H.unsqueeze(2)), dim=2)
         grid = grid.repeat(x.shape[0], 1, 1, 1).type_as(x).to(x.device)
         grid = grid + flow.permute(0, 2, 3, 1) / norm
-        output = F.grid_sample(x, grid)
+        output = F.grid_sample(x, grid, align_corners=False)
         return output
 
 
