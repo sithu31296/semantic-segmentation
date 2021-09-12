@@ -2,7 +2,7 @@ DEVICE          : cpu              # device used for training and evaluation (cp
 SAVE_DIR        : 'output'         # output folder name used for saving the model, logs and inference results
 
 MODEL:                                    
-  NAME          : hardnet                                           # name of the model you are using
+  NAME          : HarDNet                                           # name of the model you are using
   VARIANT       : '70'                                                  # model variant
   PRETRAINED    : 'checkpoints/backbones/hardnet/hardnet_70.pth'              # backbone model's weight 
 
@@ -11,11 +11,11 @@ DATASET:
   ROOT          : 'data/CityScapes'                         # dataset root path
 
 TRAIN:
-  IMAGE_SIZE    : [1024, 1024]      # training image size in (h, w)
+  IMAGE_SIZE    : [1024, 1024]    # training image size in (h, w)
   BATCH_SIZE    : 8               # batch size used to train
   EPOCHS        : 500             # number of epochs to train
   EVAL_INTERVAL : 50              # evaluation interval during training
-  AMP           : true            # use AMP in training
+  AMP           : false           # use AMP in training
   DDP           : false           # use DDP training
 
 LOSS:
@@ -25,8 +25,8 @@ LOSS:
 
 OPTIMIZER:
   NAME          : adamw           # optimizer name
-  LR            : 0.01           # initial learning rate used in optimizer
-  WEIGHT_DECAY  : 0.0001            # decay rate used in optimizer 
+  LR            : 0.01            # initial learning rate used in optimizer
+  WEIGHT_DECAY  : 0.0001          # decay rate used in optimizer 
 
 SCHEDULER:
   NAME          : warmuppolylr    # scheduler name

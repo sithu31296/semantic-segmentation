@@ -2,7 +2,7 @@ DEVICE          : cpu              # device used for training and evaluation (cp
 SAVE_DIR        : 'output'         # output folder name used for saving the model, logs and inference results
 
 MODEL:                                    
-  NAME          : segformer                                           # name of the model you are using
+  NAME          : SegFormer                                           # name of the model you are using
   VARIANT       : B0                                                  # model variant
   PRETRAINED    : 'checkpoints/backbones/mit/mit_b0.pth'              # backbone model's weight 
 
@@ -15,7 +15,7 @@ TRAIN:
   BATCH_SIZE    : 8               # batch size used to train
   EPOCHS        : 500             # number of epochs to train
   EVAL_INTERVAL : 20              # evaluation interval during training
-  AMP           : true            # use AMP in training
+  AMP           : false           # use AMP in training
   DDP           : false           # use DDP training
 
 LOSS:

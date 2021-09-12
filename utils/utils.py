@@ -87,12 +87,8 @@ def throughput(dataloader, model: nn.Module, times: int = 30):
     print(f"Batch Size {B} throughput {times * B / (end - start)} images/s")
 
 
-
 def show_models():
-    model_names = list(models.__all__.keys())
-    model_variants = []
-
-    for name in model_names:
-        model_variants.append(list(eval(f'models.{name}_settings').keys()))
+    model_names = models.__all__
+    model_variants = [list(eval(f'models.{name.lower()}_settings').keys()) for name in model_names]
 
     print(tabulate({'Model Names': model_names, 'Model Variants': model_variants}, headers='keys'))

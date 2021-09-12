@@ -23,6 +23,7 @@
 [cyclemlp]: https://arxiv.org/abs/2107.10224
 
 [upernet]: https://arxiv.org/abs/1807.10221
+[fpn]: https://arxiv.org/abs/1901.02446
 [fapn]: https://arxiv.org/abs/2108.07058
 
 [psa]: https://arxiv.org/abs/2107.00782
@@ -44,7 +45,7 @@ Supported Backbones:
 * *MLP*: [CycleMLP][cyclemlp]
 
 Supported Heads:
-* *CNN*: [UPerNet][upernet], [SFNet][sfnet], [FaPN][fapn] (coming soon)
+* *CNN*: [UPerNet][upernet], [SFNet][sfnet], [FPN][fpn], [FaPN][fapn]
 * *MLP*: [SegFormer][segformer]
 
 Supported Standalone Models:
@@ -72,9 +73,9 @@ Model | Backbone<br>Head | mIoU (%) | Params (M)<br>GFLOPs <small>(512x512)</sma
 Model | Img Size | Backbone | mIoU (%) | Params (M) | GFLOPs | Weights
 --- | --- | --- | --- | --- | --- | ---
 [SegFormer][segformer]<br>B0\|B1 | 1024x1024 | MiT | 78.1`\|`80.0 | 4`\|`14 | 126`\|`244 | [backbones][mit]
+[FaPN][fapn] | 512x1024 | ResNet-50 | 80.0 | 33 | - | N/A
 [SFNet][sfnet] | 1024x1024 | ResNetD-18 | 79.0 | 13 | - | [backbones][resnetd]
 [HarDNet][hardnet] | 1024x1024 | HarDNet-70 | 77.7 | 4 | 35 | [model][hardnetcity]<br>[backbone][hardnetw]
-[FaPN][fapn] | 768x1536 | ResNet-18 | 75.6 | - | - | N/A
 [DDRNet][ddrnet]<br>23slim\|23<br> | 1024x2048 | DDRNet | 77.8`\|`79.5 | 6`\|`20 | 36`\|`143 | [models][ddrnetw]<br>[backbones][ddrnetbw]
 
 </details>
