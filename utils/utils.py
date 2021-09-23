@@ -15,7 +15,7 @@ sys.path.insert(0, '.')
 import models
 
 
-def fix_seeds(seed: int = 123) -> None:
+def fix_seeds(seed: int = 3407) -> None:
     torch.manual_seed(seed)
     torch.cuda.manual_seed(seed)
     np.random.seed(seed)
