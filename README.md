@@ -61,24 +61,23 @@ Supported Modules:
 <details open>
   <summary><strong>ADE20K-val</strong></summary>
 
-Model | Backbone<br>Head | mIoU (%) | Params (M)<br>GFLOPs <small>(512x512)</small> | Weights
---- | --- | --- | --- | --- 
-[SegFormer][segformer]<br>B0\|B1\|B2\|B3\|B4 | MiT<br>SegFormer | 38.0`\|`43.1`\|`47.5`\|`50.0`\|`51.1 | 4`\|`14`\|`28`\|`47`\|`64<br>8`\|`16`\|`62`\|`79`\|`96 | [models][segformerw]<br>[backbones][mit]
-[CycleMLP][cyclemlp]<br>B1\|B2\|B3\|B4\|B5 | CycleMLP<br>FPN | 39.5`\|`42.4`\|`44.5`\|`45.1`\|`45.6 | 19`\|`31`\|`42`\|`56`\|`79 | [backbones][cyclemlpw]
-[CondNet][condnet] | R101 | 47.12 | - | -
+Model | Backbone | Variants | mIoU (%) | Params <br><sup>(M) | GFLOPs <br><sup>(512x512) | Weights
+--- | --- | --- | --- | --- | --- | ---
+[SegFormer][segformer] | MiT | B1\|B2\|B3 | 43.1`\|`47.5`\|`50.0 | 14`\|`28`\|`47 | 16`\|`62`\|`79 | [models][segformerw]<br>[backbones][mit]
+[CondNet][condnet] | ResNet | 50\|101 | 44.3`\|`47.1 | - | - | -
 
 </details>
 
 <details open>
   <summary><strong>CityScapes-val</strong></summary>
 
-Model | Img Size | Backbone | mIoU (%) | Params (M) | GFLOPs | Weights
---- | --- | --- | --- | --- | --- | ---
-[SegFormer][segformer]<br>B0\|B1 | 1024x1024 | MiT | 78.1`\|`80.0 | 4`\|`14 | 126`\|`244 | [backbones][mit]
-[FaPN][fapn] | 512x1024 | ResNet-50 | 80.0 | 33 | - | N/A
-[SFNet][sfnet] | 1024x1024 | ResNetD-18 | 79.0 | 13 | - | [backbones][resnetd]
-[HarDNet][hardnet] | 1024x1024 | HarDNet-70 | 77.7 | 4 | 35 | [model][hardnetcity]<br>[backbone][hardnetw]
-[DDRNet][ddrnet]<br>23slim\|23<br> | 1024x2048 | DDRNet | 77.8`\|`79.5 | 6`\|`20 | 36`\|`143 | [models][ddrnetw]<br>[backbones][ddrnetbw]
+Model | Backbone | Variants | mIoU (%) | Params (M) | GFLOPs | Img Size | Weights
+--- | --- | --- | --- | --- | --- | --- | ---
+[SegFormer][segformer] | MiT | B0\|B1 | 78.1`\|`80.0 | 4`\|`14 | 126`\|`244 | 1024x1024 | [backbones][mit]
+[FaPN][fapn] | ResNet | 50 | 80.0 | 33 | - | 512x1024 | N/A
+[SFNet][sfnet] | ResNetD | 18 | 79.0 | 13 | - | 1024x1024 | [backbones][resnetd]
+[HarDNet][hardnet] | HarDNet | 70 | 77.7 | 4 | 35 | 1024x1024 | [model][hardnetcity]<br>[backbone][hardnetw]
+[DDRNet][ddrnet] | DDRNet | 23slim\|23 | 77.8`\|`79.5 | 6`\|`20 | 36`\|`143 | 1024x2048 | [models][ddrnetw]<br>[backbones][ddrnetbw]
 
 </details>
 
