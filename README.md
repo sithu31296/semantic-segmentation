@@ -21,6 +21,7 @@
 [pvtv2]: https://arxiv.org/abs/2106.13797
 [segformer]: https://arxiv.org/abs/2105.15203v2
 [cyclemlp]: https://arxiv.org/abs/2107.10224
+[condnet]: https://arxiv.org/abs/2109.10322
 
 [upernet]: https://arxiv.org/abs/1807.10221
 [fpn]: https://arxiv.org/abs/1901.02446
@@ -64,6 +65,7 @@ Model | Backbone<br>Head | mIoU (%) | Params (M)<br>GFLOPs <small>(512x512)</sma
 --- | --- | --- | --- | --- 
 [SegFormer][segformer]<br>B0\|B1\|B2\|B3\|B4 | MiT<br>SegFormer | 38.0`\|`43.1`\|`47.5`\|`50.0`\|`51.1 | 4`\|`14`\|`28`\|`47`\|`64<br>8`\|`16`\|`62`\|`79`\|`96 | [models][segformerw]<br>[backbones][mit]
 [CycleMLP][cyclemlp]<br>B1\|B2\|B3\|B4\|B5 | CycleMLP<br>FPN | 39.5`\|`42.4`\|`44.5`\|`45.1`\|`45.6 | 19`\|`31`\|`42`\|`56`\|`79 | [backbones][cyclemlpw]
+[CondNet][condnet] | R101 | 47.12 | - | -
 
 </details>
 
