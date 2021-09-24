@@ -256,8 +256,8 @@ Spatial-level Transforms:
 
 ## <div align="center">Usage</div>
 
-<details>
-  <summary><strong>Requirements</strong> (click to expand)</summary>
+<details open>
+  <summary><strong>Requirements</strong></summary>
 
 * python >= 3.6
 * torch >= 1.8.1
@@ -311,10 +311,16 @@ To evaluate with multi-scale and flip, change `ENABLE` field in `MSF` to `true` 
 <details open>
   <summary><strong>Inference</strong></summary>
 
-Make sure to set `MODEL_PATH` of the configuration file to model's weights.
+To make an inference, edit the parameters of the config file from below.
+* Change `MODEL` >> `NAME` and `VARIANT` to your desired pretrained model.
+* Change `DATASET` >> `NAME` to the dataset name depending on the pretrained model.
+* Set `TEST` >> `MODEL_PATH` to pretrained weights of the testing model.
+* Change `TEST` >> `FILE` to the file or image folder path you want to test.
+* Testing results will be saved in `SAVE_DIR`.
 
 ```bash
-$ python tools/infer.py --cfg configs/CONFIG_FILE.yaml
+## example using ade20k pretrained models
+$ python tools/infer.py --cfg configs/ade20k.yaml
 ```
 
 Example test results:
