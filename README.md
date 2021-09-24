@@ -20,7 +20,6 @@
 [rest]: https://arxiv.org/abs/2105.13677v3
 [pvtv2]: https://arxiv.org/abs/2106.13797
 [segformer]: https://arxiv.org/abs/2105.15203v2
-[cyclemlp]: https://arxiv.org/abs/2107.10224
 [condnet]: https://arxiv.org/abs/2109.10322
 
 [upernet]: https://arxiv.org/abs/1807.10221
@@ -31,52 +30,65 @@
 [psa]: https://arxiv.org/abs/2107.00782
 [psp]: https://arxiv.org/abs/1612.01105
 
+[resnetw]: https://drive.google.com/drive/folders/1MXP3Qx51c91PL9P52Tv89t90SaiTYuaC?usp=sharing
 [mit]: https://drive.google.com/drive/folders/1b7bwrInTW4VLEm27YawHOAMSMikga2Ia
 [segformerw]: https://drive.google.com/drive/folders/1UUMCAA51zkBBGAGh9zAX79q0YzHaa0p8?usp=sharing
 [ddrnetw]: https://drive.google.com/drive/folders/15-rUFFwhKVra-6Y46HdcsfFCdOM4oEJA?usp=sharing
 [ddrnetbw]: https://drive.google.com/drive/folders/15d-JHTt6k335ieHEMTGt1nWJHnxfP3LN?usp=sharing
-[cyclemlpw]: https://drive.google.com/drive/folders/19DNSyZfJKKvH_ab0-kGlsYOdy9Zc_BiA?usp=sharing
-[hardnetcity]: https://drive.google.com/file/d/1QK1qgaKOPAatx-DHNmv7Mu0S0cE1fHCN/view?usp=sharing
+[fchardnetw]: https://drive.google.com/file/d/1QK1qgaKOPAatx-DHNmv7Mu0S0cE1fHCN/view?usp=sharing
 [hardnetw]: https://drive.google.com/file/d/1HAFHvtodAPL_eb4LX_rb0FJZyKTOo4mK/view?usp=sharing
 [resnetdw]: https://drive.google.com/drive/folders/1sVyewBDkePlw3kbvhUD4PvUxjro4iKFy?usp=sharing 
+[pvtw]: https://drive.google.com/drive/folders/10Dd9BEe4wv71dC5BXhsL_C6KeI_Rcxm3?usp=sharing
+[restw]: https://drive.google.com/drive/folders/1R2cewgHo6sYcQnRGBBIndjNomumBwekr?usp=sharing
 
 <details open>
   <summary><strong>ADE20K-val</strong></summary>
 
-Model | Backbone | Variants | mIoU (%) | Params <br><sup>(M) | GFLOPs <br><sup>(512x512) | Weights
+Method | Backbone | Variants | mIoU (%) | Params <br><sup>(M) | GFLOPs <br><sup>(512x512) | Weights
 --- | --- | --- | --- | --- | --- | ---
-[SegFormer][segformer] | MiT | B1\|B2\|B3 | 43.1`\|`47.5`\|`50.0 | 14`\|`28`\|`47 | 16`\|`62`\|`79 | [models][segformerw]<br>[backbones][mit]
-[CondNet][condnet] | ResNet | 50\|101 | 44.3`\|`47.1 | - | - | -
+[SegFormer][segformer] | MiT | B1\|B2\|B3 | 43.1`\|`47.5`\|`50.0 | 14`\|`28`\|`47 | 16`\|`62`\|`79 | [download][segformerw]
+[CondNet][condnet] | ResNet | 50\|101 | 44.3`\|`47.1 | - | - | N/A
 </details>
 
 <details open>
   <summary><strong>CityScapes-val</strong></summary>
 
-Model | Backbone | Variants | mIoU (%) | Params (M) | GFLOPs | Img Size | Weights
+Method | Backbone | Variants | mIoU (%) | Params (M) | GFLOPs | Img Size | Weights
 --- | --- | --- | --- | --- | --- | --- | ---
-[SegFormer][segformer] | MiT | B0\|B1 | 78.1`\|`80.0 | 4`\|`14 | 126`\|`244 | 1024x1024 | [backbones][mit]
+[SegFormer][segformer] | MiT | B0\|B1 | 78.1`\|`80.0 | 4`\|`14 | 126`\|`244 | 1024x1024 | N/A
 [FaPN][fapn] | ResNet | 50 | 80.0 | 33 | - | 512x1024 | N/A
-[SFNet][sfnet] | ResNetD | 18 | 79.0 | 13 | - | 1024x1024 | [backbones][resnetd]
-[HarDNet][hardnet] | HarDNet | 70 | 77.7 | 4 | 35 | 1024x1024 | [model][hardnetcity]<br>[backbone][hardnetw]
-[DDRNet][ddrnet] | DDRNet | 23slim\|23 | 77.8`\|`79.5 | 6`\|`20 | 36`\|`143 | 1024x2048 | [models][ddrnetw]<br>[backbones][ddrnetbw]
+[SFNet][sfnet] | ResNetD | 18 | 79.0 | 13 | - | 1024x1024 | N/A
+[FCHarDNet][hardnet] | HarDNet | 70 | 77.7 | 4 | 35 | 1024x1024 | [download][fchardnetw]
+[DDRNet][ddrnet] | DDRNet | 23slim\|23 | 77.8`\|`79.5 | 6`\|`20 | 36`\|`143 | 1024x2048 | [download][ddrnetw]
 </details>
 
 Supported Backbones:
-* *CNN*: [ResNet][resnet], [ResNetD][resnetd]
-* *ViT*: [MiT][segformer], [PVTv2][pvtv2], [ResT][rest]
-* *MLP*: [CycleMLP][cyclemlp]
 
-Supported Heads:
-* *CNN*: [UPerNet][upernet], [SFNet][sfnet], [FPN][fpn], [FaPN][fapn], [FCN][fcn]
-* *MLP*: [SegFormer][segformer]
-
-Supported Standalone Models:
-* [DDRNet][ddrnet], [HarDNet][hardnet]
+Model | Variants | ImageNet-1k Top-1 Acc (%) | Params (M) | GFLOPs | Weights
+--- | --- | --- | --- | --- | ---
+[ResNet][resnet] | 18\|50\|101 | 69.8`\|`76.1`\|`77.4 | 12`\|`25`\|`44 | 2`\|`4`\|`8 | [download][resnetw]
+[ResNetD][resnetd] | 18\|50\|101 | - | 12`\|`25`\|`44 | 2`\|`4`\|`8 | [download][resnetdw]
+[MiT][segformer] | B1\|B2\|B3 | - | 14`\|`25`\|`45 | 2`\|`4`\|`8 | [download][mit]
+[PVTv2][pvtv2] | B1\|B2\|B4 | 78.7`\|`82.0`\|`83.6 | 14`\|`25`\|`63 | 2`\|`4`\|`10 | [download][pvtw]
+[ResT][rest] | S\|B\|L | 79.6`\|`81.6`\|`83.6 | 14`\|`30`\|`52 | 2`\|`4`\|`8 | [download][restw]
 
 Supported Modules:
-* [PPM][psp], [PSA][psa]
+* [PPM][psp]
+* [PSA][psa]
 
-> Notes: Check each backbone model's accuracy and download its weights from [image-classification](https://github.com/sithu31296/image-classification) if it is not provided in this repo.
+Supported Heads/Methods:
+* [FCN][fcn]
+* [FPN][fpn]
+* [FaPN][fapn]
+* [UPerNet][upernet]
+* [SFNet][sfnet] 
+* [SegFormer][segformer]
+
+Supported Standalone Models:
+* [DDRNet][ddrnet]
+* [FCHarDNet][hardnet]
+
+> Notes: Backbones' weights for [DDRNet][ddrnetbw] and [HarDNet][hardnetw].
 
 ## <div align="center">Supported Datasets</div>
 
@@ -380,15 +392,6 @@ Example test results:
   primaryClass={cs.CV}
 }
 
-@misc{chen2021cyclemlp,
-  title={CycleMLP: A MLP-like Architecture for Dense Prediction}, 
-  author={Shoufa Chen and Enze Xie and Chongjian Ge and Ding Liang and Ping Luo},
-  year={2021},
-  eprint={2107.10224},
-  archivePrefix={arXiv},
-  primaryClass={cs.CV}
-}
-
 @misc{wang2021pvtv2,
   title={PVTv2: Improved Baselines with Pyramid Vision Transformer}, 
   author={Wenhai Wang and Enze Xie and Xiang Li and Deng-Ping Fan and Kaitao Song and Ding Liang and Tong Lu and Ping Luo and Ling Shao},
@@ -427,6 +430,17 @@ Example test results:
   journal={ArXiv},
   year={2020},
   volume={abs/2011.03308}
+}
+
+@ARTICLE{Yucondnet21,
+  author={Yu, Changqian and Shao, Yuanjie and Gao, Changxin and Sang, Nong},
+  journal={IEEE Signal Processing Letters}, 
+  title={CondNet: Conditional Classifier for Scene Segmentation}, 
+  year={2021},
+  volume={28},
+  number={},
+  pages={758-762},
+  doi={10.1109/LSP.2021.3070472}
 }
 
 ```
