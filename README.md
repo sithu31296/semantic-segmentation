@@ -83,6 +83,7 @@ Supported Heads/Methods:
 * [UPerNet][upernet]
 * [SFNet][sfnet] 
 * [SegFormer][segformer]
+* [CondNet][condnet]
 
 Supported Standalone Models:
 * [DDRNet][ddrnet]
