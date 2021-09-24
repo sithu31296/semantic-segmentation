@@ -26,6 +26,7 @@
 [upernet]: https://arxiv.org/abs/1807.10221
 [fpn]: https://arxiv.org/abs/1901.02446
 [fapn]: https://arxiv.org/abs/2108.07058
+[fcn]: https://arxiv.org/abs/1411.4038
 
 [psa]: https://arxiv.org/abs/2107.00782
 [psp]: https://arxiv.org/abs/1612.01105
@@ -37,26 +38,7 @@
 [cyclemlpw]: https://drive.google.com/drive/folders/19DNSyZfJKKvH_ab0-kGlsYOdy9Zc_BiA?usp=sharing
 [hardnetcity]: https://drive.google.com/file/d/1QK1qgaKOPAatx-DHNmv7Mu0S0cE1fHCN/view?usp=sharing
 [hardnetw]: https://drive.google.com/file/d/1HAFHvtodAPL_eb4LX_rb0FJZyKTOo4mK/view?usp=sharing
-[resnetdw]: https://drive.google.com/drive/folders/1sVyewBDkePlw3kbvhUD4PvUxjro4iKFy?usp=sharing
-
-
-Supported Backbones:
-* *CNN*: [ResNet][resnet], [ResNetD][resnetd]
-* *ViT*: [MiT][segformer], [PVTv2][pvtv2], [ResT][rest]
-* *MLP*: [CycleMLP][cyclemlp]
-
-Supported Heads:
-* *CNN*: [UPerNet][upernet], [SFNet][sfnet], [FPN][fpn], [FaPN][fapn]
-* *MLP*: [SegFormer][segformer]
-
-Supported Standalone Models:
-* [DDRNet][ddrnet], [HarDNet][hardnet]
-
-Supported Modules:
-* [PPM][psp], [PSA][psa]
-
-> Notes: Check each backbone model's accuracy and download its weights from [image-classification](https://github.com/sithu31296/image-classification) if it is not provided in this repo. 
-
+[resnetdw]: https://drive.google.com/drive/folders/1sVyewBDkePlw3kbvhUD4PvUxjro4iKFy?usp=sharing 
 
 <details open>
   <summary><strong>ADE20K-val</strong></summary>
@@ -65,7 +47,6 @@ Model | Backbone | Variants | mIoU (%) | Params <br><sup>(M) | GFLOPs <br><sup>(
 --- | --- | --- | --- | --- | --- | ---
 [SegFormer][segformer] | MiT | B1\|B2\|B3 | 43.1`\|`47.5`\|`50.0 | 14`\|`28`\|`47 | 16`\|`62`\|`79 | [models][segformerw]<br>[backbones][mit]
 [CondNet][condnet] | ResNet | 50\|101 | 44.3`\|`47.1 | - | - | -
-
 </details>
 
 <details open>
@@ -78,8 +59,24 @@ Model | Backbone | Variants | mIoU (%) | Params (M) | GFLOPs | Img Size | Weight
 [SFNet][sfnet] | ResNetD | 18 | 79.0 | 13 | - | 1024x1024 | [backbones][resnetd]
 [HarDNet][hardnet] | HarDNet | 70 | 77.7 | 4 | 35 | 1024x1024 | [model][hardnetcity]<br>[backbone][hardnetw]
 [DDRNet][ddrnet] | DDRNet | 23slim\|23 | 77.8`\|`79.5 | 6`\|`20 | 36`\|`143 | 1024x2048 | [models][ddrnetw]<br>[backbones][ddrnetbw]
-
 </details>
+
+Supported Backbones:
+* *CNN*: [ResNet][resnet], [ResNetD][resnetd]
+* *ViT*: [MiT][segformer], [PVTv2][pvtv2], [ResT][rest]
+* *MLP*: [CycleMLP][cyclemlp]
+
+Supported Heads:
+* *CNN*: [UPerNet][upernet], [SFNet][sfnet], [FPN][fpn], [FaPN][fapn], [FCN][fcn]
+* *MLP*: [SegFormer][segformer]
+
+Supported Standalone Models:
+* [DDRNet][ddrnet], [HarDNet][hardnet]
+
+Supported Modules:
+* [PPM][psp], [PSA][psa]
+
+> Notes: Check each backbone model's accuracy and download its weights from [image-classification](https://github.com/sithu31296/image-classification) if it is not provided in this repo.
 
 ## <div align="center">Supported Datasets</div>
 
