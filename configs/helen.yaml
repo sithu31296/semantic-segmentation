@@ -1,0 +1,51 @@
+DEVICE          : cuda              # device used for training and evaluation (cpu, cuda, cuda0, cuda1, ...)
+SAVE_DIR        : 'output'         # output folder name used for saving the model, logs and inference results
+
+MODEL:                                    
+  NAME          : DDRNet                                           # name of the model you are using
+  BACKBONE      : DDRNet-23slim                                                  # model variant
+  PRETRAINED    : 'checkpoints/backbones/mobilenet_v2.pth'              # backbone model's weight 
+
+DATASET:
+  NAME          : HELEN                                              # dataset name to be trained with (camvid, cityscapes, ade20k)
+  ROOT          : '/home/sithu/datasets/SmithCVPR2013_dataset_resized'                         # dataset root path
+  IGNORE_LABEL  : 255
+
+TRAIN:
+  IMAGE_SIZE    : [512, 512]      # training image size in (h, w)
+  BATCH_SIZE    : 16               # batch size used to train
+  EPOCHS        : 200             # number of epochs to train
+  EVAL_INTERVAL : 10              # evaluation interval during training
+  AMP           : false           # use AMP in training
+  DDP           : false           # use DDP training
+
+LOSS:
+  NAME          : OhemCrossEntropy          # loss function name (OhemCrossEntropy, CrossEntropy, Dice)
+  CLS_WEIGHTS   : true            # use class weights in loss calculation
+
+OPTIMIZER:
+  NAME          : adamw           # optimizer name
+  LR            : 0.001           # initial learning rate used in optimizer
+  WEIGHT_DECAY  : 0.01            # decay rate used in optimizer 
+
+SCHEDULER:
+  NAME          : warmuppolylr    # scheduler name
+  POWER         : 0.9             # scheduler power
+  WARMUP        : 5               # warmup epochs used in scheduler
+  WARMUP_RATIO  : 0.1             # warmup ratio
+  
+
+EVAL:
+  MODEL_PATH    : 'output/BiSeNetv1_MobileNetV2-1.0_HELEN_58_22.pth'    # trained model file path
+  IMAGE_SIZE    : [512, 512]                          # evaluation image size in (h, w)                       
+  MSF: 
+    ENABLE      : false                               # multi-scale and flip evaluation  
+    FLIP        : true                                # use flip in evaluation  
+    SCALES      : [0.5, 0.75, 1.0, 1.25, 1.5, 1.75]   # scales used in MSF evaluation                
+
+
+TEST:
+  MODEL_PATH    : 'output/DDRNet_23slim_HELEN_59_75.pth'    # trained model file path
+  FILE          : 'assests/faces'                    # filename or foldername 
+  IMAGE_SIZE    : [512, 512]                          # inference image size in (h, w)
+  OVERLAY       : true                                # save the overlay result (image_alpha+label_alpha)

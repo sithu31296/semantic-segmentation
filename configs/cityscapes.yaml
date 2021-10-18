@@ -3,7 +3,7 @@ SAVE_DIR        : 'output'         # output folder name used for saving the mode
 
 MODEL:                                    
   NAME          : SegFormer                                           # name of the model you are using
-  VARIANT       : B0                                                  # model variant
+  BACKBONE      : MiT-B0                                                 # model variant
   PRETRAINED    : 'checkpoints/backbones/mit/mit_b0.pth'              # backbone model's weight 
 
 DATASET:
@@ -21,7 +21,6 @@ TRAIN:
 LOSS:
   NAME          : ohemce          # loss function name (ohemce, ce, dice)
   CLS_WEIGHTS   : true            # use class weights in loss calculation
-  THRESH        : 0.7             # ohemce threshold or dice delta if you choose ohemce loss or dice loss
 
 OPTIMIZER:
   NAME          : adamw           # optimizer name

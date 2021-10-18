@@ -2,8 +2,8 @@ DEVICE          : cuda              # device used for training and evaluation (c
 SAVE_DIR        : 'output'         # output folder name used for saving the model, logs and inference results
 
 MODEL:                                    
-  NAME          : HarDNet                                           # name of the model you are using
-  VARIANT       : '70'                                                  # model variant
+  NAME          : FCHarDNet                                           # name of the model you are using
+  BACKBONE      : HarDNet-70                                                # model variant
   PRETRAINED    : 'checkpoints/backbones/hardnet/hardnet_70.pth'              # backbone model's weight 
 
 DATASET:
@@ -21,7 +21,6 @@ TRAIN:
 LOSS:
   NAME          : ohemce          # loss function name (ohemce, ce, dice)
   CLS_WEIGHTS   : true            # use class weights in loss calculation
-  THRESH        : 0.9             # ohemce threshold or dice delta if you choose ohemce loss or dice loss
 
 OPTIMIZER:
   NAME          : adamw           # optimizer name
@@ -37,11 +36,11 @@ SCHEDULER:
 
 EVAL:
   MODEL_PATH    : 'checkpoints/pretrained/hardnet/hardnet70_cityscapes.pth'  # trained model file path
-  IMAGE_SIZE    : [1024, 2048]                                                            # evaluation image size in (h, w)                       
+  IMAGE_SIZE    : [1024, 2048]                        # evaluation image size in (h, w)                       
   MSF: 
-    ENABLE      : false                                                                 # multi-scale and flip evaluation  
-    FLIP        : true                                                                  # use flip in evaluation  
-    SCALES      : [0.5, 0.75, 1.0, 1.25, 1.5, 1.75]                                     # scales used in MSF evaluation                
+    ENABLE      : false                               # multi-scale and flip evaluation  
+    FLIP        : true                                # use flip in evaluation  
+    SCALES      : [0.5, 0.75, 1.0, 1.25, 1.5, 1.75]   # scales used in MSF evaluation                              
 
 
 TEST:

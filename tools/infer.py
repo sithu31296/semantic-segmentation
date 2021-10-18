@@ -7,10 +7,9 @@ from torch.nn import functional as F
 from pathlib import Path
 from torchvision import io
 from torchvision import transforms as T
-import sys
-sys.path.insert(0, '.')
-from models import get_model
-from datasets import __all__
+from semseg.models import *
+from semseg.datasets import *
+from semseg.utils.utils import timer
 
 
 class SemSeg:
@@ -18,16 +17,15 @@ class SemSeg:
         # inference device cuda or cpu
         self.device = torch.device(cfg['DEVICE'])
         # get dataset classes' colors
-        self.palette = __all__[cfg['DATASET']['NAME']].PALETTE
+        self.palette = eval(cfg['DATASET']['NAME']).PALETTE
         # initialize the model and load weights and send to device
-        self.model = get_model(cfg['MODEL']['NAME'], cfg['MODEL']['VARIANT'], len(self.palette))
+        self.model = eval(cfg['MODEL']['NAME'])(cfg['MODEL']['BACKBONE'], len(self.palette))
         self.model.load_state_dict(torch.load(cfg['TEST']['MODEL_PATH'], map_location='cpu'))
         self.model = self.model.to(self.device)
         self.model.eval()
         # preprocess parameters
         self.size = cfg['TEST']['IMAGE_SIZE']
         self.norm = T.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
-        # self.norm = T.Normalize((0.406, 0.456, 0.485), (0.225, 0.224, 0.229))
 
     def resize(self, image: Tensor) -> Tensor:
         H, W = image.shape[1:]
@@ -62,6 +60,7 @@ class SemSeg:
         return seg_map.squeeze().cpu().permute(2, 0, 1)
 
     @torch.no_grad()
+    @timer
     def model_forward(self, img: Tensor) -> Tensor:
         return self.model(img)
         
