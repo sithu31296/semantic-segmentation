@@ -16,8 +16,8 @@
   * Human Parsing
   * Face Parsing
 * 17+ Datasets
-* SOTA Backbones
-* SOTA Semantic Segmentation Models
+* 10+ SOTA Backbones
+* 10+ SOTA Semantic Segmentation Models
 * PyTorch, ONNX, TFLite and OpenVINO Inference 
 
 </div>
@@ -122,6 +122,7 @@ Supported Heads/Methods:
 * [FPN][fpn]
 * [FaPN][fapn]
 * [UPerNet][upernet]
+* [BiSeNetv1][bisenetv1]
 * [SFNet][sfnet] 
 * [SegFormer][segformer]
 * [CondNet][condnet]
@@ -129,6 +130,7 @@ Supported Heads/Methods:
 Supported Standalone Models:
 * [DDRNet][ddrnet]
 * [FCHarDNet][hardnet]
+* [BiSeNetv2][bisenetv2]
 
 > Notes: Download backbones' weights for [HarDNet-70][hardnetw] and [DDRNet-23slim][ddrnetw].
 
