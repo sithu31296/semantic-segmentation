@@ -12,7 +12,8 @@ from torch.cuda.amp import GradScaler, autocast
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data import DistributedSampler, RandomSampler
 from torch import distributed as dist
-
+import sys
+sys.path.insert(0, '.')
 from semseg.models import *
 from semseg.datasets import * 
 from semseg.augmentations import get_train_augmentation, get_val_augmentation

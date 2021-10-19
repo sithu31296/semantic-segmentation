@@ -7,6 +7,8 @@ from torch.nn import functional as F
 from pathlib import Path
 from torchvision import io
 from torchvision import transforms as T
+import sys
+sys.path.insert(0, '.')
 from semseg.models import *
 from semseg.datasets import *
 from semseg.utils.utils import timer

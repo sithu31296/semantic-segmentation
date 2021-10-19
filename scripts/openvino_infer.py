@@ -3,13 +3,14 @@ import numpy as np
 from PIL import Image
 from pathlib import Path
 from openvino.inference_engine import IECore
-from semseg.datasets import *
+import sys
+sys.path.insert(0, '.')
+from semseg.utils.visualize import generate_palette
 from semseg.utils.utils import timer
 
 
 class Inference:
-    def __init__(self, model: str, palette: np.ndarray) -> None:
-        self.palette = palette
+    def __init__(self, model: str) -> None:
         files = Path(model).iterdir()
 
         for file in files:
@@ -22,6 +23,7 @@ class Inference:
         self.input_info = next(iter(model.input_info))
         self.output_info = next(iter(model.outputs))
         self.img_size = model.input_info['input'].input_data.shape[-2:]
+        self.palette = generate_palette(11, background=True)
         self.engine = ie.load_network(network=model, device_name='CPU')
         
         self.mean = np.array([0.485, 0.456, 0.406]).reshape(-1, 1, 1)
@@ -59,9 +61,7 @@ if __name__ == '__main__':
     parser.add_argument('--img-path', type=str, default='assests/faces/27409477_1.jpg')
     args = parser.parse_args()
 
-    palette = eval('HELEN').PALETTE
-    palette = palette.numpy()
-    session = Inference(args.model, palette)
+    session = Inference(args.model)
     seg_map = session.predict(args.img_path)
     seg_map = Image.fromarray(seg_map)
-    seg_map.save('output/test.png')
+    seg_map.save(f"{args.img_path.split('.')[0]}_out.png")

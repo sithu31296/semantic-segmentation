@@ -2,18 +2,18 @@ import argparse
 import numpy as np
 import onnxruntime
 from PIL import Image
-from semseg.datasets import *
+import sys
+sys.path.insert(0, '.')
+from semseg.utils.visualize import generate_palette
 from semseg.utils.utils import timer
 
 
 class Inference:
-    def __init__(self, model: str, palette: np.ndarray) -> None:
-        self.palette = palette
+    def __init__(self, model: str) -> None:
         self.session = onnxruntime.InferenceSession(model)
-
-        model_inputs = self.session.get_inputs()[0]
-        self.input_name = model_inputs.name
-        self.img_size = model_inputs.shape[-2:]
+        self.input_details = self.session.get_inputs()[0]
+        self.palette = generate_palette(self.session.get_outputs()[0].shape[1], background=True)
+        self.img_size = self.input_details.shape[-2:]
         self.mean = np.array([0.485, 0.456, 0.406]).reshape(-1, 1, 1)
         self.std = np.array([0.229, 0.224, 0.225]).reshape(-1, 1, 1)
 
@@ -33,7 +33,7 @@ class Inference:
 
     @timer
     def model_forward(self, img: np.ndarray) -> np.ndarray:
-        return self.session.run(None, {self.input_name: img})[0]
+        return self.session.run(None, {self.input_details.name: img})[0]
 
     def predict(self, img_path: str) -> Image.Image:
         image = Image.open(img_path).convert('RGB')
@@ -49,9 +49,7 @@ if __name__ == '__main__':
     parser.add_argument('--img-path', type=str, default='assests/faces/27409477_1.jpg')
     args = parser.parse_args()
 
-    palette = eval('HELEN').PALETTE
-    palette = palette.numpy()
-    session = Inference(args.model, palette)
+    session = Inference(args.model)
     seg_map = session.predict(args.img_path)
     seg_map = Image.fromarray(seg_map)
-    seg_map.save('output/test2.png')
+    seg_map.save(f"{args.img_path.split('.')[0]}_out.png")

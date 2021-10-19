@@ -4,6 +4,8 @@ import yaml
 import onnx
 from pathlib import Path
 from onnxsim import simplify
+import sys
+sys.path.insert(0, '.')
 from semseg.models import *
 from semseg.datasets import *
 

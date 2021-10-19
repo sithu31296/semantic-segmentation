@@ -1,4 +1,6 @@
 import torch
+import random
+import numpy as np
 import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader
 from torchvision import transforms as T
@@ -35,3 +37,12 @@ def visualize_dataset_sample(dataset, root, split='val', batch_size=4):
     
     plt.imshow(make_grid(images, nrow=4).to(torch.uint8).numpy().transpose((1, 2, 0)))
     plt.show()
+
+
+def generate_palette(num_classes, background: bool = False):
+    if background:
+        palette = [[0, 0, 0]]
+        palette += [[random.randint(0, 255)]*3 for _ in range(num_classes - 1)]
+    else:
+        palette = [[random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)] for _ in range(num_classes)]
+    return np.array(palette)

@@ -2,18 +2,20 @@ import argparse
 import numpy as np
 import tflite_runtime.interpreter as tflite
 from PIL import Image
-from semseg.datasets import *
+import sys
+sys.path.insert(0, '.')
+from semseg.utils.visualize import generate_palette
 from semseg.utils.utils import timer
 
 
 class Inference:
-    def __init__(self, model: str, palette: np.ndarray) -> None:
-        self.palette = palette
+    def __init__(self, model: str) -> None:
         self.interpreter = tflite.Interpreter(model)
         self.interpreter.allocate_tensors()
 
         self.input_details = self.interpreter.get_input_details()[0]
         self.output_details = self.interpreter.get_output_details()[0]
+        self.palette = generate_palette(self.output_details['shape'][-1], background=True)
         self.img_size = self.input_details['shape'][1:3]
         self.mean = np.array([0.485, 0.456, 0.406])[None, None, :]
         self.std = np.array([0.229, 0.224, 0.225])[None, None, :]
@@ -59,9 +61,7 @@ if __name__ == '__main__':
     parser.add_argument('--img-path', type=str, default='assests/faces/27409477_1.jpg')
     args = parser.parse_args()
 
-    palette = eval('HELEN').PALETTE
-    palette = palette.numpy()
-    session = Inference(args.model, palette)
+    session = Inference(args.model)
     seg_map = session.predict(args.img_path)
     seg_map = Image.fromarray(seg_map)
-    seg_map.save('output/test.png')
+    seg_map.save(f"{args.img_path.split('.')[0]}_out.png")
