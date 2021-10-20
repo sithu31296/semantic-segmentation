@@ -54,7 +54,7 @@ Supported Modules:
 * [PSA](https://arxiv.org/abs/2107.00782) (ArXiv 2021)
 
 <details open>
-  <summary><strong>ADE20K-val</strong></summary>
+  <summary><strong>ADE20K-val</strong> (Scene Parsing)</summary>
 
 Method | Backbone | mIoU (%) | Params <br><sup>(M) | GFLOPs <br><sup>(512x512) | Weights
 --- | --- | --- | --- | --- | --- 
@@ -65,7 +65,7 @@ SegFormer | MiT-B1 | 43.1 | 14 | 16 | [pt](https://drive.google.com/file/d/18PN_
 </details>
 
 <details open>
-  <summary><strong>CityScapes-val</strong></summary>
+  <summary><strong>CityScapes-val</strong> (Scene Parsing)</summary>
 
 Method | Backbone | mIoU (%) | Params (M) | GFLOPs | Img Size | Weights
 --- | --- | --- | --- | --- | --- | ---
@@ -78,7 +78,7 @@ DDRNet | DDRNet-23slim | 77.8 | 6 | 36 | 1024x2048 | [pt](https://drive.google.c
 </details>
 
 <details open>
-  <summary><strong>HELEN-val</strong></summary>
+  <summary><strong>HELEN-val</strong> (Face Parsing)</summary>
 
 Method | Backbone | mIoU (%) | Params <br><sup>(M) | GFLOPs <br><sup>(512x512) | FPS <br><sup>(GTX1660ti) | Weights
 --- | --- | --- | --- | --- | --- | --- 
