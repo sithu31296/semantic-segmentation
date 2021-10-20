@@ -7,7 +7,7 @@ MODEL:
   PRETRAINED    : 'checkpoints/backbones/mit/mit_b3.pth'              # backbone model's weight 
 
 DATASET:
-  NAME          : ade20k                                              # dataset name to be trained with (camvid, cityscapes, ade20k)
+  NAME          : ADE20K                                              # dataset name to be trained with (camvid, cityscapes, ade20k)
   ROOT          : 'data/ADEChallengeData2016'                         # dataset root path
 
 TRAIN:
