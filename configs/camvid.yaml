@@ -9,6 +9,7 @@ MODEL:
 DATASET:
   NAME          : CamVid                                              # dataset name to be trained with (camvid, cityscapes, ade20k)
   ROOT          : 'data/CamVid'                         # dataset root path
+  IGNORE_LABEL  : 255
 
 TRAIN:
   IMAGE_SIZE    : [512, 512]      # training image size in (h, w)
@@ -19,7 +20,7 @@ TRAIN:
   DDP           : false           # use DDP training
 
 LOSS:
-  NAME          : ohemce          # loss function name (ohemce, ce, dice)
+  NAME          : OhemCrossEntropy          # loss function name (ohemce, ce, dice)
   CLS_WEIGHTS   : true            # use class weights in loss calculation
 
 OPTIMIZER:

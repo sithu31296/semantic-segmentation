@@ -25,64 +25,56 @@
 
 ## <div align="center">Model Zoo</div>
 
-[ddrnet]: https://arxiv.org/abs/2101.06085
-[hardnet]: https://arxiv.org/abs/1909.00948
-[sfnet]: https://arxiv.org/abs/2002.10120
-[bisenetv1]: https://arxiv.org/abs/1808.00897
-[bisenetv2]: https://arxiv.org/abs/2004.02147v1
-[micronet]: https://arxiv.org/abs/2108.05894
-[mobilenetv2]: https://arxiv.org/abs/1801.04381
-[mobilenetv3]: https://arxiv.org/abs/1905.02244
+Supported Backbones:
+* [ResNet](https://arxiv.org/abs/1512.03385) (CVPR 2016)
+* [ResNetD](https://arxiv.org/abs/1812.01187) (ArXiv 2018)
+* [MobileNetV2](https://arxiv.org/abs/1801.04381) (CVPR 2018)
+* [MobileNetV3](https://arxiv.org/abs/1905.02244) (ICCV 2019)
+* [PVTv2](https://arxiv.org/abs/2106.13797) (ArXiv 2021)
+* [ResT](https://arxiv.org/abs/2105.13677v3) (ArXiv 2021)
+* [MicroNet](https://arxiv.org/abs/2108.05894) (ICCV 2021)
 
-[resnet]: https://arxiv.org/abs/1512.03385
-[resnetd]: https://arxiv.org/abs/1812.01187
-[rest]: https://arxiv.org/abs/2105.13677v3
-[pvtv2]: https://arxiv.org/abs/2106.13797
-[segformer]: https://arxiv.org/abs/2105.15203v2
-[condnet]: https://arxiv.org/abs/2109.10322
+Supported Heads/Methods:
+* [FCN](https://arxiv.org/abs/1411.4038) (CVPR 2015)
+* [UPerNet](https://arxiv.org/abs/1807.10221) (ECCV 2018)
+* [BiSeNetv1](https://arxiv.org/abs/1808.00897) (ECCV 2018)
+* [FPN](https://arxiv.org/abs/1901.02446) (CVPR 2019)
+* [SFNet](https://arxiv.org/abs/2002.10120) (ECCV 2020)
+* [SegFormer](https://arxiv.org/abs/2105.15203v2) (ArXiv 2021)
+* [FaPN](https://arxiv.org/abs/2108.07058) (ICCV 2021)
+* [CondNet](https://arxiv.org/abs/2109.10322) (IEEE SPL 2021)
 
-[upernet]: https://arxiv.org/abs/1807.10221
-[fpn]: https://arxiv.org/abs/1901.02446
-[fapn]: https://arxiv.org/abs/2108.07058
-[fcn]: https://arxiv.org/abs/1411.4038
+Supported Standalone Models:
+* [FCHarDNet](https://arxiv.org/abs/1909.00948) (ICCV 2019)
+* [BiSeNetv2](https://arxiv.org/abs/2004.02147v1) (IJCV 2021)
+* [DDRNet](https://arxiv.org/abs/2101.06085) (ArXiv 2021)
 
-[psa]: https://arxiv.org/abs/2107.00782
-[psp]: https://arxiv.org/abs/1612.01105
-
-[resnetw]: https://drive.google.com/drive/folders/1MXP3Qx51c91PL9P52Tv89t90SaiTYuaC?usp=sharing
-[mit]: https://drive.google.com/drive/folders/1b7bwrInTW4VLEm27YawHOAMSMikga2Ia
-[segformerw]: https://drive.google.com/drive/folders/1UUMCAA51zkBBGAGh9zAX79q0YzHaa0p8?usp=sharing
-[ddrnetw]: https://drive.google.com/drive/folders/15-rUFFwhKVra-6Y46HdcsfFCdOM4oEJA?usp=sharing
-[ddrnetbw]: https://drive.google.com/drive/folders/15d-JHTt6k335ieHEMTGt1nWJHnxfP3LN?usp=sharing
-[fchardnetw]: https://drive.google.com/file/d/1QK1qgaKOPAatx-DHNmv7Mu0S0cE1fHCN/view?usp=sharing
-[hardnetw]: https://drive.google.com/file/d/1HAFHvtodAPL_eb4LX_rb0FJZyKTOo4mK/view?usp=sharing
-[resnetdw]: https://drive.google.com/drive/folders/1sVyewBDkePlw3kbvhUD4PvUxjro4iKFy?usp=sharing 
-[pvtw]: https://drive.google.com/drive/folders/10Dd9BEe4wv71dC5BXhsL_C6KeI_Rcxm3?usp=sharing
-[restw]: https://drive.google.com/drive/folders/1R2cewgHo6sYcQnRGBBIndjNomumBwekr?usp=sharing
-[mobilenetv2w]: https://download.pytorch.org/models/mobilenet_v2-b0353104.pth
-[mobilenetv3l]: https://download.pytorch.org/models/mobilenet_v3_large-8738ca79.pth
-[mobilenetv3s]: https://download.pytorch.org/models/mobilenet_v3_small-047dcff4.pth
-[micronetw]: https://drive.google.com/drive/folders/1j4JSTcAh94U2k-7jCl_3nwbNi0eduM2P?usp=sharing
+Supported Modules:
+* [PPM](https://arxiv.org/abs/1612.01105) (CVPR 2017)
+* [PSA](https://arxiv.org/abs/2107.00782) (ArXiv 2021)
 
 <details open>
   <summary><strong>ADE20K-val</strong></summary>
 
-Method | Backbone | Variants | mIoU (%) | Params <br><sup>(M) | GFLOPs <br><sup>(512x512) | Weights
---- | --- | --- | --- | --- | --- | ---
-[SegFormer][segformer] | MiT | B1\|B2\|B3 | 43.1`\|`47.5`\|`50.0 | 14`\|`28`\|`47 | 16`\|`62`\|`79 | [download][segformerw]
-[CondNet][condnet] | ResNet | 50\|101 | 44.3`\|`47.1 | - | - | N/A
+Method | Backbone | mIoU (%) | Params <br><sup>(M) | GFLOPs <br><sup>(512x512) | Weights
+--- | --- | --- | --- | --- | --- 
+SegFormer | MiT-B1 | 43.1 | 14 | 16 | [pt](https://drive.google.com/file/d/18PN_P3ajcJi_5Q2v8b4BP9O4VdNCpt6m/view?usp=sharing)
+|| MiT-B2 | 47.5 | 28 | 62 | [pt](https://drive.google.com/file/d/1AcgEK5aWMJzpe8tsfauqhragR0nBHyPh/view?usp=sharing) 
+|| MiT-B3 | 50.0 | 47 | 79 | [pt](https://drive.google.com/file/d/1-OmW3xRD3WAbJTzktPC-VMOF5WMsN8XT/view?usp=sharing)
+
 </details>
 
 <details open>
   <summary><strong>CityScapes-val</strong></summary>
 
-Method | Backbone | Variants | mIoU (%) | Params (M) | GFLOPs | Img Size | Weights
---- | --- | --- | --- | --- | --- | --- | ---
-[SegFormer][segformer] | MiT | B0\|B1 | 78.1`\|`80.0 | 4`\|`14 | 126`\|`244 | 1024x1024 | N/A
-[FaPN][fapn] | ResNet | 50 | 80.0 | 33 | - | 512x1024 | N/A
-[SFNet][sfnet] | ResNetD | 18 | 79.0 | 13 | - | 1024x1024 | N/A
-[FCHarDNet][hardnet] | HarDNet | 70 | 77.7 | 4 | 35 | 1024x1024 | [download][fchardnetw]
-[DDRNet][ddrnet] | DDRNet | 23slim | 77.8 | 6 | 36 | 1024x2048 | [download][ddrnetw]
+Method | Backbone | mIoU (%) | Params (M) | GFLOPs | Img Size | Weights
+--- | --- | --- | --- | --- | --- | ---
+SegFormer | MiT-B0 | 78.1 | 4 | 126 | 1024x1024 | N/A
+|| MiT-B1 | 80.0 | 14 | 244 | 1024x1024 | N/A
+FaPN | ResNet-50 | 80.0 | 33 | - | 512x1024 | N/A
+SFNet | ResNetD-18 | 79.0 | 13 | - | 1024x1024 | N/A
+FCHarDNet | HarDNet-70 | 77.7 | 4 | 35 | 1024x1024 | [pt](https://drive.google.com/file/d/1QK1qgaKOPAatx-DHNmv7Mu0S0cE1fHCN/view?usp=sharing)
+DDRNet | DDRNet-23slim | 77.8 | 6 | 36 | 1024x2048 | [pt](https://drive.google.com/file/d/17IMQS23StRcIvMXmjNwEcU9uGXuviGY-/view?usp=sharing)
 </details>
 
 <details open>
@@ -99,40 +91,24 @@ SegFormer | MiT-B0 | 59.31 | 4 | 8 | 75 | [pt](https://drive.google.com/file/d/1
 SFNet | ResNetD-18 | 61.00 | 14 | 31 | 56 | [pt](https://drive.google.com/file/d/13w42DgI4PJ05bkWY9XCK_skSGMsmXroj/view?usp=sharing)
 </details>
 
-Supported Backbones:
+<details open>
+  <summary><strong>Backbones</strong></summary>
 
 Model | Variants | ImageNet-1k Top-1 Acc (%) | Params (M) | GFLOPs | Weights
 --- | --- | --- | --- | --- | ---
-[MicroNet][micronet] | M1\|M2\|M3 | 51.4`\|`59.4`\|`62.5 | 1`\|`2`\|`3 | 6M`\|`12M`\|`21M | [download][micronetw]
-[MobileNetv2][mobilenetv2] | 1.0 | 71.9 | 3 | 300M | [download][mobilenetv2w]
-[MobileNetv3][mobilenetv3] | S\|L | 67.7`\|`74.0 | 3`\|`5 | 56M`\|`219M | [S][mobilenetv3s]\|[L][mobilenetv3l]
+MicroNet | M1\|M2\|M3 | 51.4`\|`59.4`\|`62.5 | 1`\|`2`\|`3 | 6M`\|`12M`\|`21M | [download](https://drive.google.com/drive/folders/1j4JSTcAh94U2k-7jCl_3nwbNi0eduM2P?usp=sharing)
+MobileNetV2 | 1.0 | 71.9 | 3 | 300M | [download](https://download.pytorch.org/models/mobilenet_v2-b0353104.pth)
+MobileNetV3 | S\|L | 67.7`\|`74.0 | 3`\|`5 | 56M`\|`219M | [S](https://download.pytorch.org/models/mobilenet_v3_small-047dcff4.pth)\|[L](https://download.pytorch.org/models/mobilenet_v3_large-8738ca79.pth)
 ||
-[ResNet][resnet] | 18\|50\|101 | 69.8`\|`76.1`\|`77.4 | 12`\|`25`\|`44 | 2`\|`4`\|`8 | [download][resnetw]
-[ResNetD][resnetd] | 18\|50\|101 | - | 12`\|`25`\|`44 | 2`\|`4`\|`8 | [download][resnetdw]
-[MiT][segformer] | B1\|B2\|B3 | - | 14`\|`25`\|`45 | 2`\|`4`\|`8 | [download][mit]
-[PVTv2][pvtv2] | B1\|B2\|B4 | 78.7`\|`82.0`\|`83.6 | 14`\|`25`\|`63 | 2`\|`4`\|`10 | [download][pvtw]
-[ResT][rest] | S\|B\|L | 79.6`\|`81.6`\|`83.6 | 14`\|`30`\|`52 | 2`\|`4`\|`8 | [download][restw]
+ResNet | 18\|50\|101 | 69.8`\|`76.1`\|`77.4 | 12`\|`25`\|`44 | 2`\|`4`\|`8 | [download](https://drive.google.com/drive/folders/1MXP3Qx51c91PL9P52Tv89t90SaiTYuaC?usp=sharing)
+ResNetD | 18\|50\|101 | - | 12`\|`25`\|`44 | 2`\|`4`\|`8 | [download](https://drive.google.com/drive/folders/1sVyewBDkePlw3kbvhUD4PvUxjro4iKFy?usp=sharing)
+MiT | B1\|B2\|B3 | - | 14`\|`25`\|`45 | 2`\|`4`\|`8 | [download](https://drive.google.com/drive/folders/1b7bwrInTW4VLEm27YawHOAMSMikga2Ia)
+PVTv2 | B1\|B2\|B4 | 78.7`\|`82.0`\|`83.6 | 14`\|`25`\|`63 | 2`\|`4`\|`10 | [download](https://drive.google.com/drive/folders/10Dd9BEe4wv71dC5BXhsL_C6KeI_Rcxm3?usp=sharing)
+ResT | S\|B\|L | 79.6`\|`81.6`\|`83.6 | 14`\|`30`\|`52 | 2`\|`4`\|`8 | [download](https://drive.google.com/drive/folders/1R2cewgHo6sYcQnRGBBIndjNomumBwekr?usp=sharing)
 
-Supported Modules:
-* [PPM][psp]
-* [PSA][psa]
+> Notes: Download backbones' weights for [HarDNet-70](https://drive.google.com/file/d/1HAFHvtodAPL_eb4LX_rb0FJZyKTOo4mK/view?usp=sharing) and [DDRNet-23slim](https://drive.google.com/file/d/1TaDJ3yG8ojjcsbQZwkn5LlFMNEcr8vu2/view?usp=sharing).
 
-Supported Heads/Methods:
-* [FCN][fcn]
-* [FPN][fpn]
-* [FaPN][fapn]
-* [UPerNet][upernet]
-* [BiSeNetv1][bisenetv1]
-* [SFNet][sfnet] 
-* [SegFormer][segformer]
-* [CondNet][condnet]
-
-Supported Standalone Models:
-* [DDRNet][ddrnet]
-* [FCHarDNet][hardnet]
-* [BiSeNetv2][bisenetv2]
-
-> Notes: Download backbones' weights for [HarDNet-70][hardnetw] and [DDRNet-23slim][ddrnetw].
+</details>
 
 ## <div align="center">Supported Datasets</div>
 
