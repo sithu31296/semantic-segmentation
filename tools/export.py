@@ -29,15 +29,18 @@ def export_onnx(model, inputs, file):
 
 
 def export_coreml(model, inputs, file):
-    import coremltools as ct
-    ts_model = torch.jit.trace(model, inputs, strict=True)
-    ct_model = ct.convert(
-        ts_model,
-        inputs=[ct.ImageType('image', shape=inputs.shape, scale=1/255.0, bias=[0, 0, 0])]
-    )
-    ct_model.save(f"{file}.mlmodel")
-    print(f"CoreML model saved to {file}.mlmodel")
-
+    try:
+        import coremltools as ct
+        ts_model = torch.jit.trace(model, inputs, strict=True)
+        ct_model = ct.convert(
+            ts_model,
+            inputs=[ct.ImageType('image', shape=inputs.shape, scale=1/255.0, bias=[0, 0, 0])]
+        )
+        ct_model.save(f"{file}.mlmodel")
+        print(f"CoreML model saved to {file}.mlmodel")
+    except:
+        print("Please install coremltools to export to CoreML.\n`pip install coremltools`")
+    
 
 def main(cfg):
     model = eval(cfg['MODEL']['NAME'])(cfg['MODEL']['BACKBONE'], len(eval(cfg['DATASET']['NAME']).PALETTE))
