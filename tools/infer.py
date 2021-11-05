@@ -71,7 +71,7 @@ class SemSeg:
         img = self.preprocess(image)
         seg_map = self.model_forward(img)
         seg_map = self.postprocess(seg_map, image.shape[-2:])
-        if overlay: seg_map = (image * 0.3) + (seg_map * 0.7)
+        if overlay: seg_map = (image * 0.4) + (seg_map * 0.6)
         return seg_map.to(torch.uint8)
 
 
