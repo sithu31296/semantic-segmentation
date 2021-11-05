@@ -15,7 +15,7 @@
   * Scene Parsing
   * Human Parsing
   * Face Parsing
-* 17+ Datasets
+* 18+ Datasets
 * 10+ SOTA Backbones
 * 10+ SOTA Semantic Segmentation Models
 * PyTorch, ONNX, TFLite and OpenVINO Inference 
@@ -152,7 +152,7 @@ Dataset | Type | Categories | Train <br><sup>Images | Val<br><sup>Images | Test<
 [LaPa][lapa] | Face Parsing | 11 | 18,176 | 2,000 | 2,000<sup>+labels | -
 [iBugMask][ibugmask] | Face Parsing | 11 | 21,866 | - | 1,000<sup>+labels | -
 [CelebAMaskHQ][celeba] | Face Parsing | 19 | 24,183 | 2,993 | 2,824<sup>+labels | 512x512
-[FaceSynthetics][facesynthetics] | Face Parsing (Synthetic) | 19 | - | - | - | -
+[FaceSynthetics][facesynthetics] | Face Parsing (Synthetic) | 19 | 100,000 | 1,000 | 100<sup>+labels | 512x512
 ||
 [SUIM][suim] | Underwater Imagery | 8 | 1,525 | - | 110<sup>+labels | -
 
@@ -295,6 +295,11 @@ data
 |__ ibugmask_release
     |__ train
     |__ test
+
+|__ FaceSynthetics
+    |__ dataset_100000
+    |__ dataset_1000
+    |__ dataset_100
 ```
 
 > Note: For PASCALContext, download the annotations from [here](pcannos) and put it in VOC2010.
