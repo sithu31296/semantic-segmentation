@@ -45,6 +45,13 @@ class CIHP(Dataset):
         return image, label.squeeze().long() 
 
 
+class CCIHP(CIHP):
+    CLASSES = ['background', 'hat', 'hair', 'glove', 'sunglasses', 'upperclothes', 'facemask', 'coat', 'socks', 'pants', 'torso-skin', 'scarf', 'skirt', 'face', 'left-arm', 'right-arm', 'left-leg', 'right-leg', 'left-shoe', 'right-shoe', 'bag', 'others']
+    PALETTE = torch.tensor([[120, 120, 120], [127, 0, 0], [254, 0, 0], [0, 84, 0], [169, 0, 50], [254, 84, 0], [255, 0, 84], [0, 118, 220], [84, 84, 0], [0, 84, 84], [84, 50, 0], [51, 85, 127], [0, 127, 0], [0, 0, 254], [50, 169, 220], [0, 254, 254], [84, 254, 169], [169, 254, 84], [254, 254, 0], [254, 169, 0], [102, 254, 0], [182, 255, 0]])
+
+
 if __name__ == '__main__':
+    import sys
+    sys.path.insert(0, '.')
     from semseg.utils.visualize import visualize_dataset_sample
-    visualize_dataset_sample(CIHP, '/home/sithu/datasets/LIP/CIHP')
+    visualize_dataset_sample(CCIHP, 'C:\\Users\\sithu\\Documents\\Datasets\\LIP\\CIHP')

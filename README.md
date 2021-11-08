@@ -15,7 +15,7 @@
   * Scene Parsing
   * Human Parsing
   * Face Parsing
-* 18+ Datasets
+* 20+ Datasets
 * 10+ SOTA Backbones
 * 10+ SOTA Semantic Segmentation Models
 * PyTorch, ONNX, TFLite and OpenVINO Inference 
@@ -129,6 +129,7 @@ ResT | S\|B\|L | 79.6`\|`81.6`\|`83.6 | 14`\|`30`\|`52 | 2`\|`4`\|`8 | [download
 [lapa]: https://github.com/JDAI-CV/lapa-dataset
 [ibugmask]: https://github.com/hhj1897/face_parsing
 [facesynthetics]: https://github.com/microsoft/FaceSynthetics
+[ccihp]: https://kalisteo.cea.fr/wp-content/uploads/2021/09/README.html
 
 Dataset | Type | Categories | Train <br><sup>Images | Val<br><sup>Images | Test<br><sup>Images | Image Size<br><sup>(HxW)
 --- | --- | --- | --- | --- | --- | ---
@@ -145,7 +146,8 @@ Dataset | Type | Categories | Train <br><sup>Images | Val<br><sup>Images | Test<
 [MHPv2][mhp] | Multi-Human Parsing | 59 | 15,403 | 5,000 | 5,000 | -
 [MHPv1][mhp] | Multi-Human Parsing | 19 | 3,000 | 1,000 | 980<sup>+labels | -
 [LIP][lip] | Multi-Human Parsing | 20 | 30,462 | 10,000 | - | -
-[CIHP][lip] | Multi-Human Parsing | 20 | 28,280 | 5,000 | - | -
+[CCIHP][ccihp] | Multi-Human Parsing | 21 | 28,280 | 5,000 | 5,000 | -
+[CIHP][lip] | Multi-Human Parsing | 20 | 28,280 | 5,000 | 5,000 | -
 [ATR][atr] | Single-Human Parsing | 18 | 16,000 | 700 | 1,000<sup>+labels | -
 ||
 [HELEN][helen] | Face Parsing | 11 | 2,000 | 230 | 100<sup>+labels | - 
@@ -232,12 +234,12 @@ data
             |__ train_segmentations
             |__ val_segmentations
 
-    |__ CIHP
+    |__ CIHP/CCIHP
         |__ instance-leve_human_parsing
-            |__ train
+            |__ Training
                 |__ Images
                 |__ Category_ids
-            |__ val
+            |__ Validation
                 |__ Images
                 |__ Category_ids
 

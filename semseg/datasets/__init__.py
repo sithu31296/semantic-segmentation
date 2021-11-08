@@ -8,7 +8,7 @@ from .mapillary import MapillaryVistas
 from .mhpv1 import MHPv1
 from .mhpv2 import MHPv2
 from .lip import LIP
-from .cihp import CIHP
+from .cihp import CIHP, CCIHP
 from .atr import ATR
 from .suim import SUIM
 from .helen import HELEN
@@ -26,6 +26,7 @@ __all__ = [
     'MHPv2',
     'LIP',
     'CIHP',
+    'CCIHP',
     'ATR',
     'PASCALContext',
     'COCOStuff',
