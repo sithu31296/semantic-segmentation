@@ -146,7 +146,7 @@ Dataset | Type | Categories | Train <br><sup>Images | Val<br><sup>Images | Test<
 [MHPv2][mhp] | Multi-Human Parsing | 59 | 15,403 | 5,000 | 5,000 | -
 [MHPv1][mhp] | Multi-Human Parsing | 19 | 3,000 | 1,000 | 980<sup>+labels | -
 [LIP][lip] | Multi-Human Parsing | 20 | 30,462 | 10,000 | - | -
-[CCIHP][ccihp] | Multi-Human Parsing | 21 | 28,280 | 5,000 | 5,000 | -
+[CCIHP][ccihp] | Multi-Human Parsing | 22 | 28,280 | 5,000 | 5,000 | -
 [CIHP][lip] | Multi-Human Parsing | 20 | 28,280 | 5,000 | 5,000 | -
 [ATR][atr] | Single-Human Parsing | 18 | 16,000 | 700 | 1,000<sup>+labels | -
 ||
