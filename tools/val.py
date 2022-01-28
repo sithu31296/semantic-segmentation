@@ -7,8 +7,6 @@ from tqdm import tqdm
 from tabulate import tabulate
 from torch.utils.data import DataLoader
 from torch.nn import functional as F
-import sys
-sys.path.insert(0, '.')
 from semseg.models import *
 from semseg.datasets import *
 from semseg.augmentations import get_val_augmentation

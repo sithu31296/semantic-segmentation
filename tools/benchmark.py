@@ -2,8 +2,6 @@ import torch
 import argparse
 import time
 from fvcore.nn import flop_count_table, FlopCountAnalysis
-import sys
-sys.path.insert(0, '.')
 from semseg.models import *
 
 

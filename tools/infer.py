@@ -7,8 +7,6 @@ from torch.nn import functional as F
 from pathlib import Path
 from torchvision import io
 from torchvision import transforms as T
-import sys
-sys.path.insert(0, '.')
 from semseg.models import *
 from semseg.datasets import *
 from semseg.utils.utils import timer
@@ -61,7 +59,7 @@ class SemSeg:
         seg_map = self.palette[seg_map]
         return seg_map.squeeze().cpu().permute(2, 0, 1)
 
-    @torch.no_grad()
+    @torch.inference_mode()
     @timer
     def model_forward(self, img: Tensor) -> Tensor:
         return self.model(img)

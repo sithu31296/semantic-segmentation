@@ -3,7 +3,7 @@ SAVE_DIR        : 'output'         # output folder name used for saving the mode
 
 MODEL:                                    
   NAME          : SegFormer                                           # name of the model you are using
-  BACKBONE      : MiT-B0                                                  # model variant
+  BACKBONE      : MiT-B3                                                  # model variant
   PRETRAINED    : 'checkpoints/backbones/mit/mit_b3.pth'              # backbone model's weight 
 
 DATASET:

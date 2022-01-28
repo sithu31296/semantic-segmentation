@@ -3,8 +3,6 @@ import numpy as np
 from PIL import Image
 from pathlib import Path
 from openvino.inference_engine import IECore
-import sys
-sys.path.insert(0, '.')
 from semseg.utils.visualize import generate_palette
 from semseg.utils.utils import timer
 
