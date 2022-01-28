@@ -3,8 +3,7 @@
 <div align="center">
 <p>Easy to use and customizable SOTA Semantic Segmentation models with abundant datasets in PyTorch</p>
 
-<a href="https://colab.research.google.com/github/sithu31296/semantic-segmentation/blob/main/tutorial.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
-
+<a href="https://colab.research.google.com/github/sithu31296/semantic-segmentation/blob/main/notebooks/tutorial.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
 </div>
 
 ![banner](assests/banner.jpg)
