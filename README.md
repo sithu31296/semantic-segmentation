@@ -34,6 +34,9 @@ Supported Backbones:
 * [PVTv2](https://arxiv.org/abs/2106.13797) (ArXiv 2021)
 * [ResT](https://arxiv.org/abs/2105.13677v3) (ArXiv 2021)
 * [MicroNet](https://arxiv.org/abs/2108.05894) (ICCV 2021)
+* [ResNet+](https://arxiv.org/abs/2110.00476) (ArXiv 2021)
+* [PoolFormer](https://arxiv.org/abs/2111.11418) (ArXiv 2021)
+* [ConvNeXt](https://arxiv.org/abs/2201.03545) (ArXiv 2022)
 
 Supported Heads/Methods:
 * [FCN](https://arxiv.org/abs/1411.4038) (CVPR 2015)
@@ -335,6 +338,33 @@ $ python scripts/tflite_infer.py --model <TFLite_MODEL_PATH> --img-path <TEST_IM
   author={Haotian Yan and Chuang Zhang and Ming Wu},
   year={2022},
   eprint={2201.01615},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV}
+}
+
+@misc{yu2021metaformer,
+  title={MetaFormer is Actually What You Need for Vision}, 
+  author={Weihao Yu and Mi Luo and Pan Zhou and Chenyang Si and Yichen Zhou and Xinchao Wang and Jiashi Feng and Shuicheng Yan},
+  year={2021},
+  eprint={2111.11418},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV}
+}
+
+@misc{wightman2021resnet,
+  title={ResNet strikes back: An improved training procedure in timm}, 
+  author={Ross Wightman and Hugo Touvron and Hervé Jégou},
+  year={2021},
+  eprint={2110.00476},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV}
+}
+
+@misc{liu2022convnet,
+  title={A ConvNet for the 2020s}, 
+  author={Zhuang Liu and Hanzi Mao and Chao-Yuan Wu and Christoph Feichtenhofer and Trevor Darrell and Saining Xie},
+  year={2022},
+  eprint={2201.03545},
   archivePrefix={arXiv},
   primaryClass={cs.CV}
 }
