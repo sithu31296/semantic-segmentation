@@ -7,6 +7,8 @@ from .mobilenetv3 import MobileNetV3, mobilenetv3_settings
 from .mit import MiT, mit_settings
 from .pvt import PVTv2, pvtv2_settings
 from .rest import ResT, rest_settings
+from .poolformer import PoolFormer, poolformer_settings
+from .convnext import ConvNeXt, convnext_settings
 
 
 __all__ = [
@@ -18,5 +20,7 @@ __all__ = [
     
     'MiT', 
     'PVTv2', 
-    'ResT'
+    'ResT',
+    'PoolFormer',
+    'ConvNeXt',
 ]
