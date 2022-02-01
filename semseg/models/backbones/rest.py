@@ -1,7 +1,7 @@
 import torch
 from torch import nn, Tensor
 from torch.nn import functional as F
-from .layers import DropPath
+from semseg.models.layers import DropPath
 
 
 class MLP(nn.Module):
@@ -130,7 +130,7 @@ class ResT(nn.Module):
         super().__init__()
         assert model_name in rest_settings.keys(), f"ResT model name should be in {list(rest_settings.keys())}"
         embed_dims, depths, drop_path_rate = rest_settings[model_name]
-        self.embed_dims = embed_dims
+        self.channels = embed_dims
         self.stem = Stem(3, embed_dims[0])
 
         # patch_embed

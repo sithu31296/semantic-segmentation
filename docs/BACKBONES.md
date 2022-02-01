@@ -2,7 +2,7 @@
 
 Backbone | Variants | ImageNet-1k Top-1 Acc (%) | Params (M) | GFLOPs | Weights
 --- | --- | --- | --- | --- | ---
-MicroNet | M1\|M2\|M3 | 51.4`\|`59.4`\|`62.5 | 1`\|`2`\|`3 | 6M`\|`12M`\|`21M | [download][micronetw]
+MicroNet | M1\|M2\|M3 | 51.4`\|`59.4`\|`62.5 | 0.3`\|`0.6`\|`0.7 | 7M`\|`16M`\|`28M | [download][micronetw]
 MobileNetV2 | 1.0 | 71.9 | 3 | 300M | [download][mobilenetv2w]
 MobileNetV3 | S\|L | 67.7`\|`74.0 | 3`\|`5 | 56M`\|`219M | [S][mobilenetv3s]\|[L][mobilenetv3l]
 ||

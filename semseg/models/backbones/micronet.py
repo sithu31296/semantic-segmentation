@@ -347,7 +347,7 @@ class MicroNet(nn.Module):
 if __name__ == '__main__':
     model = MicroNet('M3')
     # model.load_state_dict(torch.load('checkpoints/backbones/micronet/micronet-m2.pth', map_location='cpu'), strict=False)
-    x = torch.zeros(2, 3, 224, 224)
+    x = torch.zeros(1, 3, 224, 224)
     # outs = model(x)
     # for y in outs:
     #     print(y.shape)

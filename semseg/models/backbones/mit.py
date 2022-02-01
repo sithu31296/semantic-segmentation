@@ -1,7 +1,7 @@
 import torch
 from torch import nn, Tensor
 from torch.nn import functional as F
-from .layers import DropPath
+from semseg.models.layers import DropPath
 
 
 class Attention(nn.Module):
@@ -105,7 +105,7 @@ class MiT(nn.Module):
         assert model_name in mit_settings.keys(), f"MiT model name should be in {list(mit_settings.keys())}"
         embed_dims, depths = mit_settings[model_name]
         drop_path_rate = 0.1
-        self.embed_dims = embed_dims
+        self.channels = embed_dims
 
         # patch_embed
         self.patch_embed1 = PatchEmbed(3, embed_dims[0], 7, 4)

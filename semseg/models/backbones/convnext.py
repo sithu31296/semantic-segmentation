@@ -1,6 +1,6 @@
 import torch
 from torch import nn, Tensor
-from semseg.models.backbones.layers import DropPath
+from semseg.models.layers import DropPath
 
 
 class LayerNorm(nn.Module):
@@ -76,7 +76,7 @@ class ConvNeXt(nn.Module):
         super().__init__()
         assert model_name in convnext_settings.keys(), f"ConvNeXt model name should be in {list(convnext_settings.keys())}"
         depths, embed_dims, drop_path_rate = convnext_settings[model_name]
-        self.embed_dims = embed_dims
+        self.channels = embed_dims
     
         self.downsample_layers = nn.ModuleList([
             Stem(3, embed_dims[0], 4, 4),
@@ -110,7 +110,7 @@ class ConvNeXt(nn.Module):
 
 if __name__ == '__main__':
     model = ConvNeXt('T')
-    model.load_state_dict(torch.load('C:\\Users\\sithu\\Documents\\weights\\backbones\\convnext\\convnext_tiny_1k_224_ema.pth', map_location='cpu')['model'], strict=False)
+    # model.load_state_dict(torch.load('C:\\Users\\sithu\\Documents\\weights\\backbones\\convnext\\convnext_tiny_1k_224_ema.pth', map_location='cpu')['model'], strict=False)
     x = torch.randn(1, 3, 224, 224)
     feats = model(x)
     for y in feats:

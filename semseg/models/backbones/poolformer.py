@@ -1,6 +1,6 @@
 import torch
 from torch import nn, Tensor
-from semseg.models.backbones.layers import DropPath
+from semseg.models.layers import DropPath
 
 
 class PatchEmbed(nn.Module):
@@ -65,7 +65,7 @@ class PoolFormer(nn.Module):
         super().__init__()
         assert model_name in poolformer_settings.keys(), f"PoolFormer model name should be in {list(poolformer_settings.keys())}"
         layers, embed_dims, drop_path_rate = poolformer_settings[model_name]
-        self.embed_dims = embed_dims
+        self.channels = embed_dims
     
         self.patch_embed = PatchEmbed(7, 4, 2, 3, embed_dims[0])
 

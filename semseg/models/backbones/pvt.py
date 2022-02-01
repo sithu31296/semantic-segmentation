@@ -1,7 +1,7 @@
 import torch
 from torch import nn, Tensor
 from torch.nn import functional as F
-from .layers import DropPath
+from semseg.models.layers import DropPath
 
 
 class DWConv(nn.Module):
@@ -105,7 +105,7 @@ class PVTv2(nn.Module):
         depths = pvtv2_settings[model_name]
         embed_dims = [64, 128, 320, 512]
         drop_path_rate = 0.1
-        self.embed_dims = embed_dims
+        self.channels = embed_dims
         # patch_embed
         self.patch_embed1 = PatchEmbed(3, embed_dims[0], 7, 4)
         self.patch_embed2 = PatchEmbed(embed_dims[0], embed_dims[1], 3, 2)

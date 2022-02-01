@@ -2,7 +2,7 @@ import torch
 import math
 from torch import nn, Tensor
 from torch.nn import functional as F
-from .modules.common import ConvModule
+from semseg.models.layers import ConvModule
 
 
 class DetailBranch(nn.Module):
