@@ -31,4 +31,4 @@ UniFormer | S\|B | 82.9`\|`83.8 | 22`\|`50 | 4`\|`8 | [download][uniformerw]
 [ddrnetw]: https://drive.google.com/file/d/1TaDJ3yG8ojjcsbQZwkn5LlFMNEcr8vu2/view?usp=sharing
 [poolformerw]: https://drive.google.com/drive/folders/18OyxHHpVq-9pMMG2eu1jot7n-po4dUpD?usp=sharing
 [convnextw]: https://drive.google.com/drive/folders/1Oe50_zY4QKFZ0_22mSHKuNav0GiRcgWA?usp=sharing
-[uniformerw]: 
+[uniformerw]: https://drive.google.com/drive/folders/175C4Je4kZoBb5x8HkwH4-VhtG_a5zQnX?usp=sharing
