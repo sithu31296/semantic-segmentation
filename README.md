@@ -15,7 +15,6 @@
   * Human Parsing
   * Face Parsing
   * Medical Image Segmentation (Coming Soon)
-  * Background Removal (Coming Soon)
 * 20+ Datasets
 * 10+ SOTA Backbones
 * 10+ SOTA Semantic Segmentation Models
@@ -31,12 +30,14 @@ Supported Backbones:
 * [ResNetD](https://arxiv.org/abs/1812.01187) (ArXiv 2018)
 * [MobileNetV2](https://arxiv.org/abs/1801.04381) (CVPR 2018)
 * [MobileNetV3](https://arxiv.org/abs/1905.02244) (ICCV 2019)
+* [MiT](https://arxiv.org/abs/2105.15203v2) (ArXiv 2021)
 * [PVTv2](https://arxiv.org/abs/2106.13797) (ArXiv 2021)
 * [ResT](https://arxiv.org/abs/2105.13677v3) (ArXiv 2021)
 * [MicroNet](https://arxiv.org/abs/2108.05894) (ICCV 2021)
 * [ResNet+](https://arxiv.org/abs/2110.00476) (ArXiv 2021)
 * [PoolFormer](https://arxiv.org/abs/2111.11418) (ArXiv 2021)
 * [ConvNeXt](https://arxiv.org/abs/2201.03545) (ArXiv 2022)
+* [UniFormer](https://arxiv.org/abs/2201.09450) (ArXiv 2022)
 
 Supported Heads/Methods:
 * [FCN](https://arxiv.org/abs/1411.4038) (CVPR 2015)
@@ -365,6 +366,15 @@ $ python scripts/tflite_infer.py --model <TFLite_MODEL_PATH> --img-path <TEST_IM
   author={Zhuang Liu and Hanzi Mao and Chao-Yuan Wu and Christoph Feichtenhofer and Trevor Darrell and Saining Xie},
   year={2022},
   eprint={2201.03545},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV}
+}
+
+@misc{li2022uniformer,
+  title={UniFormer: Unifying Convolution and Self-attention for Visual Recognition}, 
+  author={Kunchang Li and Yali Wang and Junhao Zhang and Peng Gao and Guanglu Song and Yu Liu and Hongsheng Li and Yu Qiao},
+  year={2022},
+  eprint={2201.09450},
   archivePrefix={arXiv},
   primaryClass={cs.CV}
 }

@@ -2,7 +2,7 @@
 
 Backbone | Variants | ImageNet-1k Top-1 Acc (%) | Params (M) | GFLOPs | Weights
 --- | --- | --- | --- | --- | ---
-MicroNet | M1\|M2\|M3 | 51.4`\|`59.4`\|`62.5 | 0.3`\|`0.6`\|`0.7 | 7M`\|`16M`\|`28M | [download][micronetw]
+MicroNet | M1\|M2\|M3 | 51.4`\|`59.4`\|`62.5 | 1`\|`2`\|`3 | 7M`\|`14M`\|`23M | [download][micronetw]
 MobileNetV2 | 1.0 | 71.9 | 3 | 300M | [download][mobilenetv2w]
 MobileNetV3 | S\|L | 67.7`\|`74.0 | 3`\|`5 | 56M`\|`219M | [S][mobilenetv3s]\|[L][mobilenetv3l]
 ||
@@ -13,6 +13,7 @@ PVTv2 | B1\|B2\|B4 | 78.7`\|`82.0`\|`83.6 | 14`\|`25`\|`63 | 2`\|`4`\|`10 | [dow
 ResT | S\|B\|L | 79.6`\|`81.6`\|`83.6 | 14`\|`30`\|`52 | 2`\|`4`\|`8 | [download][restw]
 PoolFormer | S24\|S36\|M36 | 80.3`\|`81.4`\|`82.1 | 21`\|`31`\|`56 | 4`\|`5`\|`9 | [download][poolformerw]
 ConvNeXt | T\|S\|B | 82.1`\|`83.1`\|`83.8 | 28`\|`50`\|`89 | 5`\|`9`\|`15 | [download][convnextw]
+UniFormer | S\|B | 82.9`\|`83.8 | 22`\|`50 | 4`\|`8 | [download][uniformerw]
 
 > Notes: Download backbones' weights for [HarDNet-70][hardnetw] and [DDRNet-23slim][ddrnetw].
 
@@ -30,3 +31,4 @@ ConvNeXt | T\|S\|B | 82.1`\|`83.1`\|`83.8 | 28`\|`50`\|`89 | 5`\|`9`\|`15 | [dow
 [ddrnetw]: https://drive.google.com/file/d/1TaDJ3yG8ojjcsbQZwkn5LlFMNEcr8vu2/view?usp=sharing
 [poolformerw]: https://drive.google.com/drive/folders/18OyxHHpVq-9pMMG2eu1jot7n-po4dUpD?usp=sharing
 [convnextw]: https://drive.google.com/drive/folders/1Oe50_zY4QKFZ0_22mSHKuNav0GiRcgWA?usp=sharing
+[uniformerw]: 
