@@ -16,6 +16,7 @@ setup(
         'scipy',
         'matplotlib',
         'tensorboard',
-        'fvcore'
+        'fvcore',
+        'einops'
     ]
 )
