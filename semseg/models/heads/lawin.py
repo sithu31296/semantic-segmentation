@@ -16,13 +16,21 @@ class MLP(nn.Module):
 
 
 class PatchEmbed(nn.Module):
-    def __init__(self, patch_size=4) -> None:
+    def __init__(self, patch_size=4, in_ch=3, dim=96, type='pool') -> None:
         super().__init__()
         self.patch_size = patch_size
-        self.proj = nn.ModuleList([
-            nn.MaxPool2d(patch_size, patch_size),
-            nn.AvgPool2d(patch_size, patch_size)
-        ])
+        self.type = type
+        self.dim = dim
+        
+        if type == 'conv':
+            self.proj = nn.Conv2d(in_ch, dim, patch_size, patch_size, groups=patch_size*patch_size)
+        else:
+            self.proj = nn.ModuleList([
+                nn.MaxPool2d(patch_size, patch_size),
+                nn.AvgPool2d(patch_size, patch_size)
+            ])
+        
+        self.norm = nn.LayerNorm(dim)
 
     def forward(self, x: Tensor) -> Tensor:
         _, _, H, W = x.shape
@@ -31,7 +39,14 @@ class PatchEmbed(nn.Module):
         if H % self.patch_size != 0:
             x = F.pad(x, (0, 0, 0, self.patch_size - H % self.patch_size))
 
-        x = 0.5 * (self.proj[0](x) + self.proj[1](x))
+        if self.type == 'conv':
+            x = self.proj(x)
+        else:
+            x = 0.5 * (self.proj[0](x) + self.proj[1](x))
+        Wh, Ww = x.size(2), x.size(3)
+        x = x.flatten(2).transpose(1, 2)
+        x = self.norm(x)
+        x = x.transpose(1, 2).view(-1, self.dim, Wh, Ww)
         return x
 
 
@@ -102,26 +117,24 @@ class ConvModule(nn.Module):
 
 
 class LawinHead(nn.Module):
-    def __init__(self, in_channels: list, embed_dim=768, num_classes=19) -> None:
+    def __init__(self, in_channels: list, embed_dim=512, num_classes=19) -> None:
         super().__init__()
         for i, dim in enumerate(in_channels):
             self.add_module(f"linear_c{i+1}", MLP(dim, 48 if i == 0 else embed_dim))
 
-        self.linear_fuse = ConvModule(embed_dim*3, embed_dim)
-        # self.short_path = ConvModule(embed_dim*3, embed_dim)
-
         self.lawin_8 = LawinAttn(embed_dim, 64)
         self.lawin_4 = LawinAttn(embed_dim, 16)
         self.lawin_2 = LawinAttn(embed_dim, 4)
-        self.ds_8 = PatchEmbed(8)
-        self.ds_4 = PatchEmbed(4)
-        self.ds_2 = PatchEmbed(2)
+        self.ds_8 = PatchEmbed(8, embed_dim, embed_dim)
+        self.ds_4 = PatchEmbed(4, embed_dim, embed_dim)
+        self.ds_2 = PatchEmbed(2, embed_dim, embed_dim)
     
         self.image_pool = nn.Sequential(
             nn.AdaptiveAvgPool2d(1),
             ConvModule(embed_dim, embed_dim)
         )
-
+        self.linear_fuse = ConvModule(embed_dim*3, embed_dim)
+        self.short_path = ConvModule(embed_dim, embed_dim)
         self.cat = ConvModule(embed_dim*5, embed_dim)
 
         self.low_level_fuse = ConvModule(embed_dim+48, embed_dim)
@@ -155,17 +168,15 @@ class LawinHead(nn.Module):
         feat = self.linear_fuse(torch.cat(outs[::-1], dim=1))
         B, _, H, W = feat.shape
 
-        # feat_short = self.short_path(torch.cat(outs[::-1], dim=1))
-        feat_short = feat
-        feat_lawin = self.get_lawin_att_feats(feat, 8)
-
+        ## Lawin attention spatial pyramid pooling
+        feat_short = self.short_path(feat)
         feat_pool = F.interpolate(self.image_pool(feat), size=(H, W), mode='bilinear', align_corners=False)
-        
-        output = self.cat(torch.cat([feat_short, *feat_lawin, feat_pool], dim=1))
-        output = F.interpolate(output, size=features[0].shape[-2:], mode='bilinear', align_corners=False)
+        feat_lawin = self.get_lawin_att_feats(feat, 8)
+        output = self.cat(torch.cat([feat_short, feat_pool, *feat_lawin], dim=1))
 
+        ## Low-level feature enhancement
         c1 = self.linear_c1(features[0]).permute(0, 2, 1).reshape(B, -1, *features[0].shape[-2:])
-
+        output = F.interpolate(output, size=features[0].shape[-2:], mode='bilinear', align_corners=False)
         fused = self.low_level_fuse(torch.cat([output, c1], dim=1))
 
         seg = self.linear_pred(self.dropout(fused))

@@ -23,7 +23,10 @@ class Lawin(BaseModel):
 
 
 if __name__ == '__main__':
-    model = Lawin('MiT-B0')
-    x = torch.zeros(2, 3, 512, 512)
+    model = Lawin('MiT-B1')
+    model.eval()
+    x = torch.zeros(1, 3, 512, 512)
     y = model(x)
     print(y.shape)
+    from fvcore.nn import flop_count_table, FlopCountAnalysis
+    print(flop_count_table(FlopCountAnalysis(model, x)))
