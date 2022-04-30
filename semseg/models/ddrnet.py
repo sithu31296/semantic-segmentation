@@ -59,7 +59,7 @@ class Conv2BN(nn.Sequential):
         super().__init__(
             nn.Conv2d(c1, ch, k, s, p, bias=False),
             nn.BatchNorm2d(ch),
-            nn.ReLU(),
+            nn.ReLU(True),
             nn.Conv2d(ch, c2, k, s, p, bias=False),
             nn.BatchNorm2d(c2)
         )
@@ -70,27 +70,38 @@ class Stem(nn.Sequential):
         super().__init__(
             nn.Conv2d(c1, c2, 3, 2, 1),
             nn.BatchNorm2d(c2),
-            nn.ReLU(),
+            nn.ReLU(True),
             nn.Conv2d(c2, c2, 3, 2, 1),
             nn.BatchNorm2d(c2),
-            nn.ReLU()
+            nn.ReLU(True)
         )
 
 
 class Scale(nn.Sequential):
-    def __init__(self, c1, c2, k, s=None, p=0):
+    def __init__(self, c1, c2, k, s=1, p=0):
         super().__init__(
-            nn.AvgPool2d(k, s, p, ),
+            nn.AvgPool2d(k, s, p),
             nn.BatchNorm2d(c1),
-            nn.ReLU(),
+            nn.ReLU(True),
             nn.Conv2d(c1, c2, 1, bias=False)
         )
+
+
+class ScaleLast(nn.Sequential):
+    def __init__(self, c1, c2, k):
+        super().__init__(
+            nn.AdaptiveAvgPool2d(k),
+            nn.BatchNorm2d(c1),
+            nn.ReLU(True),
+            nn.Conv2d(c1, c2, 1, bias=False)
+        )
+
 
 class ConvModule(nn.Sequential):
     def __init__(self, c1, c2, k, s=1, p=0):
         super().__init__(
             nn.BatchNorm2d(c1),
-            nn.ReLU(),
+            nn.ReLU(True),
             nn.Conv2d(c1, c2, k, s, p, bias=False)
         )
 
@@ -101,7 +112,7 @@ class DAPPM(nn.Module):
         self.scale1 = Scale(c1, ch, 5, 2, 2)
         self.scale2 = Scale(c1, ch, 9, 4, 4)
         self.scale3 = Scale(c1, ch, 17, 8, 8)
-        self.scale4 = Scale(c1, ch, 1)
+        self.scale4 = ScaleLast(c1, ch, 1)
         self.scale0 = ConvModule(c1, ch, 1)
         self.process1 = ConvModule(ch, ch, 3, 1, 1)
         self.process2 = ConvModule(ch, ch, 3, 1, 1)
@@ -112,10 +123,10 @@ class DAPPM(nn.Module):
 
     def forward(self, x: Tensor) -> Tensor:
         outs = [self.scale0(x)]
-        outs.append(self.process1((F.interpolate(self.scale1(x), size=x.shape[-2:], mode='bilinear', align_corners=True) + outs[-1])))
-        outs.append(self.process2((F.interpolate(self.scale2(x), size=x.shape[-2:], mode='bilinear', align_corners=True) + outs[-1])))
-        outs.append(self.process3((F.interpolate(self.scale3(x), size=x.shape[-2:], mode='bilinear', align_corners=True) + outs[-1])))
-        outs.append(self.process4((F.interpolate(self.scale4(x), size=x.shape[-2:], mode='bilinear', align_corners=True) + outs[-1])))
+        outs.append(self.process1((F.interpolate(self.scale1(x), size=x.shape[-2:], mode='bilinear', align_corners=False) + outs[-1])))
+        outs.append(self.process2((F.interpolate(self.scale2(x), size=x.shape[-2:], mode='bilinear', align_corners=False) + outs[-1])))
+        outs.append(self.process3((F.interpolate(self.scale3(x), size=x.shape[-2:], mode='bilinear', align_corners=False) + outs[-1])))
+        outs.append(self.process4((F.interpolate(self.scale4(x), size=x.shape[-2:], mode='bilinear', align_corners=False) + outs[-1])))
         out = self.compression(torch.cat(outs, dim=1)) + self.shortcut(x)
         return out
 
@@ -131,13 +142,12 @@ class SegHead(nn.Module):
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.conv1(F.relu(self.bn1(x)))
-        x = self.conv2(F.relu(self.bn2(x)))
+        out = self.conv2(F.relu(self.bn2(x)))
 
         if self.scale_factor is not None:
             H, W = x.shape[-2] * self.scale_factor, x.shape[-1] * self.scale_factor
-            x = F.interpolate(x, size=(H, W), mode='bilinear', align_corners=True)
-
-        return x
+            out = F.interpolate(out, size=(H, W), mode='bilinear', align_corners=False)
+        return out
 
 
 class DDRNet(nn.Module):
@@ -151,7 +161,7 @@ class DDRNet(nn.Module):
         self.layer2 = self._make_layer(BasicBlock, planes[0], planes[1], 2, 2)
         self.layer3 = self._make_layer(BasicBlock, planes[1], planes[2], 2, 2)
         self.layer4 = self._make_layer(BasicBlock, planes[2], planes[3], 2, 2)
-        self.layer5 = self._make_layer(Bottleneck, planes[3], planes[3], 1, 2)
+        self.layer5 = self._make_layer(Bottleneck, planes[3], planes[3], 1)
 
         self.layer3_ = self._make_layer(BasicBlock, planes[1], planes[1], 2)
         self.layer4_ = self._make_layer(BasicBlock, planes[1], planes[1], 2)
@@ -178,8 +188,7 @@ class DDRNet(nn.Module):
 
     def init_pretrained(self, pretrained: str = None) -> None:
         if pretrained:
-            self.load_state_dict(torch.load(pretrained, map_location='cpu'), strict=False)
-
+            self.load_state_dict(torch.load(pretrained, map_location='cpu')['model'], strict=False)
 
     def _make_layer(self, block, inplanes, planes, depths, s=1) -> nn.Sequential:
         downsample = None
@@ -215,7 +224,7 @@ class DDRNet(nn.Module):
         layers.append(x)
         x_ = self.layer3_(F.relu(layers[1]))
         x = x + self.down3(F.relu(x_))
-        x_ = x_ + F.interpolate(self.compression3(F.relu(layers[2])), size=(H, W), mode='bilinear', align_corners=True)
+        x_ = x_ + F.interpolate(self.compression3(F.relu(layers[2])), size=(H, W), mode='bilinear', align_corners=False)
 
         if self.training: x_aux = self.seghead_extra(x_)
 
@@ -223,10 +232,10 @@ class DDRNet(nn.Module):
         layers.append(x)
         x_ = self.layer4_(F.relu(x_))
         x = x + self.down4(F.relu(x_))
-        x_ = x_ + F.interpolate(self.compression4(F.relu(layers[3])), size=(H, W), mode='bilinear', align_corners=True)
+        x_ = x_ + F.interpolate(self.compression4(F.relu(layers[3])), size=(H, W), mode='bilinear', align_corners=False)
 
         x_ = self.layer5_(F.relu(x_))
-        x = F.interpolate(self.spp(self.layer5(F.relu(x))), size=(H, W), mode='bilinear', align_corners=True)
+        x = F.interpolate(self.spp(self.layer5(F.relu(x))), size=(H, W), mode='bilinear', align_corners=False)
         x_ = self.final_layer(x + x_)
 
         return (x_, x_aux) if self.training else x_
@@ -234,7 +243,7 @@ class DDRNet(nn.Module):
 
 if __name__ == '__main__':
     model = DDRNet()
-    # model.init_pretrained('checkpoints/backbones/ddrnet/ddrnet_23slim.pth')
+    # # model.init_pretrained('checkpoints/backbones/ddrnet/ddrnet_23slim_imagenet.pth')
     # model.load_state_dict(torch.load('checkpoints/pretrained/ddrnet/ddrnet_23slim_city.pth', map_location='cpu'))
     x = torch.zeros(2, 3, 224, 224)
     outs = model(x)
