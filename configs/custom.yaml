@@ -1,32 +1,32 @@
-DEVICE          : cuda              # device used for training and evaluation (cpu, cuda, cuda0, cuda1, ...)
+DEVICE          : cpu              # device used for training and evaluation (cpu, cuda, cuda0, cuda1, ...)
 SAVE_DIR        : 'output'         # output folder name used for saving the model, logs and inference results
 
 MODEL:                                    
-  NAME          : FCHarDNet                                           # name of the model you are using
-  BACKBONE      : HarDNet-70                                                # model variant
-  PRETRAINED    : 'checkpoints/backbones/hardnet/hardnet_70.pth'              # backbone model's weight 
+  NAME          : DDRNet                                           # name of the model you are using
+  BACKBONE      : DDRNet-23slim                                                 # model variant
+  PRETRAINED    : 'checkpoints/backbones/ddrnet/ddrnet_23slim.pth'              # backbone model's weight 
 
 DATASET:
-  NAME          : CityScapes                                              # dataset name to be trained with (camvid, cityscapes, ade20k)
-  ROOT          : 'data/CityScapes'                         # dataset root path
+  NAME          : CityScapes                                          # dataset name to be trained with (camvid, cityscapes, ade20k)
+  ROOT          : 'data/CityScapes'                                   # dataset root path
   IGNORE_LABEL  : 255
 
 TRAIN:
-  IMAGE_SIZE    : [1024, 1024]    # training image size in (h, w)
-  BATCH_SIZE    : 8               # batch size used to train
-  EPOCHS        : 500             # number of epochs to train
-  EVAL_INTERVAL : 50              # evaluation interval during training
+  IMAGE_SIZE    : [512, 512]    # training image size in (h, w)
+  BATCH_SIZE    : 2               # batch size used to train
+  EPOCHS        : 100             # number of epochs to train
+  EVAL_INTERVAL : 20              # evaluation interval during training
   AMP           : false           # use AMP in training
   DDP           : false           # use DDP training
 
 LOSS:
   NAME          : OhemCrossEntropy          # loss function name (ohemce, ce, dice)
-  CLS_WEIGHTS   : true            # use class weights in loss calculation
+  CLS_WEIGHTS   : false            # use class weights in loss calculation
 
 OPTIMIZER:
   NAME          : adamw           # optimizer name
-  LR            : 0.01            # initial learning rate used in optimizer
-  WEIGHT_DECAY  : 0.0001          # decay rate used in optimizer 
+  LR            : 0.001           # initial learning rate used in optimizer
+  WEIGHT_DECAY  : 0.01            # decay rate used in optimizer 
 
 SCHEDULER:
   NAME          : warmuppolylr    # scheduler name
@@ -36,16 +36,16 @@ SCHEDULER:
   
 
 EVAL:
-  MODEL_PATH    : 'checkpoints/pretrained/hardnet/hardnet70_cityscapes.pth'  # trained model file path
-  IMAGE_SIZE    : [1024, 2048]                        # evaluation image size in (h, w)                       
+  MODEL_PATH    : 'checkpoints/pretrained/ddrnet/ddrnet_23slim_city.pth'     # trained model file path
+  IMAGE_SIZE    : [1024, 1024]                            # evaluation image size in (h, w)                       
   MSF: 
-    ENABLE      : false                               # multi-scale and flip evaluation  
-    FLIP        : true                                # use flip in evaluation  
-    SCALES      : [0.5, 0.75, 1.0, 1.25, 1.5, 1.75]   # scales used in MSF evaluation                              
+    ENABLE      : false                                   # multi-scale and flip evaluation  
+    FLIP        : true                                    # use flip in evaluation  
+    SCALES      : [0.5, 0.75, 1.0, 1.25, 1.5, 1.75]       # scales used in MSF evaluation                
 
 
 TEST:
-  MODEL_PATH    : 'checkpoints/pretrained/hardnet/hardnet70_cityscapes.pth'  # trained model file path
-  FILE          : 'assests/cityscapes'                                                   # filename or foldername 
-  IMAGE_SIZE    : [1024, 2048]                                                           # inference image size in (h, w)
-  OVERLAY       : false                                                                  # save the overlay result (image_alpha+label_alpha)
+  MODEL_PATH    : 'checkpoints/pretrained/ddrnet/ddrnet_23slim_city.pth'    # trained model file path
+  FILE          : 'assests/cityscapes'                    # filename or foldername 
+  IMAGE_SIZE    : [1024, 1024]                            # inference image size in (h, w)
+  OVERLAY       : true                                    # save the overlay result (image_alpha+label_alpha)

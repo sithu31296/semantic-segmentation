@@ -196,7 +196,7 @@ class DDRNet(nn.Module):
             if i == depths - 1:
                 layers.append(block(inplanes, planes, no_relu=True))
             else:
-                layers.appned(block(inplanes, planes))
+                layers.append(block(inplanes, planes))
         return nn.Sequential(*layers)
 
 

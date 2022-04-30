@@ -4,7 +4,7 @@ SAVE_DIR        : 'output'         # output folder name used for saving the mode
 MODEL:                                    
   NAME          : DDRNet                                           # name of the model you are using
   BACKBONE      : DDRNet-23slim                                                  # model variant
-  PRETRAINED    : 'checkpoints/backbones/mobilenet_v2.pth'              # backbone model's weight 
+  PRETRAINED    : 'checkpoints/backbones/ddrnet/ddrnet_23slim.pth'              # backbone model's weight 
 
 DATASET:
   NAME          : HELEN                                              # dataset name to be trained with (camvid, cityscapes, ade20k)
@@ -21,7 +21,7 @@ TRAIN:
 
 LOSS:
   NAME          : OhemCrossEntropy          # loss function name (OhemCrossEntropy, CrossEntropy, Dice)
-  CLS_WEIGHTS   : true            # use class weights in loss calculation
+  CLS_WEIGHTS   : false            # use class weights in loss calculation
 
 OPTIMIZER:
   NAME          : adamw           # optimizer name
@@ -36,7 +36,7 @@ SCHEDULER:
   
 
 EVAL:
-  MODEL_PATH    : 'output/BiSeNetv1_MobileNetV2-1.0_HELEN_58_22.pth'    # trained model file path
+  MODEL_PATH    : 'output/DDRNet_DDRNet-23slim_HELEN_61_11.pth'    # trained model file path
   IMAGE_SIZE    : [512, 512]                          # evaluation image size in (h, w)                       
   MSF: 
     ENABLE      : false                               # multi-scale and flip evaluation  
@@ -45,7 +45,7 @@ EVAL:
 
 
 TEST:
-  MODEL_PATH    : 'output/DDRNet_23slim_HELEN_59_75.pth'    # trained model file path
+  MODEL_PATH    : 'output/DDRNet_DDRNet-23slim_HELEN_61_11.pth'    # trained model file path
   FILE          : 'assests/faces'                    # filename or foldername 
   IMAGE_SIZE    : [512, 512]                          # inference image size in (h, w)
   OVERLAY       : true                                # save the overlay result (image_alpha+label_alpha)
