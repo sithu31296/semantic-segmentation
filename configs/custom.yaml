@@ -1,4 +1,4 @@
-DEVICE          : cpu              # device used for training and evaluation (cpu, cuda, cuda0, cuda1, ...)
+DEVICE          : cuda              # device used for training and evaluation (cpu, cuda, cuda0, cuda1, ...)
 SAVE_DIR        : 'output'         # output folder name used for saving the model, logs and inference results
 
 MODEL:                                    
