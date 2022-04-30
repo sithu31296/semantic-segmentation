@@ -3,8 +3,8 @@ SAVE_DIR        : 'output'         # output folder name used for saving the mode
 
 MODEL:                                    
   NAME          : SegFormer                                           # name of the model you are using
-  BACKBONE      : MiT-B1                                                  # model variant
-  PRETRAINED    : 'checkpoints/backbones/mit/mit_b1.pth'              # backbone model's weight 
+  BACKBONE      : MiT-B2                                                  # model variant
+  PRETRAINED    : 'checkpoints/backbones/mit/mit_b2.pth'              # backbone model's weight 
 
 DATASET:
   NAME          : ADE20K                                              # dataset name to be trained with (camvid, cityscapes, ade20k)
@@ -36,7 +36,7 @@ SCHEDULER:
   
 
 EVAL:
-  MODEL_PATH    : 'checkpoints/pretrained/segformer/segformer.b1.ade.pth'  # trained model file path
+  MODEL_PATH    : 'checkpoints/pretrained/segformer/segformer.b2.ade.pth'  # trained model file path
   IMAGE_SIZE    : [512, 512]                                                            # evaluation image size in (h, w)                       
   MSF: 
     ENABLE      : false                                                                 # multi-scale and flip evaluation  
@@ -45,7 +45,7 @@ EVAL:
 
 
 TEST:
-  MODEL_PATH    : 'checkpoints/pretrained/segformer/segformer.b1.ade.pth'  # trained model file path
+  MODEL_PATH    : 'checkpoints/pretrained/segformer/segformer.b2.ade.pth'  # trained model file path
   FILE          : 'assests/ade'                                                         # filename or foldername 
   IMAGE_SIZE    : [512, 512]                                                            # inference image size in (h, w)
   OVERLAY       : true                                                                  # save the overlay result (image_alpha+label_alpha)
