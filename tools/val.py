@@ -102,7 +102,7 @@ def main(cfg):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--cfg', type=str, default='configs/helen.yaml')
+    parser.add_argument('--cfg', type=str, default='configs/custom.yaml')
     args = parser.parse_args()
 
     with open(args.cfg) as f:
