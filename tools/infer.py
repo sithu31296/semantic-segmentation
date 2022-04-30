@@ -10,6 +10,7 @@ from torchvision import transforms as T
 from semseg.models import *
 from semseg.datasets import *
 from semseg.utils.utils import timer
+from semseg.utils.visualize import draw_text
 
 from rich.console import Console
 console = Console()
@@ -40,34 +41,32 @@ class SemSeg:
 
     def preprocess(self, image: Tensor) -> Tensor:
         H, W = image.shape[1:]
+        console.print(f"Original Image Size > [red]{H}x{W}[/red]")
         # scale the short side of image to target size
         scale_factor = self.size[0] / min(H, W)
         nH, nW = round(H*scale_factor), round(W*scale_factor)
         # make it divisible by model stride
         nH, nW = int(math.ceil(nH / 32)) * 32, int(math.ceil(nW / 32)) * 32
+        console.print(f"Inference Image Size > [red]{nH}x{nW}[/red]")
         # resize the image
         image = T.Resize((nH, nW))(image)
         # divide by 255, norm and add batch dim
         image = self.tf_pipeline(image).to(self.device)
         return image
 
-    def postprocess(self, seg_map: Tensor, orig_size: list) -> Tensor:
+    def postprocess(self, orig_img: Tensor, seg_map: Tensor, overlay: bool) -> Tensor:
         # resize to original image size
-        seg_map = F.interpolate(seg_map, size=orig_size, mode='bilinear', align_corners=True)
+        seg_map = F.interpolate(seg_map, size=orig_img.shape[-2:], mode='bilinear', align_corners=True)
         # get segmentation map (value being 0 to num_classes)
-        seg_map = seg_map.softmax(dim=1).argmax(dim=1).to(int)
-
-        # get segmentation classes
-        indices = seg_map.unique().tolist()
-        classes = [self.labels[index] for index in indices]
-        colors = self.palette[indices].tolist()
-        color_texts = [f"[white on rgb({color[0]},{color[1]},{color[2]})]{cls}[/white on rgb({color[0]},{color[1]},{color[2]})]" for cls, color in zip(classes, colors)]
-        color_texts = ' '.join(color_texts)
-        console.print(color_texts)
+        seg_map = seg_map.softmax(dim=1).argmax(dim=1).cpu().to(int)
 
         # convert segmentation map to color map
-        seg_map = self.palette[seg_map]
-        return seg_map.squeeze().cpu().permute(2, 0, 1)
+        seg_image = self.palette[seg_map].squeeze()
+        if overlay: 
+            seg_image = (orig_img.permute(1, 2, 0) * 0.4) + (seg_image * 0.6)
+
+        image = draw_text(seg_image, seg_map, self.labels)
+        return image
 
     @torch.inference_mode()
     @timer
@@ -78,9 +77,8 @@ class SemSeg:
         image = io.read_image(img_fname)
         img = self.preprocess(image)
         seg_map = self.model_forward(img)
-        seg_map = self.postprocess(seg_map, image.shape[-2:])
-        if overlay: seg_map = (image * 0.4) + (seg_map * 0.6)
-        return seg_map.to(torch.uint8)
+        seg_map = self.postprocess(image, seg_map, overlay)
+        return seg_map
 
 
 if __name__ == '__main__':
@@ -95,20 +93,24 @@ if __name__ == '__main__':
     if not test_file.exists():
         raise FileNotFoundError(test_file)
 
+    console.print(f"Model > [red]{cfg['MODEL']['NAME']} {cfg['MODEL']['BACKBONE']}[/red]")
+    console.print(f"Model > [red]{cfg['DATASET']['NAME']}[/red]")
+
     save_dir = Path(cfg['SAVE_DIR']) / 'test_results'
     save_dir.mkdir(exist_ok=True)
     
     semseg = SemSeg(cfg)
 
-    if test_file.is_file():
-        console.rule(f'[red]{test_file}')
-        segmap = semseg.predict(str(test_file), cfg['TEST']['OVERLAY'])
-        io.write_png(segmap, str(save_dir / f"{str(test_file.stem)}.png"))
-    else:
-        files = test_file.glob('*.*')
-        for file in files:
-            console.rule(f'[red]{file}')
-            segmap = semseg.predict(str(file), cfg['TEST']['OVERLAY'])
-            io.write_png(segmap, str(save_dir / f"{str(file.stem)}.png"))
+    with console.status("[bright_green]Processing..."):
+        if test_file.is_file():
+            console.rule(f'[green]{test_file}')
+            segmap = semseg.predict(str(test_file), cfg['TEST']['OVERLAY'])
+            segmap.save(save_dir / f"{str(test_file.stem)}.png")
+        else:
+            files = test_file.glob('*.*')
+            for file in files:
+                console.rule(f'[green]{file}')
+                segmap = semseg.predict(str(file), cfg['TEST']['OVERLAY'])
+                segmap.save(save_dir / f"{str(file.stem)}.png")
 
     console.rule(f"[cyan]Segmentation results are saved in `{save_dir}`")

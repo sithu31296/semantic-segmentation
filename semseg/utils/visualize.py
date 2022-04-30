@@ -1,11 +1,13 @@
 import torch
 import random
 import numpy as np
+import torch
 import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader
 from torchvision import transforms as T
 from torchvision.utils import make_grid
 from semseg.augmentations import Compose, Normalize, RandomResizedCrop
+from PIL import Image, ImageDraw, ImageFont
 
 
 def visualize_dataset_sample(dataset, root, split='val', batch_size=4):
@@ -70,3 +72,23 @@ def generate_palette(num_classes, background: bool = False):
     else:
         palette = colors[:num_classes]
     return np.array(palette)
+
+
+def draw_text(image: torch.Tensor, seg_map: torch.Tensor, labels: list, fontsize: int = 15):
+    image = image.to(torch.uint8)
+    font = ImageFont.truetype("assests/Helvetica.ttf", fontsize)
+    pil_image = Image.fromarray(image.numpy())
+    draw = ImageDraw.Draw(pil_image)
+
+    indices = seg_map.unique().tolist()
+    classes = [labels[index] for index in indices]
+
+    for idx, cls in zip(indices, classes):
+        mask = seg_map == idx
+        mask = mask.squeeze().numpy()
+        center = np.median((mask == 1).nonzero(), axis=1)[::-1]
+        bbox = draw.textbbox(center, cls, font=font)
+        bbox = (bbox[0]-3, bbox[1]-3, bbox[2]+3, bbox[3]+3)
+        draw.rectangle(bbox, fill=(255, 255, 255), width=1)
+        draw.text(center, cls, fill=(0, 0, 0), font=font)
+    return pil_image

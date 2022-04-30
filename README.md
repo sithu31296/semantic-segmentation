@@ -16,7 +16,7 @@
   * Face Parsing
   * Medical Image Segmentation (Coming Soon)
 * 20+ Datasets
-* 10+ SOTA Backbones
+* 15+ SOTA Backbones
 * 10+ SOTA Semantic Segmentation Models
 * PyTorch, ONNX, TFLite, OpenVINO Export & Inference 
 
@@ -38,6 +38,8 @@ Supported Backbones:
 * [PoolFormer](https://arxiv.org/abs/2111.11418) (CVPR 2022)
 * [ConvNeXt](https://arxiv.org/abs/2201.03545) (CVPR 2022)
 * [UniFormer](https://arxiv.org/abs/2201.09450) (ArXiv 2022)
+* [VAN](https://arxiv.org/abs/2202.09741) (ArXiv 2022)
+* [DaViT](https://arxiv.org/abs/2204.03645) (ArXiv 2022)
 
 Supported Heads/Methods:
 * [FCN](https://arxiv.org/abs/1411.4038) (CVPR 2015)
@@ -48,10 +50,11 @@ Supported Heads/Methods:
 * [SegFormer](https://arxiv.org/abs/2105.15203v2) (NeurIPS 2021)
 * [FaPN](https://arxiv.org/abs/2108.07058) (ICCV 2021)
 * [CondNet](https://arxiv.org/abs/2109.10322) (IEEE SPL 2021)
+* [Light-Ham](https://openreview.net/forum?id=1FvkSpWosOl) (ICLR 2021)
 * [Lawin](https://arxiv.org/abs/2201.01615) (ArXiv 2022)
+* [TopFormer](https://arxiv.org/abs/2204.05525) (CVPR 2022)
 
 Supported Standalone Models:
-* [FCHarDNet](https://arxiv.org/abs/1909.00948) (ICCV 2019)
 * [BiSeNetv2](https://arxiv.org/abs/2004.02147v1) (IJCV 2021)
 * [DDRNet](https://arxiv.org/abs/2101.06085) (ArXiv 2021)
 
@@ -190,9 +193,9 @@ To make an inference, edit the parameters of the config file from below.
 $ python tools/infer.py --cfg configs/ade20k.yaml
 ```
 
-Example test results:
+Example test results (SegFormer-B2):
 
-![test_result](./assests/infer_result.jpg)
+![test_result](./assests/infer_result.png)
 
 </details>
 
