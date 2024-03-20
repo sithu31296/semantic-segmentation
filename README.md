@@ -2,8 +2,23 @@
 
 <div align="center">
 <p>Major Rework! Stay tuned...</p>
-<p>A lot has been changed since 2022, nowadays there are even open-world segmentation models. This repo will be updated according to new PyTorch version, updated models, and documentations for how to use with a custom dataset, etc.</p>
+<p>A lot has been changed since 2022, nowadays there are even open-world segmentation models (Segment Anything). However, traditional segmentation models are still in demand for high accuracy and custom use cases. This repo will be updated according to new PyTorch version, updated models, and documentations for how to use with a custom dataset, etc.</p>
 <p>Expected release date -> May 2024</p>
+
+Planned features:
+* Rework on whole training pipeline
+* Baseline pre-trained model
+* New updated ideas
+* Easy integration with SOTA backbone models (with tutorials)
+* Tutorial for custom dataset
+* Distributed training
+
+Current features to be discarded:
+* Amount of datasets provided will be reduced. But instead, representative ones will be remained with a tutorial for custom dataset.
+* Amount of models provided will be reducted. Instead, valuable tricks and modules will be remained, and can be easily integrated with any models.
+* Augmentations will be replaced with official torchvisionv2 transforms.
+* Conversion and inference with other frameworks
+
 <p>Easy to use and customizable SOTA Semantic Segmentation models with abundant datasets in PyTorch</p>
 
 <a href="https://colab.research.google.com/github/sithu31296/semantic-segmentation/blob/main/notebooks/tutorial.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
